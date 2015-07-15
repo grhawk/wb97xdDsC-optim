@@ -15,7 +15,8 @@ import make_input as mkinp
 import os
 import sys
 # import resource
-# lg.debug('Memory Usage {} (kb)'.format(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+# lg.debug('Memory Usage {} (kb)'.format(
+# resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
 
 # Try determining the version from git:
 try:
@@ -43,6 +44,8 @@ config = dict(
 def main():
     init_logging()
     lg.debug('test')
+    newinput = mkinp.Input('test.xyz')
+    del newinput
 
 
 def init_logging():
@@ -53,11 +56,10 @@ def init_logging():
 #        sys.exit()
     if config['loglevel'] == 'DEBUG':
         log_format = \
-            '%(asctime)s - %(module)s:%(funcName)s:%(levelname)s -> %(message)s'
+            '%(asctime)s - %(levelname)s:%(module)s:%(funcName)s -> %(message)s'
     else:
         log_format = \
             '%(asctime)s - %(levelname)s -> %(message)s'
-
 
     lg.basicConfig(filename=config['logfile'],
                    level=config['loglevel'],
