@@ -15,10 +15,16 @@ the charge and multiplicity.
 
 """
 
+import utils as uts
+import re
+import logging as lg
+
+
 # Try determining the version from git:
 try:
     import subprocess
-    git_v = subprocess.check_output(['git', 'describe'], stderr=subprocess.DEVNULL)
+    git_v = subprocess.check_output(['git', 'describe'],
+                                    stderr=subprocess.DEVNULL)
 except subprocess.CalledProcessError:
     git_v = 'Not Yet Tagged!'
 
@@ -32,14 +38,11 @@ __maintainer__ = 'Riccardo Petraglia'
 __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
 
-import re
-import sys
-import logging as lg
 
 class Input(object):
     def __init__(self, filep):
-        self.config = dict(
-                           basis_set='6-31G')
+        uts.file_exists(filep)
+        self.config = dict(basis_set='6-31G')
 
         self.atoms = []
         self.x = []
@@ -53,13 +56,6 @@ class Input(object):
 
         self._basis_set_conversion(self.config['basis_set'])
         self._read_xyz(filep)
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self):
-        del self
-        return True
 
     def _basis_set_conversion(self, name):
         pople_reg = re.compile(r'([36])\-([23]1\d?)G(\*?\*?)')
@@ -165,7 +161,6 @@ if __name__ == '__main__':
     def test_building_data():
         newinput = test_read_xyz()
         newinput.write('asd.inp')
-
 
     tests = [test_read_xyz, test_building_data]
     for test in tests:
