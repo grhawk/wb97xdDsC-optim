@@ -56,70 +56,61 @@ __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
 
 import time
+import subprocess
 import utils as uts
 import re
 import logging as lg
-
+from make_input import Input
 
 class GenericRun(object):
 
     def __init__(self):
-        self.dormi=30
+        self.dormi=60
         self.timeoutMAX=10
         self.command = 'uname -a'
-        uts.file_exists(filep)
-        self.config = dict(basis_set='6-31G')
-
-        self.atoms = []
-        self.x = []
-        self.y = []
-        self.z = []
-        self.charge = ''
-        self.multiplicity = ''
-        self.title = ''
-
-        self._template()
-
-        self._basis_set_conversion(self.config['basis_set'])
-        self._read_xyz(filep)
+       
         
-    def write_input(self):
-        pass
-
+    def write_input(self,xyzp,cpath):
+        self.name=xyzp[:-3]
+        Input(filep).write(self.name+'inp')
+        
 
     def runall(self):
         print('Should run {}'.format(self.command))
-        pass
-
-    def read_out(self):
-        for self.timeout in enumerate(self.timeoutMAX):
-            while True:
-                time.sleep(self.dormi)
-                with open(self.name+".log", mode='r') as g:
-                    for line in g:
-                        if "exited gracefully" in line or self.timeout > self.timeoutMAX:
-                            break
-            self.timeout +=
+        out=open(self.name+"log", mode='w')
+        subprocess.call(self.command,stdout=out)
 
 
-class run_gamess(GenericRun):
+
+
+class RunGamess(GenericRun):
 
     def __init__(self):
-        self.command = 'subgms etc.'
-        pass
+        self.command = ["/software/gamess/rungms",self.name+"inp", "13" , "1"] #DA CHIEDEREEEEEEEEEEEE!!!!!!!!! Nel cluster c'e' un comando particolare??
+#        self.command = ["/home/student1/GAMESS/rungms",self.name+"inp","00","1"]
+    
+    
+    def read_out(self):
+        for self.timeout in enumerate(self.timeoutMAX):
+            time.sleep(self.dormi)
+            with open(self.name+".log", mode='r') as g:
+                for line in g:
+                    if "exited gracefully" in line or self.timeout > self.timeoutMAX:
+                        break
+            break
+            self.timeout += 1
 
     def move_density(self):
         pass
 
 
-class run_density(GenericRun):
+class RunDensity(GenericRun):
 
     def __init__(self):
-        self.command = 'START.F90 o quello che e'
-        pass
+        self.command = ["./START.X"]
 
 
-class run_ddsc(GenericRun):
+class RunDdsc(GenericRun):
 
     def __init__(self):
         self.command = 'Quello che sara'
