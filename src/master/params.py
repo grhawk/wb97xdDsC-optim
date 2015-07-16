@@ -7,7 +7,7 @@
 # Creation: Jul 16, 2015
 #
 
-"""Implements everything on the parameters
+"""Implements everything on the parameters and take care of the param files.
 
 """
 
@@ -36,7 +36,7 @@ class Parameters(object):
         self.allpar = dict(cc_aa_1=0.000)
 
     def set(self, p):
-        """Sets all the parameters.
+        """Sets all the class parameters and write them on the right file.
 
         Sets the parameters taking care of the constraints.
 
@@ -53,12 +53,20 @@ class Parameters(object):
         """
         pass
 
-    def check(self):
+    def validity(self):
         """Check if the instantiated parameters are the same as the class one.
 
-        This method should be used to check if a new computation is acutally
+        This method should be used to check if a new computation is actually
         needed.
 
         Not sure to implement... and do some test before...
+
         """
         pass
+
+    def refresh(self):
+        """Copy the class parameter to the instantiated ones.
+
+        After calling refresh the validity test will be true.
+
+        """
