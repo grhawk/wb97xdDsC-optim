@@ -6,6 +6,7 @@
 # FileName: computation
 # Creation: Jul 16, 2015
 #
+import shutil
 
 """Example Google style docstrings.
 
@@ -56,6 +57,7 @@ __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
 
 import time
+import shutil
 import subprocess
 import utils as uts
 import re
@@ -86,7 +88,7 @@ class GenericRun(object):
 class RunGamess(GenericRun):
 
     def __init__(self):
-        self.command = ["/software/gamess/rungms",self.name+"inp", "13" , "1"] #DA CHIEDEREEEEEEEEEEEE!!!!!!!!! Nel cluster c'e' un comando particolare??
+        self.command = ["/software/gamess/rungms",self.name+"inp", "13" , "1"] #DA Vedere!!!!!!!!!
 #        self.command = ["/home/student1/GAMESS/rungms",self.name+"inp","00","1"]
     
     
@@ -100,14 +102,14 @@ class RunGamess(GenericRun):
             break
             self.timeout += 1
 
-    def move_density(self):
-        pass
-
+    def move_density(self,dest):
+        shutil.copy(PARAM_UNF.dat, dest)
+        
 
 class RunDensity(GenericRun):
 
     def __init__(self):
-        self.command = ["./START.X"]
+        self.command = ["./START.X"] #DA Vedere!!!!!!!!!
 
 
 class RunDdsc(GenericRun):
