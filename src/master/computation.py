@@ -55,28 +55,57 @@ __maintainer__ = 'Riccardo Petraglia'
 __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
 
+import time
+import utils as uts
+import re
+import logging as lg
+
 
 class GenericRun(object):
 
     def __init__(self):
+        self.dormi=30
+        self.timeoutMAX=10
         self.command = 'uname -a'
-        pass
+        uts.file_exists(filep)
+        self.config = dict(basis_set='6-31G')
 
+        self.atoms = []
+        self.x = []
+        self.y = []
+        self.z = []
+        self.charge = ''
+        self.multiplicity = ''
+        self.title = ''
+
+        self._template()
+
+        self._basis_set_conversion(self.config['basis_set'])
+        self._read_xyz(filep)
+        
     def write_input(self):
         pass
+
 
     def runall(self):
         print('Should run {}'.format(self.command))
         pass
 
     def read_out(self):
-        pass
+        for self.timeout in enumerate(self.timeoutMAX):
+            while True:
+                time.sleep(self.dormi)
+                with open(self.name+".log", mode='r') as g:
+                    for line in g:
+                        if "exited gracefully" in line or self.timeout > self.timeoutMAX:
+                            break
+            self.timeout +=
 
 
 class run_gamess(GenericRun):
 
     def __init__(self):
-        self.commanf = 'subgms etc.'
+        self.command = 'subgms etc.'
         pass
 
     def move_density(self):
