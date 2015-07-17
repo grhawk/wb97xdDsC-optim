@@ -14,6 +14,8 @@ import logging as lg
 import make_input as mkinp
 import os
 import sys
+import trset
+
 # import resource
 # lg.debug('Memory Usage {} (kb)'.format(
 # resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
@@ -29,7 +31,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-07-15"
+__updated__ = "2015-07-17"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -44,8 +46,35 @@ config = dict(
 def main():
     init_logging()
     lg.debug('test')
-    newinput = mkinp.Input('test.xyz')
-    del newinput
+    testing = ['trset_DataSet']
+
+    # Testing make_input
+    if 'make_input' in testing:
+        newinput = mkinp.Input('test.xyz')
+        del newinput
+
+    # Testing Molecule
+    if 'trset_Molecule' in testing:
+        molpath = '../../example/trset-tree-example/S-022/geometry/001.xyz'
+        mol = trset.Molecule(molpath)
+        lg.debug(str(mol))
+
+    if 'trset_System' in testing:
+        rulep = ('../../example/trset-tree-example/S-022/rule.dat')
+        with open(rulep, 'r') as rulef:
+            line = rulef.readline()
+            while line[0] == '#':
+                line = rulef.readline()
+        system = trset.System(line, 'S-022')
+        lg.info(str(system))
+        lg.info(system.fulldft_energy_error())
+        lg.info(system.fulldft_energy())
+        system.set_fulldft()
+        lg.info(system.fulldft_energy())
+
+    if 'trset_DataSet' in testing:
+        path = ('../../example/trset-tree-example/S-022')
+        dset = trset.DataSet(path)
 
 
 def init_logging():
