@@ -68,7 +68,7 @@ class GenericRun(object):
 
     def __init__(self):
         self.dormi = 60
-        self.timeout=0
+        self.timeout = 0
         self.timeoutMAX = 10
         self.command = 'uname -a'
 
@@ -98,15 +98,15 @@ class RunGamess(GenericRun):
             time.sleep(self.dormi)
             with open(self.name + ".log", mode='r') as g:
                 for line in g:
-                    if "exited gracefully" in line
+                    if "exited gracefully" in line:
                         break
                     else:
                         print('Exited gracefully not found.')
-                        
+
             for self.timeout in enumerate(self.timeoutMAX):
                 if int(self.timeout) > int(self.timeoutMAX):
                     print('File not found.')
-                    
+
             self.timeout += 1
 
     def move_density(self, dest):
