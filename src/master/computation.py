@@ -74,7 +74,7 @@ class GenericRun(object):
 
     def write_input(self, xyzp, cpath):
         self.name = xyzp[:-3]
-        Input(filep).write(self.name + 'inp')
+        Input(xyzp).write(self.name + 'inp')
 
 
     def runall(self):
@@ -106,7 +106,7 @@ class RunGamess(GenericRun):
             self.timeout += 1
 
     def move_density(self, dest):
-        shutil.copy(PARAM_UNF.dat, dest)
+        shutil.copy('PARAM_UNF.dat', dest)
 
 
 class RunDensity(GenericRun):
