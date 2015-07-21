@@ -90,7 +90,10 @@ def main():
         # print(list(map(str, tset.container)))
         print(tset.get_blacklist())
         print(tset.get_fulldftlist())
-        print(tset.compute_MAE())
+        print(tset.compute_MAE('func'))
+        print(tset.compute_MRE('func'))
+        for el in tset.container:
+            print('{:10s}  {:12.6f}  {:12.6f}'.format(el.name, el.compute_MAE('func'), el.compute_MRE('func')))
 
 def init_logging():
     if os.path.isfile(config['logfile']):

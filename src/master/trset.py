@@ -16,6 +16,7 @@ import logging as lg
 import os
 import sys
 import copy
+import math
 
 # Try determining the version from git:
 try:
@@ -101,6 +102,7 @@ class System(object):
         self.blacklisted = False
         self.fulldftlisted = False
         self._system_creator(rule_line)
+#        self.full
 
     def __str__(self):
         return 'System-{}'.format(self.id)
@@ -159,14 +161,16 @@ class System(object):
         return self._apply_rule(enrgs)
 
     def func_energy(self):
-        return self.random_noise_result()
+        return self.random_noise_result()  #!!!!!!!!!!!!!!!!!!!!!!!!!!
         if self.blacklisted: self.blacklisted_error()
         if self.fulldftlisted:
             lg.debug('System: {} - Calling fulldft even for func_energy').format(self.id)
             return self.fulldft_energy()
         enrgs = []
         for mol in self.needed_mol:
+            print('AAAAA', str(mol))
             enrgs.append(mol.func_energy())
+            print('BBBB')
         return self._apply_rule(enrgs)
 
     def fulldft_energy_error(self):
@@ -174,6 +178,27 @@ class System(object):
 
     def func_energy_error(self):
         return self.func_energy() - self.ref_ener
+
+    def compute_MAE(self, kind):
+        if kind == 'func':
+            return self.func_energy_error()
+        elif kind == 'fulldft':
+            return self.fulldft_energy_error()
+        else:
+            msg = 'Critical error in implementation!'
+            lg.critical(msg)
+            sys.exit()
+
+    def compute_MRE(self, kind):
+        if kind == 'func':
+            return self.func_energy_error() / self.ref_ener
+        elif kind == 'fulldft':
+            return self.fulldft_energy_error() / self.ref_ener
+        else:
+            msg = 'Critical error in implementation!'
+            lg.critical(msg)
+            sys.exit()
+
 
     def random_noise_result(self):
         import random
@@ -219,18 +244,23 @@ class Set(object):
             tmp.append(s)
         return tmp
 
-    def compute_MAE(self):
+    def compute_MAE(self, kind):
         self.MAE = 0.0
         for el in self.container:
-            self.MAE += el.compute_MAE()
+            self.MAE += abs(el.compute_MAE(kind))
         self.MAE = self.MAE / len(self.container)
         return self.MAE
 
     def compute_RMSE(self):
         raise(NotImplementedError)
 
-    def compute_MRE(self):
-        raise(NotImplementedError)
+    def compute_MRE(self, kind):
+        self.MRE = 0.0
+        for el in self.container:
+            self.MRE += abs(el.compute_MRE(kind))
+        self.MRE = self.MRE / len(self.container)
+        return self.MRE
+
 
     def compute_all_errors(self):
         self.compute_MAE()
