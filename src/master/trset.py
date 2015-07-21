@@ -14,8 +14,8 @@
 import params
 import logging as lg
 import os
-import math
 import sys
+import copy
 
 # Try determining the version from git:
 try:
@@ -28,7 +28,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-07-17"
+__updated__ = "2015-07-21"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -151,6 +151,7 @@ class System(object):
         return enr * 627.5096080305927
 
     def fulldft_energy(self):
+        return self.random_noise_result()
         if self.blacklisted: self.blacklisted_error()
         enrgs = []
         for mol in self.needed_mol:
@@ -158,6 +159,7 @@ class System(object):
         return self._apply_rule(enrgs)
 
     def func_energy(self):
+        return self.random_noise_result()
         if self.blacklisted: self.blacklisted_error()
         if self.fulldftlisted:
             lg.debug('System: {} - Calling fulldft even for func_energy').format(self.id)
@@ -173,9 +175,9 @@ class System(object):
     def func_energy_error(self):
         return self.func_energy() - self.ref_ener
 
-    def debug_error(self):
+    def random_noise_result(self):
         import random
-        return random.random()
+        return self.ref_ener + random.uniform(-1, 1)
 
     def set_black(self):
         self.blacklisted = True
@@ -195,6 +197,7 @@ class System(object):
 class Set(object):
 
     def __init__(self, path):
+        self.container = []
         self.path = os.path.abspath(path)
         self.name = None
         self.id = None
@@ -204,31 +207,24 @@ class Set(object):
         self.RMSE = None
         self.MRE = None
 
-    def _set_creator(self):
-        print('Set self.name and read the lists')
-        self.read_blacklist()
-        self.read_fulldftlist()
-
-    def add_to_blacklist(self, system_list):
-        raise(NotImplementedError)
-
-    def add_to_fulldftlist(self, system_list):
-        raise(NotImplementedError)
-
-    def read_blacklist(self):
-        raise(NotImplementedError)
-
-    def read_fulldftlist(self):
-        raise(NotImplementedError)
-
     def get_blacklist(self):
-        raise(NotImplementedError)
+        tmp = []
+        for s in self.blacklist:
+            tmp.append(s)
+        return tmp
 
     def get_fulldftlist(self):
-        raise(NotImplementedError)
+        tmp = []
+        for s in self.fulldftlist:
+            tmp.append(s)
+        return tmp
 
     def compute_MAE(self):
-        raise(NotImplementedError)
+        self.MAE = 0.0
+        for el in self.container:
+            self.MAE += el.compute_MAE()
+        self.MAE = self.MAE / len(self.container)
+        return self.MAE
 
     def compute_RMSE(self):
         raise(NotImplementedError)
@@ -241,13 +237,32 @@ class Set(object):
         self.compute_MRE()
         self.compute_RMSE()
 
+    def get_by_name(self, name):
+        for el in self.container:
+            if name.strip() == el.name:
+                return el
+        msg = 'System ++{}++ not found!'.format(name.strip())
+        lg.warning(msg)
+        return None
+
+    def __str__(self):
+        return 'obj-' + self.name
+
+    def flush_list(self, file, list_to_save):
+        listp = os.path.join(self.path, file)
+        with open(listp, 'w') as listf:
+            try:
+                listf.write('\n'.join(map(lambda x: x.name, list_to_save)))
+            except AttributeError:
+                listf.write('\n'.join(list_to_save))
+
+
 class DataSet(Set):
-    """Here all the systems are called with only a number and is obvious that
+    """Here all the container are called with only a number and is obvious that
         the number has to be inside the DATASET directory """
 
     def __init__(self, path):
         lg.debug('Initializing DataSet from {}'.format(path))
-        self.systems = []
         super().__init__(path)
         self._set_creator()
 
@@ -259,78 +274,118 @@ class DataSet(Set):
         for line in rulec:
             if line.split()[0][0] == '#':
                 continue
-            self.systems.append(System(line, self.path))
-        super()._set_creator()
+            self.container.append(System(line, self.path))
         lg.debug("""DataSet Information:
          * Name: {NAME:s}
          * ID: {ID:s}
          * Path: {PATH:s}
          """.format(NAME=self.name, ID=self.id, PATH=self.path))
 
-
     def name_conversion(self, system):
-        print('Return the name as DATASET-NUMBER of a given system')
-        pass
+        return self.id + '.' + str(system).split('.')[1]
 
-    def read_blacklist(self):
-        print('Readed from self.path/blacklist')
-        pass
+    def __str__(self, *args, **kwargs):
+        return Set.__str__(self, *args, **kwargs)
 
-    def read_fulldftlist(self):
-        print('Readed from self.path/fulldftlist')
-        pass
-
-    def get_blacklist(self):
+    def _add_to_list(self, name_list, black_or_fulldft):
         tmp = []
-        for s in self.blacklist:
-            tmp.append(self.name_conversion(s))
-        return tmp
+        for name in name_list:
+            obj = self.get_by_name(name)
+            tmp.append(obj)
+        tmp = [x for x in tmp if x is not None]
+        if black_or_fulldft == 'black':
+            for obj in tmp:
+                obj.set_black()
+            self.blacklist = copy.deepcopy(tmp)
+            self.flush_list('blacklist.dat', self.blacklist)
+        elif black_or_fulldft == 'fulldft':
+            for obj in tmp:
+                obj.set_fulldft()
+            self.fulldftlist = copy.deepcopy(tmp)
+            self.flush_list('fulldftlist.dat', self.fulldftlist)
+        else:
+            lg.critical('Critical error in implementation!')
+            sys.exit()
 
-    def get_fulldftlist(self):
-        tmp = []
-        for s in self.fulldftlist:
-            tmp.append(self.name_conversion(s))
-        return tmp
+    def add_to_fulldftlist(self, name_list):
+        self._add_to_list(name_list, 'fulldft')
+
+    def add_to_blacklist(self, name_list):
+        self._add_to_list(name_list, 'black')
 
 
 class TrainingSet(Set):
 
-    def __init__(self, path):
-        self.datasets = []
+    def __init__(self, path, file):
         super().__init__(path)
+        self.name = file[:-4]
+        self.filep = os.path.join(self.path, file.strip())
+        self._set_creator()
 
     def name_conversion(self, name):
         """Return a tuple with dataset and system number.
 
         """
-        pass
+        if len(name.split('.')) == 2:
+            return tuple(name.split('.'))
+        else:
+            msg = """Name {} has a wrong syntax:
+                     Should be DATSET.SYSTEM""".format(name)
+            lg.error(msg)
+            return None
 
-    def _compile_dataset(self):
-        print('Set self.name and read the lists')
-        self.read_blacklist()
-        self.read_fulldftlist()
-        pass
+    def _set_creator(self):
+        self.id = self.name
+        self._blacklistp = os.path.join(self.path, self.name + '-blacklist.dat')
+        self._fulldftlistp = os.path.join(self.path, self.name + '-fulldftlist.dat')
+        with open(self.filep, 'r') as filec:
+            for line in filec:
+                if line.split()[0][0] == '#':
+                    continue
+                dsetp = os.path.join(self.path, line.strip())
+                self.container.append(DataSet(dsetp))
+        self.read_allist()
 
-    def add_to_blacklist(self, systems_list):
-        for s in systems_list:
-            system, number = self.name_conversion(systems_list)
-            system.add_to_blacklist(number)
-        pass
+    def _read_list(self, listp):
+        readlist = []
+        if os.path.isfile(listp):
+            with open(listp, 'r') as listf:
+                for line in listf:
+                    if line.split()[0][0] != '#':
+                        readlist.append(line.strip())
+        return readlist
 
-    def add_to_fulldftlist(self, systems_list):
-        for s in systems_list:
-            system, number = self.name_conversion(systems_list)
-            system.add_to_fulldftlist(number)
-        pass
+    def read_allist(self):
+        self.add_to_blacklist(self._read_list(self._blacklistp))
+        self.add_to_fulldftlist(self._read_list(self._fulldftlistp))
 
-    def read_blacklist(self):
-        raise(NotImplementedError)
+    def _add_to_list(self, name_list, black_or_fulldft):
+        tmp = {}
+        uncoded_name_list = list(map(self.name_conversion, name_list))
+        uncoded_name_list = [x for x in uncoded_name_list if x is not None]
+        for name in uncoded_name_list:
+            if name not in tmp:
+                tmp[name[0]] = []
+            tmp[name[0]].append(name[1])
 
-    def read_fulldftlist(self):
-        raise(NotImplementedError)
+        for dset, systems in tmp.items():
+            obj = self.get_by_name(dset)
+            if obj == None:
+                continue
+            if black_or_fulldft == 'black':
+                obj.add_to_blacklist(systems)
+                self.blacklist = name_list
+                self.flush_list(self._blacklistp, self.blacklist)
+            elif black_or_fulldft == 'fulldft':
+                obj.add_to_fulldftlist(systems)
+                self.fulldftlist = name_list
+                self.flush_list(self._fulldftlistp, self.fulldftlist)
+            else:
+                lg.critical('Critical error in implementation!')
+                sys.exit()
 
-    def get_blacklist(self):
-        raise(NotImplementedError)
+    def add_to_fulldftlist(self, name_list):
+        self._add_to_list(name_list, 'fulldft')
 
-    def get_fulldftlist(self):
-        raise(NotImplementedError)
+    def add_to_blacklist(self, name_list):
+        self._add_to_list(name_list, 'black')
