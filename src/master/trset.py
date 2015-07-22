@@ -211,7 +211,6 @@ class System(object):
             lg.critical(msg)
             raise RuleFormatError(msg)
 
-
         lg.debug("""System Information:
          * Dataset: {DATASET:2}
          * Name: {NAME:s}
@@ -359,7 +358,6 @@ class System(object):
             lg.critical(msg)
             sys.exit()
 
-
     def random_noise_result(self):
         import random
         return self.ref_ener + random.uniform(-1, 1)
@@ -393,7 +391,8 @@ class System(object):
         """If the errror is requested and the system is blacklisted.
 
         """
-        lg.warning('Energy from system {} used even if blacklisted!'.format(self.id))
+        lg.warning('Energy from system {} used even if blacklisted!'.
+                   format(self.id))
 
 
 class Set(object):
@@ -437,7 +436,6 @@ class Set(object):
             self.MRE += abs(el.compute_MRE(kind))
         self.MRE = self.MRE / len(self.container)
         return self.MRE
-
 
     def compute_all_errors(self):
         self.compute_MAE()
@@ -544,7 +542,8 @@ class TrainingSet(Set):
     def _set_creator(self):
         self.id = self.name
         self._blacklistp = os.path.join(self.path, self.name + '-blacklist.dat')
-        self._fulldftlistp = os.path.join(self.path, self.name + '-fulldftlist.dat')
+        self._fulldftlistp = os.path.join(self.path,
+                                          self.name + '-fulldftlist.dat')
         with open(self.filep, 'r') as filec:
             for line in filec:
                 if line.split()[0][0] == '#':
@@ -577,7 +576,7 @@ class TrainingSet(Set):
 
         for dset, systems in tmp.items():
             obj = self.get_by_name(dset)
-            if obj == None:
+            if obj is None:
                 continue
             if black_or_fulldft == 'black':
                 obj.add_to_blacklist(systems)
