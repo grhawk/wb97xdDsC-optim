@@ -93,12 +93,7 @@ def main():
         print(tset.get_fulldftlist())
         # print(tset.p_compute_MAE('func'))
         print(tset.p_compute_MAE('func'))
-#         for el in tset.container:
-#             print('{:10s}  {:12.6f}  {:12.6f}'.format(el.name, el.compute_MAE('func'), el.compute_MRE('func')))
-#         print(len(trset.MolSet.container))
-#         for i in range(1, 54):
-#             my_id = 'S-022.{:03d}'.format(i)
-#             print(my_id, trset.MolSet.get_by_id(my_id))
+
 
 def init_logging():
     if os.path.isfile(config['logfile']):

@@ -291,7 +291,7 @@ class System(object):
         Return: the energy of the system.
 
         """
-        return self.random_noise_result()  #!!!!!!!!!!!!!!!!!!!!!!!!!!
+        return self.random_noise_result()
         if self.blacklisted: self.blacklisted_error()
         if self.fulldftlisted:
             msg = 'System: {} - Calling fulldft even for func_energy'.\
@@ -426,7 +426,8 @@ class Set(object):
         self.MAE = 0.0
         print('SELFID: ', self.id)
         my_pool = mproc.MyPool(processes=50)
-        output = [my_pool.apply_async(el.p_compute_MAE, args=(kind,)) for el in self.container]
+        output = [my_pool.apply_async(el.p_compute_MAE, args=(kind,))
+                  for el in self.container]
         results = [p.get() for p in output]
         print('AAAAAAAAA', results)
         for r in results:
