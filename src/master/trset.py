@@ -16,6 +16,7 @@ import logging as lg
 import os
 import sys
 import copy
+import mproc
 
 # Try determining the version from git:
 try:
@@ -86,7 +87,7 @@ class Molecule(object):
         p = os.path.split(p)[1]
         self.belonging_dataset = p
         self.name = file[:-4]
-        self.id = '{DATASET:s}-{NAME:s}'.format(DATASET=self.belonging_dataset,
+        self.id = '{DATASET:s}.{NAME:s}'.format(DATASET=self.belonging_dataset,
                                                 NAME=self.name)
         lg.debug("""Molecule Information:
          * Dataset: {DATASET:s}
@@ -240,9 +241,7 @@ class System(object):
 
         """
 
-        for name in names:
-            mol = Molecule(os.path.join(self.dsetp, 'geometry', name + '.xyz'))
-            self.needed_mol.append(mol)
+        self.needed_mol = MolSet.load_molecules(names, self.dsetp)
 
     def _apply_rule(self, enrgs):
         """Compute the system energy applying the rule.
@@ -320,7 +319,7 @@ class System(object):
         """
         return self.func_energy() - self.ref_ener
 
-    def compute_MAE(self, kind):
+    def p_compute_MAE(self, kind):
         """Absolute error for the system.
 
         The name is to exploit a python feature in the Set class.
@@ -329,6 +328,9 @@ class System(object):
             kind (str): Can be func or fulldft
 
         """
+        import time
+        time.sleep(4)
+        print('Sleeping 4 sec in {}!'.format(self.id))
 
         if kind == 'func':
             return self.func_energy_error()
@@ -420,10 +422,22 @@ class Set(object):
             tmp.append(s)
         return tmp
 
+    def p_compute_MAE(self, kind):
+        self.MAE = 0.0
+        print('SELFID: ', self.id)
+        my_pool = mproc.MyPool(processes=50)
+        output = [my_pool.apply_async(el.p_compute_MAE, args=(kind,)) for el in self.container]
+        results = [p.get() for p in output]
+        print('AAAAAAAAA', results)
+        for r in results:
+            self.MAE += r
+        self.MAE = self.MAE / len(self.container)
+        return self.MAE
+
     def compute_MAE(self, kind):
         self.MAE = 0.0
         for el in self.container:
-            self.MAE += abs(el.compute_MAE(kind))
+            self.MAE += abs(el.p_compute_MAE(kind))
         self.MAE = self.MAE / len(self.container)
         return self.MAE
 
@@ -460,6 +474,49 @@ class Set(object):
                 listf.write('\n'.join(map(lambda x: x.name, list_to_save)))
             except AttributeError:
                 listf.write('\n'.join(list_to_save))
+
+
+class MolSet(object):
+    container = []
+
+    # def __init__(self):
+
+    @staticmethod
+    def get_by_id(my_id):
+        for el in __class__.container:
+            if my_id.strip() == el.id:
+                print('FOUNDDDDD')
+                return el
+        msg = 'System ++{}++ not found!'.format(my_id.strip())
+        lg.warning(msg)
+        return None
+
+    @staticmethod
+    def load_molecules(names, dsetp):
+        """Load the molecules needed for the system computation.
+
+        Fill the attribute needed_mol with molecule objects.
+
+        Args:
+            names (list): name of the molecule to be loaded.
+
+        """
+
+        needed_mol = []
+        dset_name = os.path.basename(dsetp)
+        for name in names:
+            my_id = '{}.{}'.format(dset_name, name)
+            obj = __class__.get_by_id(my_id)
+            if obj is not None:
+                print('ASDASDASDASDASD')
+                needed_mol.append(obj)
+                lg.debug('Molecule {} already existing'.format(my_id))
+            else:
+                mol = Molecule(os.path.join(dsetp, 'geometry', name + '.xyz'))
+                needed_mol.append(mol)
+                __class__.container.append(mol)
+
+        return needed_mol
 
 
 class DataSet(Set):

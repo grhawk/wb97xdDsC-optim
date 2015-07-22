@@ -31,7 +31,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-07-21"
+__updated__ = "2015-07-22"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -48,6 +48,7 @@ def main():
     lg.debug('test')
     testing = ['trset_TrainingSet']
 #    testing = ['trset_DataSet']
+#    testing = ['trset_System']
 
     # Testing make_input
     if 'make_input' in testing:
@@ -90,10 +91,14 @@ def main():
         # print(list(map(str, tset.container)))
         print(tset.get_blacklist())
         print(tset.get_fulldftlist())
-        print(tset.compute_MAE('func'))
-        print(tset.compute_MRE('func'))
-        for el in tset.container:
-            print('{:10s}  {:12.6f}  {:12.6f}'.format(el.name, el.compute_MAE('func'), el.compute_MRE('func')))
+        # print(tset.p_compute_MAE('func'))
+        print(tset.p_compute_MAE('func'))
+#         for el in tset.container:
+#             print('{:10s}  {:12.6f}  {:12.6f}'.format(el.name, el.compute_MAE('func'), el.compute_MRE('func')))
+#         print(len(trset.MolSet.container))
+#         for i in range(1, 54):
+#             my_id = 'S-022.{:03d}'.format(i)
+#             print(my_id, trset.MolSet.get_by_id(my_id))
 
 def init_logging():
     if os.path.isfile(config['logfile']):
