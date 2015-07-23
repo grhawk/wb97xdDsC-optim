@@ -29,12 +29,78 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-07-22"
+__updated__ = "2015-07-23"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
 __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
+
+config = dict(Processes_Func=50,
+              Processes_Full=1000)
+
+
+class MolSet(object):
+    """Container for molecule: we want only one obj for a given xyz.
+
+    Since each molecule has to compute an energy, having more than once the same
+    molecule will waste time computing energy that we already know. This class
+    is a container for all the molecule and provide a method to create an obj
+    from a molecule only if that molecule has never been used.
+
+    Attributes:
+        container (list): container for the loaded molecule obj.
+
+    """
+
+    container = []
+
+    @staticmethod
+    def get_by_id(my_id):
+        """Found a molecule in the container.
+
+        Args:
+            my_id (str): ID of the molecule you want to find.
+
+        Returns: the molecule obj if exists, None otherwise.
+
+        """
+
+        for el in __class__.container:
+            if my_id.strip() == el.id:
+                return el
+        msg = 'Molecule ++{}++ not found!'.format(my_id.strip())
+        lg.warning(msg)
+        return None
+
+    @staticmethod
+    def load_molecules(names, dsetp):
+        """Load a requested molecule and store it in the container.
+
+        To avoid charging more than once the same molecule the method check if
+        the molecule is already loaded and if not, load it.
+
+        Args:
+            names (list): name of the molecule to be loaded.
+            dsetp (str): path to the dataset directory.
+
+        """
+
+        needed_mol = []
+        dset_name = os.path.basename(dsetp)
+        for name in names:
+            my_id = '{}.{}'.format(dset_name, name)
+            obj = __class__.get_by_id(my_id)
+            if obj is not None:
+                print('ASDASDASDASDASD')
+                needed_mol.append(obj)
+                lg.debug('Molecule {} already existing'.format(my_id))
+            else:
+                mol = Molecule(os.path.join(dsetp, 'geometry', name + '.xyz'))
+                needed_mol.append(mol)
+                __class__.container.append(mol)
+
+        return needed_mol
 
 
 class Molecule(object):
@@ -233,9 +299,6 @@ class System(object):
 
         Fill the attribute needed_mol with molecule objects.
 
-        Todo:
-            Check if the molecule is already loaded!
-
         Args:
             names (list): name of the molecule to be loaded.
 
@@ -301,6 +364,30 @@ class System(object):
         enrgs = []
         for mol in self.needed_mol:
             enrgs.append(mol.func_energy())
+        return self._apply_rule(enrgs)
+
+    def p_func_energy(self):
+        """Compute the func energy for the system.
+
+        This method provides the right molecular energies to the _apply_rule
+        method and check if the system is blacklisted. If the system is
+        fulldftlisted, the method will call the fulldft_energy method
+        automatically.
+
+        Return: the energy of the system.
+
+        """
+        # return self.random_noise_result()
+        if self.blacklisted: self.blacklisted_error()
+        if self.fulldftlisted:
+            msg = 'System: {} - Calling fulldft even for func_energy'.\
+                format(self.id)
+            lg.warning(msg)
+            return self.fulldft_energy()
+        my_pool = mproc.MyPool(processes=config['Processes_Func'])
+        output = [my_pool.apply_async(mol.functional_energy)
+                  for mol in self.needed_mol]
+        enrgs = [p.get() for p in output]
         return self._apply_rule(enrgs)
 
     def fulldft_energy_error(self):
@@ -423,13 +510,14 @@ class Set(object):
         return tmp
 
     def p_compute_MAE(self, kind):
+        """
+        Todo: Make a parallel function inside the System energy calculator
+        """
         self.MAE = 0.0
-        print('SELFID: ', self.id)
         my_pool = mproc.MyPool(processes=50)
         output = [my_pool.apply_async(el.p_compute_MAE, args=(kind,))
                   for el in self.container]
         results = [p.get() for p in output]
-        print('AAAAAAAAA', results)
         for r in results:
             self.MAE += r
         self.MAE = self.MAE / len(self.container)
@@ -475,49 +563,6 @@ class Set(object):
                 listf.write('\n'.join(map(lambda x: x.name, list_to_save)))
             except AttributeError:
                 listf.write('\n'.join(list_to_save))
-
-
-class MolSet(object):
-    container = []
-
-    # def __init__(self):
-
-    @staticmethod
-    def get_by_id(my_id):
-        for el in __class__.container:
-            if my_id.strip() == el.id:
-                print('FOUNDDDDD')
-                return el
-        msg = 'System ++{}++ not found!'.format(my_id.strip())
-        lg.warning(msg)
-        return None
-
-    @staticmethod
-    def load_molecules(names, dsetp):
-        """Load the molecules needed for the system computation.
-
-        Fill the attribute needed_mol with molecule objects.
-
-        Args:
-            names (list): name of the molecule to be loaded.
-
-        """
-
-        needed_mol = []
-        dset_name = os.path.basename(dsetp)
-        for name in names:
-            my_id = '{}.{}'.format(dset_name, name)
-            obj = __class__.get_by_id(my_id)
-            if obj is not None:
-                print('ASDASDASDASDASD')
-                needed_mol.append(obj)
-                lg.debug('Molecule {} already existing'.format(my_id))
-            else:
-                mol = Molecule(os.path.join(dsetp, 'geometry', name + '.xyz'))
-                needed_mol.append(mol)
-                __class__.container.append(mol)
-
-        return needed_mol
 
 
 class DataSet(Set):
