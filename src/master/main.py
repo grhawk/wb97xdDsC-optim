@@ -15,6 +15,7 @@ import make_input as mkinp
 import os
 import sys
 import trset
+from params import Parameters as Prm
 
 # import resource
 # lg.debug('Memory Usage {} (kb)'.format(
@@ -31,7 +32,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-07-22"
+__updated__ = "2015-07-24"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -46,7 +47,7 @@ config = dict(
 def main():
     init_logging()
     lg.debug('test')
-    testing = ['trset_TrainingSet']
+    testing = ['params_Parameters']
 #    testing = ['trset_DataSet']
 #    testing = ['trset_System']
 
@@ -93,6 +94,22 @@ def main():
         print(tset.get_fulldftlist())
         # print(tset.p_compute_MAE('func'))
         print(tset.p_compute_MAE('func'))
+
+    if 'params_Parameters' in testing:
+
+        x = list(range(1, 20))
+        print(x)
+        prm = Prm(x)
+        print(prm.prms)
+        print(prm.convert2list())
+        prm.prms = dict(tta=[100],
+                        ttb=[101],
+                        cxhf=[102],
+                        omega=[103],
+                        cx_aa=[104, 105, 106, 107, 108],
+                        cc_aa1=[109, 111, 112, 113],
+                        cc_ab=[114, 115, 116, 117, 118])
+        print(prm.prms)
 
 
 def init_logging():

@@ -11,6 +11,9 @@
 
 """
 
+
+import logging as lg
+
 # Try determining the version from git:
 try:
     import subprocess
@@ -22,7 +25,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-07-16"
+__updated__ = "2015-07-24"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -32,20 +35,75 @@ __status__ = 'development'
 
 class Parameters(object):
 
-    def __init__(self):
-        self.allpar = dict(cc_aa_1=0.000)
+    _parameters = dict(tta=[],
+                       ttb=[],
+                       cxhf=[],
+                       omega=[],
+                       cx_aa=[],
+                       cc_aa=[],
+                       cc_ab=[])
 
-    def set(self, p):
+    _to_optimize = []
+
+    def __init__(self, kvd):
+        self.prms = kvd
+        self.sorted = sorted(list(__class__._parameters.keys()))
+
+    @property
+    def prms(self):
+
+        return __class__._parameters
+
+    @prms.setter
+    def prms(self, kvd):
         """Sets all the class parameters and write them on the right file.
 
         Sets the parameters taking care of the constraints.
 
         Args:
-            p (list or dict): can be a dictionary with parameters: value or a
+            kvd (list or dict): can be a dictionary with parameters: value or a
                 list with all the parameters
 
         """
-        pass
+        if isinstance(kvd, list):
+            if len(kvd) != 19:
+                msg = 'The list must contains 19 elements!'
+                lg.critical(msg)
+                raise IndexError(msg)
+            self.convert2dict(kvd)
+
+        if isinstance(kvd, dict):
+            for k in kvd.keys():
+                if k in __class__._parameters:
+                    if len(kvd[k]) == len(__class__._parameters[k]):
+                        __class__._parameters[k] = kvd[k]
+                    else:
+                        msg = 'The number of parameters specified does not\
+                        match the expected number'
+                        lg.error(msg)
+                else:
+                    msg = 'The dict contains keys not present in the parameters\
+                    dict. Those will be ignored.'
+                    lg.error(msg)
+
+    def convert2dict(self, list_):
+        keys = sorted(list(__class__._parameters.keys()))
+        l = 0
+        for i, k in enumerate(keys):
+            i += l
+            if k[2] == '_':
+                __class__._parameters[k] = list_[i:i + 5]
+                l += 4
+            else:
+                __class__._parameters[k] = [list_[i]]
+
+    def convert2list(self):
+        list_ = []
+        for k, v in sorted(__class__._parameters.items()):
+            print(k, v)
+            list_ += v
+        return list_
+
 
     def get(self):
         """Return a dictionary with parameter: value.
