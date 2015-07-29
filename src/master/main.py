@@ -117,7 +117,7 @@ def main():
         print('sprm1: ', prm1.sprms)
         print('prm1 validity: ', prm1.check_prms())
         print('--------------------')
-        prm1.prms = dict(tta=[2])
+        prm1.refresh()
         print('--------------------')
         print('prm1: ', prm1.prms)
         print('sprm1: ', prm1.sprms)
