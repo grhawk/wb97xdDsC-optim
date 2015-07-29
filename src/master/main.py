@@ -32,7 +32,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-07-24"
+__updated__ = "2015-07-29"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -98,18 +98,40 @@ def main():
     if 'params_Parameters' in testing:
 
         x = list(range(1, 20))
-        print(x)
-        prm = Prm(x)
-        print(prm.prms)
-        print(prm.convert2list())
-        prm.prms = dict(tta=[100],
-                        ttb=[101],
-                        cxhf=[102],
-                        omega=[103],
-                        cx_aa=[104, 105, 106, 107, 108],
-                        cc_aa1=[109, 111, 112, 113],
-                        cc_ab=[114, 115, 116, 117, 118])
-        print(prm.prms)
+        # print(x)
+        prm = Prm()
+        prm1 = Prm()
+        print('prm: ', prm.prms)
+        print('prm1: ', prm1.prms)
+        prm.prms = dict(tta=[1000])
+        print('prm: ', prm.prms)
+        print('prm1: ', prm1.prms)
+        print('sprm1: ', prm1.sprms)
+        prm1.sprms = dict(tta=[2])
+        print('--------------------')
+        print('prm: ', prm.prms)
+        print('sprm: ', prm.sprms)
+        print('prm validity: ', prm.check_prms())
+        print('--------------------')
+        print('prm1: ', prm1.prms)
+        print('sprm1: ', prm1.sprms)
+        print('prm1 validity: ', prm1.check_prms())
+        print('--------------------')
+        prm1.prms = dict(tta=[2])
+        print('--------------------')
+        print('prm1: ', prm1.prms)
+        print('sprm1: ', prm1.sprms)
+        print('prm1 validity: ', prm1.check_prms())
+        print('--------------------')
+        print('prm1:     ', prm1.prms)
+        print('prm1_old: ', prm1.prms_old)
+        print('prm1 check old: ', prm1.check_old())
+        print('--------------------')
+        prm1.prms = dict(tta=[2])
+        print('prm1:     ', prm1.prms)
+        print('prm1_old: ', prm1.prms_old)
+        print('prm1 check old: ', prm1.check_old())
+
 
 
 def init_logging():
