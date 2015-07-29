@@ -21,7 +21,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-07-22"
+__updated__ = "2015-07-29"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -32,12 +32,15 @@ __status__ = 'development'
 class NoDaemonProcess(multiprocessing.Process):
     def _get_daemon(self):
         return False
+
     def _set_daemon(self, value):
         pass
     daemon = property(_get_daemon, _set_daemon)
 
+
 class MyPool(multiprocessing.pool.Pool):
     Process = NoDaemonProcess
+
 
 if __name__ == '__main__':
 
@@ -53,7 +56,8 @@ if __name__ == '__main__':
         print("Creating %i (daemon) workers and jobs in child." % num_procs)
         pool = multiprocessing.Pool(num_procs)
 
-        result = pool.map(sleepwhile, [randint(1, 5) for x in range(num_procs)])
+        result = pool.map(sleepwhile,
+                          [randint(1, 5) for x in range(num_procs)])
         pool.close()
         pool.join()
         return result
