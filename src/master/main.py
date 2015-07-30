@@ -32,7 +32,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-07-29"
+__updated__ = "2015-07-30"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -131,6 +131,9 @@ def main():
         print('prm1:     ', prm1.prms)
         print('prm1_old: ', prm1.prms_old)
         print('prm1 check old: ', prm1.check_old())
+        prm1.optim = dict(tta=504, cc_aa_1=505)
+        print(prm.prms)
+        print(prm.check_old())
 
 
 

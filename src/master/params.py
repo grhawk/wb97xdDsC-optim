@@ -26,14 +26,15 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-07-29"
+__updated__ = "2015-07-30"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
 __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
 
-config = dict(Precision=1E-8)
+config = dict(Precision=1E-8,
+              ParamFile='parametri.inp')
 
 
 class Parameters(object):
@@ -60,6 +61,49 @@ class Parameters(object):
         self._sparameters = copy.deepcopy(__class__._parameters)
 
     @property
+    def optim(self):
+        return __class__._to_optimize
+
+    @optim.setter
+    def optim(self, dict_):
+        possible_parameters = list(__class__._parameters.keys())
+        to_add = ['cx_aa', 'cc_aa', 'cc_ab']
+        tmp = []
+        for p in possible_parameters:
+            if p in to_add:
+                for i in range(0, 5):
+                    tmp.append('{}_{:1d}'.format(p, int(i)))
+        for p in to_add:
+            possible_parameters.remove(p)
+        possible_parameters += tmp
+
+        tmp = copy.deepcopy(__class__._parameters)
+
+        for k, v in dict_.items():
+            if k not in possible_parameters:
+                msg = 'Parameter {} cannot be used!'.format(k)
+                lg.error(msg)
+                raise TypeError(msg)
+            __class__._to_optimize.append(k)
+
+            try:
+                if int(k[-1]) < 5 and int(k[-1]) > -1:
+                    tmp[k[:-2]][int(k[-1])] = float(v)
+            except ValueError:
+                pass
+
+            tmp[k] = [float(v)]
+
+        self.prms = copy.deepcopy(tmp)
+
+
+
+
+
+
+
+
+    @property
     def prms(self):
         return __class__._parameters
 
@@ -76,6 +120,8 @@ class Parameters(object):
         """
         __class__._parameters_old = copy.deepcopy(__class__._parameters)
         self.general_setter(kvd, __class__._parameters)
+        with open(config['ParamFile'], 'w') as pf:
+            pf.write(' '.join(map(str, self.convert2list(__class__._parameters))))
 
     @prms.getter
     def prms(self):
