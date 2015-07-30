@@ -134,7 +134,7 @@ def main():
         prm1.optim = dict(tta=504, cc_aa_1=505)
         print(prm.prms)
         print(prm.check_old())
-
+        print(prm.optim)
 
 
 def init_logging():

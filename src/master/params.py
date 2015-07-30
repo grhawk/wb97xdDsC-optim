@@ -96,12 +96,9 @@ class Parameters(object):
 
         self.prms = copy.deepcopy(tmp)
 
-
-
-
-
-
-
+    @optim.getter
+    def optim(self):
+        return __class__._to_optimize
 
     @property
     def prms(self):
