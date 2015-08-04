@@ -124,3 +124,9 @@ class RunDdsc(GenericRun):
     def __init__(self):
         self.command = 'Quello che sara'
         pass
+
+
+class RunAll(GenericRun):
+    def __init__(self):
+        self.command = ['STARTall.x']
+        

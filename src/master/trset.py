@@ -17,6 +17,7 @@ import os
 import sys
 import copy
 import mproc
+import computation
 
 # Try determining the version from git:
 try:
@@ -92,7 +93,6 @@ class MolSet(object):
             my_id = '{}.{}'.format(dset_name, name)
             obj = __class__.get_by_id(my_id)
             if obj is not None:
-                print('ASDASDASDASDASD')
                 needed_mol.append(obj)
                 lg.debug('Molecule {} already existing'.format(my_id))
             else:
@@ -136,6 +136,8 @@ class Molecule(object):
         self.dft_energy = None
         self.func_energy = None
         self._molecule_creator()
+        self._runGamess = computation.RunGamess()
+        self._runFunc = computation.RunAll()
 
     def __str__(self):
         """Return a human readable string when the object is printed.
@@ -174,12 +176,10 @@ class Molecule(object):
             dft_energy if successfull, 0.00 otherwise
         """
 
-        if self.name == '023': return -56.5641546249
-        if self.name == '001': return -113.1335656245
-        if self.dft_energy or not self.myprm.validity():
+        if self.dft_energy or not self.myprm.check_prsm():
             print('Compute the BigGamess energy. If problem return None')
             self.myprm.refresh()
-            self.density_path = 'Returned by the computation module'
+            self.density_path = self._runGamess
         return self.dft_energy
 
     def funtional_energy(self):
@@ -196,6 +196,7 @@ class Molecule(object):
         if self.func_energy or not self.myprm.validity():
             print('Compute the SmallGamess energy. If problem return None')
             self.myprm.refresh()
+            self._runFunc
         return self.func_energy
 
 
@@ -336,7 +337,7 @@ class System(object):
         Return: The energy of the system.
 
         """
-        return self.random_noise_result()
+#        return self.random_noise_result()
         if self.blacklisted: self.blacklisted_error()
         enrgs = []
         for mol in self.needed_mol:
@@ -354,7 +355,6 @@ class System(object):
         Return: the energy of the system.
 
         """
-        return self.random_noise_result()
         if self.blacklisted: self.blacklisted_error()
         if self.fulldftlisted:
             msg = 'System: {} - Calling fulldft even for func_energy'.\
@@ -426,7 +426,7 @@ class System(object):
         else:
             msg = 'Critical error in implementation!'
             lg.critical(msg)
-            sys.exit()
+            raise NotImplementedError(msg)
 
     def compute_MRE(self, kind):
         """Relative absolute error for the system.
@@ -526,7 +526,7 @@ class Set(object):
     def compute_MAE(self, kind):
         self.MAE = 0.0
         for el in self.container:
-            self.MAE += abs(el.p_compute_MAE(kind))
+            self.MAE += abs(el.compute_MAE(kind))
         self.MAE = self.MAE / len(self.container)
         return self.MAE
 
