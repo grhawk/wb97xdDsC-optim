@@ -12,6 +12,7 @@
 """
 
 import os
+import mmap
 import logging as lg
 
 # Try determining the version from git:
@@ -25,7 +26,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-07-15"
+__updated__ = "2015-08-04"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -42,3 +43,17 @@ def file_exists(filep):
 
     lg.debug('{} found!'.format(filep))
     return True
+
+
+def find_in_file(filep, strings_):
+    with open(filep, mode='r') as f:
+        s = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+    if isinstance(strings_, list):
+        for string_ in strings_:
+            result = s.find(string_)
+            if result != -1:
+                return result
+    else:
+        result = s.find(strings_)
+        if result != -1: return result
+    return None

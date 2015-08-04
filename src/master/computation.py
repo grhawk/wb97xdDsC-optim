@@ -46,6 +46,7 @@ import logging as lg
 from make_input import Input
 import os
 import mmap
+from utils import find_in_file
 
 # Try determining the version from git:
 try:
@@ -76,6 +77,7 @@ class Run(object):
                    gamess_bin='/home/petragli/wb97xddsc/gamess-opt/GAMESS',
                    params_dir='/home/petragli/wb97xddsc/USED_PARAMS',
                    sbatch_script_prefix='/home/petragli/wb97xddsc/USED_PARAMS',
+                   well_finished_strings=[b'exit gracefully'],
                    )
 
     def __init__(self, molID, dset_path):
@@ -102,19 +104,18 @@ class Run(object):
     def _readout(self):
         while True:
             time.sleep(self.dormi)
-            with open(self._inout_out_path, mode='r') as f:
-                s = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
-                for string_ in __class__._config['well_finished']:
-                    if s.find(string_) != -1:
-                        break
-                    else:
-                        print('Exited gracefully not found.')
+            if find_in_file(self._inout_out_path,
+                            __class__._config['well_finished_strings']):
+                break
+            else:
+                print('Exited gracefully not found.')
 
             for self.timeout in enumerate(self.timeoutMAX):
                 if int(self.timeout) > int(self.timeoutMAX):
                     print('File not found.')
 
             self.timeout += 1
+
 
     def _move_data(self):
         shutil.copy('PARAM_UNF.dat',
