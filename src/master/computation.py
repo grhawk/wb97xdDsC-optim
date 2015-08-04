@@ -35,10 +35,12 @@ Attributes:
 .. _Google Python Style Guide:
    http://google-styleguide.googlecode.com/svn/trunk/pyguide.html
 
+
 """
 
 
 import time
+import shlex
 import shutil
 import logging as lg
 from make_input import Input
@@ -70,6 +72,9 @@ class Run(object):
                    timout=0,
                    timeout_max=10,
                    densities_repo='/dev/shm',
+                   gamess_bin='/home/petragli/wb97xddsc/gamess-opt/GAMESS',
+                   params_dir='/home/petragli/wb97xddsc/USED_PARAMS',
+                   sbatch_script_prefix='/home/petragli/wb97xddsc/USED_PARAMS',
                    )
 
     def __init__(self, molID, dset_path):
@@ -88,8 +93,8 @@ class Run(object):
     def _write_input(self):
         Input(self._xyzp).write(self._inout_inp_path)
 
-    def _run(self):
-        print('Should run {}'.format(self.command))
+    def _run(self, command):
+        print('Should run {}'.format(command))
         out = open(self.name + "log", mode='w')
         subprocess.call(self.command, stdout=out)
 
@@ -115,17 +120,54 @@ class Run(object):
                                  self.molID + '.dens')
                     )
 
+    def _write_sbatch(self):
+        txt = '#!/bin/bash'
+        txt += '#SBATCH -J {TITLE:s}'.format(TITLE=self.molID)
+        txt += '#SBATCH -o /home/petragli/err/{TITLE:s}.stdout_%j'.\
+            format(TITLE=self.molID)
+        txt += '#SBATCH -e /home/petragli/err/{TITLE:s}.stderr_%j'.\
+            format(TITLE=self.molID)
+        txt += '#SBATCH --mem=8000'
+        txt += '#SBATCH --nodes=1'
+        txt += '#SBATCH --ntasks-per-node=1'
+        txt += 'source /software/ENV/set_mkl-110.sh'
+        txt += 'source /software/ENV/set_impi_410.sh'
+        txt += 'export EXTBAS=/dev/null'
+        txt += 'export SLURM_NODEFILE=$SLURM_TMPDIR/machines'
+        txt += 'srun --ntasks=$SLURM_NNODES hostname -s > $SLURM_NODEFILE'
+        txt += 'cd $SLURM_SUBMIT_DIR'
+        txt += 'cp {PARAMS_DIR:s}/a0b0 $SLURM_TMPDIR'.\
+            format(PARAMS_DIR=__class__._config['params_dir'])
+        txt += 'cp {PARAMS_DIR:s}/FUNC_PAR.dat $SLURM_TMPDIR'.\
+            format(PARAMS_DIR=__class__._config['params_dir'])
+        txt += '{BIN:s}/rungmsQUEUE {INPUT:s} 00 1 $SLURM_CPUS_ON_NODE &> {OUTPUT:s}'.\
+            format(INPUT=self._inout_inp_path,
+                   OUTPUT=self._inout_out_path,
+                   BIN=__class__._config['GAMESS_BIN'])
+        txt += 'joberror=$?'
+        txt += 'cp -r $SLURM_TMPDIR/PARAM_UNF.dat {DENSITY_DEST}'.\
+            format(DENSITY_DEST='')
+        txt += 'cp -r $SLURM_TMPDIR/dDsC_PAR {dDSC_DEST}'.\
+            format(dDSC_DEST='')
+        txt += 'exit'
+
+        self._sbatch_file = \
+            os.path.join(__class__._config['sbatch_script_prefix'], self.molID)
+
+        with open(self._sbatch_file, 'w') as f:
+            f.write(txt)
+
     def fulldft(self):
-        command = ["/software/gamess/rungms", self.name + "inp", "13" , "1"]
+        command = shlex.split('/bin/sbatch {SBATCH_FILE:s}'
+                              .format(self._sbatch_file))
         self._write_input()
-        self._run()
+        self._run(command)
         self._readout()
         self._move_data()
 
-
     def func(self):
         command = ['./START.x']
-        self._run()
+        self._run(command)
         self._readout()
 
 
