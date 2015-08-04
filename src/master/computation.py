@@ -45,6 +45,7 @@ import shutil
 import logging as lg
 from make_input import Input
 import os
+import mmap
 
 # Try determining the version from git:
 try:
@@ -101,9 +102,10 @@ class Run(object):
     def _readout(self):
         while True:
             time.sleep(self.dormi)
-            with open(self._inout_out_path, mode='r') as g:
-                for line in g:
-                    if "exited gracefully" in line:
+            with open(self._inout_out_path, mode='r') as f:
+                s = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+                for string_ in __class__._config['well_finished']:
+                    if s.find(string_) != -1:
                         break
                     else:
                         print('Exited gracefully not found.')

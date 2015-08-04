@@ -30,7 +30,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-07-23"
+__updated__ = "2015-08-04"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -130,14 +130,14 @@ class Molecule(object):
         lg.debug('Importing Molecule from \n{}\n'.format(path))
         self.id = None  # If none there is some problem!
         self.xyzp = os.path.abspath(path)
-        self.density_path = None
         self.belonging_dataset = None
         self.myprm = params.Parameters()
         self.dft_energy = None
         self.func_energy = None
         self._molecule_creator()
-        self._runGamess = computation.RunGamess()
-        self._runFunc = computation.RunAll()
+        self._run = computation.Run(self.id, self.belonging_dataset)
+        # self._runGamess = computation.RunGamess()
+        # self._runFunc = computation.RunAll()
 
     def __str__(self):
         """Return a human readable string when the object is printed.
@@ -179,7 +179,6 @@ class Molecule(object):
         if self.dft_energy or not self.myprm.check_prsm():
             print('Compute the BigGamess energy. If problem return None')
             self.myprm.refresh()
-            self.density_path = self._runGamess
         return self.dft_energy
 
     def funtional_energy(self):
