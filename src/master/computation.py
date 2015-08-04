@@ -6,7 +6,6 @@
 # FileName: computation
 # Creation: Jul 16, 2015
 #
-import shutil
 
 """Example Google style docstrings.
 
@@ -38,6 +37,13 @@ Attributes:
 
 """
 
+
+import time
+import shutil
+import logging as lg
+from make_input import Input
+import os
+
 # Try determining the version from git:
 try:
     import subprocess
@@ -49,54 +55,48 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-07-17"
+__updated__ = "2015-08-04"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
 __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
 
-import time
-import shutil
-import subprocess
-import utils as uts
-import re
-import logging as lg
-from make_input import Input
 
-class GenericRun(object):
+class Run(object):
 
-    def __init__(self):
-        self.dormi = 60
-        self.timeout = 0
-        self.timeoutMAX = 10
-        self.command = 'uname -a'
+    _inout_id = None
+    _config = dict(dormi=60,
+                   timout=0,
+                   timeout_max=10,
+                   densities_repo='/dev/shm',
+                   )
 
+    def __init__(self, molID, dset_path):
 
-    def write_input(self, xyzp, cpath):
-        self.name = xyzp[:-3]
-        Input(xyzp).write(self.name + 'inp')
+        self._inout_path = os.path.join(dset_path, 'inout', __class__._inout_id)
+        self._inout_path = os.path.abspath(self._inout_path)
+        if not os.path.isdir(self._inout_path):
+            os.makedirs(self._inout_path)
 
+        self._xyzp = os.path.join(dset_path, 'geometry', molID.split('.')[1])
 
-    def runall(self):
+        self._inout_inp_path = os.path.join(self._inout_path, molID + '.inp')
+        self._inout_out_path = os.path.join(self._inout_path, molID + '.log')
+        self.molID = molID
+
+    def _write_input(self):
+        Input(self._xyzp).write(self._inout_inp_path)
+
+    def _run(self):
         print('Should run {}'.format(self.command))
         out = open(self.name + "log", mode='w')
         subprocess.call(self.command, stdout=out)
 
-
-
-
-class RunGamess(GenericRun):
-
-    def __init__(self):
-        self.command = ["/software/gamess/rungms", self.name + "inp", "13" , "1"]  #DA Vedere!!!!!!!!!
-#        self.command = ["/home/student1/GAMESS/rungms",self.name+"inp","00","1"]
-
-
-    def read_out(self):
+    def _readout(self):
         while True:
             time.sleep(self.dormi)
-            with open(self.name + ".log", mode='r') as g:
+            with open(self._inout_out_path, mode='r') as g:
                 for line in g:
                     if "exited gracefully" in line:
                         break
@@ -109,24 +109,24 @@ class RunGamess(GenericRun):
 
             self.timeout += 1
 
-    def move_density(self, dest):
-        shutil.copy('PARAM_UNF.dat', dest)
+    def _move_data(self):
+        shutil.copy('PARAM_UNF.dat',
+                    os.path.join(__class__.config['densities_repo'],
+                                 self.molID + '.dens')
+                    )
+
+    def fulldft(self):
+        command = ["/software/gamess/rungms", self.name + "inp", "13" , "1"]
+        self._write_input()
+        self._run()
+        self._readout()
+        self._move_data()
 
 
-class RunDensity(GenericRun):
-
-    def __init__(self):
-        self.command = ["./START.X"]  #DA Vedere!!!!!!!!!
-
-
-class RunDdsc(GenericRun):
-
-    def __init__(self):
-        self.command = 'Quello che sara'
-        pass
+    def func(self):
+        command = ['./START.x']
+        self._run()
+        self._readout()
 
 
-class RunAll(GenericRun):
-    def __init__(self):
-        self.command = ['STARTall.x']
-        
+
