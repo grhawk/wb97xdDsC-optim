@@ -52,8 +52,12 @@ def find_in_file(filep, strings_):
         for string_ in strings_:
             result = s.find(string_)
             if result != -1:
-                return result
+                break
     else:
         result = s.find(strings_)
-        if result != -1: return result
+
+    if result != -1:
+        s.seek(result)
+        return s.readline()
+
     return None
