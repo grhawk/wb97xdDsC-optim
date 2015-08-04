@@ -92,6 +92,10 @@ class Run(object):
         self._inout_inp_path = os.path.join(self._inout_path, molID + '.inp')
         self._inout_out_path = os.path.join(self._inout_path, molID + '.log')
         self.molID = molID
+        self._wb97x_saves = os.path.join(__class__.config['densities_repo'],
+                                 self.molID + '.wb97x')
+        self._ddsc_saves = os.path.join(__class__.config['densities_repo'],
+                                 self.molID + '.ddsc')
 
     def _write_input(self):
         Input(self._xyzp).write(self._inout_inp_path)
@@ -118,10 +122,8 @@ class Run(object):
 
 
     def _move_data(self):
-        shutil.copy('PARAM_UNF.dat',
-                    os.path.join(__class__.config['densities_repo'],
-                                 self.molID + '.dens')
-                    )
+        shutil.move('PARAM_UNF.dat', self._wb97x_saves)
+        shutil.move('dDsC_PAR', self._ddsc_saves)
 
     def _write_sbatch(self):
         txt = '#!/bin/bash'
