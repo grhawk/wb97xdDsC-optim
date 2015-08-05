@@ -125,7 +125,8 @@ class Input(object):
                                       DFTTYP='wB97X',
                                       MAXIT='200',),
                        'DATA': [],
-                       'DFT': dict(DDSC='.t.')}
+                       'DFT': dict(DDSC='.t.'),
+                       'SYSTEM': dict(MWORDS='8')}
 
 
 def atnum(atom_label):
