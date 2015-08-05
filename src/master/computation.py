@@ -59,7 +59,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-08-04"
+__updated__ = "2015-08-05"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -80,22 +80,27 @@ class Run(object):
                    well_finished_strings=[b'exit gracefully'],
                    )
 
-    def __init__(self, molID, dset_path):
+    def __init__(self, molID=None, dset_path=None):
 
-        self._inout_path = os.path.join(dset_path, 'inout', __class__._inout_id)
-        self._inout_path = os.path.abspath(self._inout_path)
-        if not os.path.isdir(self._inout_path):
-            os.makedirs(self._inout_path)
+        if molID and dset_path:
+            self._inout_path = os.path.join(dset_path, 'inout', __class__._inout_id)
+            self._inout_path = os.path.abspath(self._inout_path)
+            if not os.path.isdir(self._inout_path):
+                os.makedirs(self._inout_path)
 
-        self._xyzp = os.path.join(dset_path, 'geometry', molID.split('.')[1])
+            self._xyzp = os.path.join(dset_path, 'geometry', molID.split('.')[1])
 
-        self._inout_inp_path = os.path.join(self._inout_path, molID + '.inp')
-        self._inout_out_path = os.path.join(self._inout_path, molID + '.log')
-        self.molID = molID
-        self._wb97x_saves = os.path.join(__class__.config['densities_repo'],
-                                 self.molID + '.wb97x')
-        self._ddsc_saves = os.path.join(__class__.config['densities_repo'],
-                                 self.molID + '.ddsc')
+            self._inout_inp_path = os.path.join(self._inout_path, molID + '.inp')
+            self._inout_out_path = os.path.join(self._inout_path, molID + '.log')
+            self.molID = molID
+            self._wb97x_saves = os.path.join(__class__.config['densities_repo'],
+                                     self.molID + '.wb97x')
+            self._ddsc_saves = os.path.join(__class__.config['densities_repo'],
+                                     self.molID + '.ddsc')
+            self._sbatch_file = \
+                os.path.join(__class__._config['sbatch_script_prefix'], self.molID)
+
+
 
     def _write_input(self):
         Input(self._xyzp).write(self._inout_inp_path)
@@ -155,9 +160,6 @@ class Run(object):
         txt += 'cp -r $SLURM_TMPDIR/dDsC_PAR {dDSC_DEST}'.\
             format(dDSC_DEST='')
         txt += 'exit'
-
-        self._sbatch_file = \
-            os.path.join(__class__._config['sbatch_script_prefix'], self.molID)
 
         with open(self._sbatch_file, 'w') as f:
             f.write(txt)
