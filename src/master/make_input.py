@@ -124,7 +124,8 @@ class Input(object):
                                       RUNTYP='ENERGY',
                                       DFTTYP='wB97X',
                                       MAXIT='200',),
-                       'DATA': []}
+                       'DATA': [],
+                       'DFT': dict(DDSC='.t.')}
 
 
 def atnum(atom_label):

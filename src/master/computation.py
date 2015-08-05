@@ -46,7 +46,7 @@ import logging as lg
 from make_input import Input
 import os
 import mmap
-from utils import find_in_file
+from utils import find_in_file, file_exists
 
 # Try determining the version from git:
 try:
@@ -72,14 +72,17 @@ class Run(object):
     _inout_id = None
     _run_name = None
     _tset_path = None
-    _config = dict(dormi=60,
-                   timout=0,
+    _config = dict(dormi=5,
                    timeout_max=10,
-                   densities_repo='/dev/shm',
+                   densities_repo='/home/petragli/tmp_density_dir',
                    gamess_bin='/home/petragli/wb97xddsc/gamess-opt/GAMESS',
-                   params_dir='/home/petragli/wb97xddsc/USED_PARAMS',
-                   sbatch_script_prefix='/home/petragli/wb97xddsc/USED_PARAMS',
-                   well_finished_strings=[b'exit gracefully'],
+                   params_dir='/home/petragli/wb97xddsc/TMP_DATA',
+                   sbatch_script_prefix='/home/petragli/wb97xddsc/TMP_DATA',
+                   tmp_density_dir='/home/petragli/wb97xddsc/TMP_DATA',
+                   well_finished_strings=[b'exit gracefully',
+                                          b'FINAL ENERGY INCLUDING dDsC DISPERSION:'],
+                   command_full = '/bin/sbatch',
+                   command_func = '/home/petragli/wb97xddsc/gamess-opt/mini-gamess/STARTall.x'
                    )
 
     def __init__(self, molID=None, dset=None, run_name=None, tset_path=None):
@@ -90,6 +93,7 @@ class Run(object):
                 lg.critical(msg)
                 raise RuntimeError(msg)
             self._inout_path = os.path.join(__class__._run_name, dset, 'inout', __class__._inout_id)
+            #Note: Check if path exists even if not dir!
             self._inout_path = os.path.abspath(self._inout_path)
             if not os.path.isdir(self._inout_path):
                 os.makedirs(self._inout_path)
@@ -99,6 +103,11 @@ class Run(object):
             self._inout_inp_path = os.path.join(self._inout_path, molID + '.inp')
             self._inout_out_path = os.path.join(self._inout_path, molID + '.log')
             self.molID = molID
+
+            #Note: Check if path exists even if not dir!
+            if not os.path.isdir(__class__._config['densities_repo']):
+                os.makedirs(__class__._config['densities_repo'])
+                
             self._wb97x_saves = os.path.join(__class__._config['densities_repo'],
                                      self.molID + '.wb97x')
             self._ddsc_saves = os.path.join(__class__._config['densities_repo'],
@@ -130,24 +139,39 @@ class Run(object):
         subprocess.call(command)
 
     def _readout(self):
+        timeout = 0
+        not_found = False
         while True:
-            time.sleep(self.dormi)
-            if find_in_file(self._inout_out_path,
-                            __class__._config['well_finished_strings']):
-                break
-            else:
-                print('Exited gracefully not found.')
+            timeout += 1
+            time.sleep(__class__._config['dormi'])
+            if timeout%__class__._config['timeout_max'] == 0:
+                not_found = True
+                lg.warning('Final energy not found for file {}... Do something!!'.format(self._inout_out_path))
 
-            for self.timeout in enumerate(self.timeoutMAX):
-                if int(self.timeout) > int(self.timeoutMAX):
-                    print('File not found.')
+            if not os.path.exists(self._inout_out_path): continue
 
-            self.timeout += 1
+            find = find_in_file(self._inout_out_path,
+                            __class__._config['well_finished_strings'])
+            if find:
+                if not_found:
+                    lg.warning('Final energy for file {} found!!'.format(self._inout_out_path))
+                return float(find.split()[5])
 
 
     def _move_data(self):
-        shutil.move('PARAM_UNF.dat', self._wb97x_saves)
-        shutil.move('dDsC_PAR', self._ddsc_saves)
+        dens_orig = os.path.join(__class__._config['tmp_density_dir'], self.molID+'.dens')
+        ddsc_orig = os.path.join(__class__._config['tmp_density_dir'], self.molID+'.ddsc')
+        while True:
+            time.sleep(__class__._config['dormi'])
+            allfile = True
+            for filep in [dens_orig, ddsc_orig]:
+                try:
+                    file_exists(filep)
+                except FileNotFoundError:
+                    allfile = False
+            if allfile: break
+        shutil.move(dens_orig, self._wb97x_saves)
+        shutil.move(ddsc_orig, self._ddsc_saves)
 
     def _write_sbatch(self):
         input_path, input_file = os.path.split(self._inout_inp_path)
@@ -176,27 +200,31 @@ class Run(object):
                    BIN=__class__._config['gamess_bin'])
         txt += 'joberror=$?\n'
         txt += 'cp -r $SLURM_TMPDIR/PARAM_UNF.dat {DENSITY_DEST}\n'.\
-            format(DENSITY_DEST='')
+            format(DENSITY_DEST=os.path.join(__class__._config['tmp_density_dir'], self.molID+'.dens'))
         txt += 'cp -r $SLURM_TMPDIR/dDsC_PAR {dDSC_DEST}\n'.\
-            format(dDSC_DEST='')
+            format(dDSC_DEST=os.path.join(__class__._config['tmp_density_dir'], self.molID+'.ddsc'))
         txt += 'exit\n'
 
         with open(self._sbatch_file, 'w') as f:
             f.write(txt)
 
     def full(self):
-        command = shlex.split('/bin/sbatch {SBATCH_FILE:s}'
-                              .format(SBATCH_FILE=self._sbatch_file))
+        command = shlex.split('{COMMAND:s} {SBATCH_FILE:s}'
+                              .format(COMMAND=__class__._config['command_full'],
+                                      SBATCH_FILE=self._sbatch_file))
         self._write_input()
         self._write_sbatch()
         self._run(command)
-#        self._readout()
-#        self._move_data()
-        return 2000.0
+        energy = self._readout()
+        self._move_data()
+        return energy
 
     def func(self):
-        command = ['./START.x']
-#        self._run(command)
+        command = shlex.split('{COMMAND:s} {DENS:s} {DDSC:s}'
+                              .format(COMMAND=__class__._config['command_func'],
+                                      DENS=self._wb97x_saves,
+                                      DDSC=self._ddsc_saves))
+        self._run(command)
 #        self._readout()
         return 1000.0
 

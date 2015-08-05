@@ -22,7 +22,7 @@ def main():
     #init computation
     Run(run_name=config['Name'], tset_path=config['TraininSetPath']).index='DENS-0000'
     trset = TrainingSet(config['TraininSetPath'], config['TraininSetName'])
-    print(trset.container[0].container[0].compute_MAE('fulldft'))
+    print(trset.container[0].container[0].compute_MAE('func'))
 #    print(trset.compute_MAE('fulldft'))
 
 

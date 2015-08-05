@@ -38,7 +38,7 @@ __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
 
 config = dict(Processes_Func=50,
-              Processes_Full=1000)
+              Processes_Full=10)
 
 
 class MolSet(object):
@@ -165,14 +165,14 @@ class Molecule(object):
 
     @property
     def full_energy(self):
-        return self._full_energy
+        return self.full_energy
 
     @full_energy.getter
     def full_energy(self):
-        self._fulldft_energy()
-        return self._full_energy
+        return self.full_energy_calc()
 
-    def _fulldft_energy(self):
+
+    def full_energy_calc(self):
         """Retrieve the energy at fulldft level.
 
         Check if the parameters are changed from the last computation and in
@@ -184,13 +184,14 @@ class Molecule(object):
         """
         lg.debug('Full Energy for {ID:s} started'.format(ID=self.id))
         lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
-                 .format(str(self._full_energy), str(self.myprm.check_prms)))
+                 .format(str(self._full_energy), str(self.myprm.check_prms())))
         if not self._full_energy or not self.myprm.check_prms():
             print('Compute the BigGamess energy. If problem return None')
             self.myprm.refresh()
             self._full_energy = self._run.full()
             lg.debug('Full Energy for {ID:s} is {ENERGY:12.6f}'
                      .format(ID=self.id, ENERGY=self._full_energy))
+        return self._full_energy
 
 
     @property
@@ -199,10 +200,9 @@ class Molecule(object):
 
     @func_energy.getter
     def func_energy(self):
-        self._functional_energy()
-        return self._func_energy
+        return self.func_energy_calc()
     
-    def _functional_energy(self):
+    def func_energy_calc(self):
         """Retrieve the energy computed with the optimized density.
 
         Check if the parameters are changed from the last computation and in
@@ -213,12 +213,15 @@ class Molecule(object):
             func_energy if successfull, 0.00 otherwise
         """
 
+        lg.debug('Func Energy for {ID:s} started'.format(ID=self.id))
+        lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
+                 .format(str(self._full_energy), str(self.myprm.check_prms())))
         if not self._func_energy or not self.myprm.check_prms():
             self.myprm.refresh()
             self._func_energy = self._run.func()
             lg.debug('Func Energy for {ID:s} is {ENERGY:12.6f}'
                      .format(ID=self.id, ENERGY=self._func_energy))
-            
+        return self._func_energy
 
 
 class System(object):
@@ -349,7 +352,7 @@ class System(object):
             enr += coef * enrgs[i]
         return enr * 627.5096080305927
 
-    def fulldft_energy(self):
+    def full_energy(self):
         """Compute the full dft energy for the system.
 
         This method provides the right molecular energies to the _apply_rule
@@ -363,6 +366,25 @@ class System(object):
         enrgs = []
         for mol in self.needed_mol:
             enrgs.append(mol.full_energy)
+        return self._apply_rule(enrgs)
+
+    def p_full_energy(self):
+        """Compute the full dft energy for the system.
+
+        This method provides the right molecular energies to the _apply_rule
+        method and check if the system is blacklisted.
+
+        Return: The energy of the system.
+
+        """
+#        return self.random_noise_result()
+        if self.blacklisted: self.blacklisted_error()
+        enrgs = []
+        my_pool = mproc.MyPool()
+        output = [my_pool.apply_async(mol.full_energy_calc)
+                  for mol in self.needed_mol]
+        enrgs = [p.get() for p in output]
+
         return self._apply_rule(enrgs)
 
     def func_energy(self):
@@ -404,20 +426,21 @@ class System(object):
             msg = 'System: {} - Calling fulldft even for func_energy'.\
                 format(self.id)
             lg.warning(msg)
-            return self.fulldft_energy()
+            return self.p_fulldft_energy()
         my_pool = mproc.MyPool(processes=config['Processes_Func'])
-        output = [my_pool.apply_async(mol.functional_energy)
+        output = [my_pool.apply_async(mol.func_energy_calc)
                   for mol in self.needed_mol]
         enrgs = [p.get() for p in output]
+
         return self._apply_rule(enrgs)
 
-    def fulldft_energy_error(self):
+    def full_energy_error(self):
         """Provide the fulldft energy error for this system.
 
         Return: The error in the fulldft energy computation
 
         """
-        return self.fulldft_energy() - self.ref_ener
+        return self.p_full_energy() - self.ref_ener
 
     def func_energy_error(self):
         """Provide the func energy error for this system.
@@ -436,14 +459,11 @@ class System(object):
             kind (str): Can be func or fulldft
 
         """
-        import time
-        time.sleep(4)
-        print('Sleeping 4 sec in {}!'.format(self.id))
 
         if kind == 'func':
             return self.func_energy_error()
-        elif kind == 'fulldft':
-            return self.fulldft_energy_error()
+        elif kind == 'full':
+            return self.full_energy_error()
         else:
             msg = 'Critical error in implementation!'
             lg.critical(msg)
@@ -460,7 +480,7 @@ class System(object):
         """
         if kind == 'func':
             return self.func_energy_error()
-        elif kind == 'fulldft':
+        elif kind == 'full':
             return self.fulldft_energy_error()
         else:
             msg = 'Critical error in implementation!'
@@ -479,8 +499,8 @@ class System(object):
 
         if kind == 'func':
             return self.func_energy_error() / self.ref_ener
-        elif kind == 'fulldft':
-            return self.fulldft_energy_error() / self.ref_ener
+        elif kind == 'full':
+            return self.full_energy_error() / self.ref_ener
         else:
             msg = 'Critical error in implementation!'
             lg.critical(msg)
