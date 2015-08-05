@@ -46,18 +46,22 @@ def file_exists(filep):
 
 
 def find_in_file(filep, strings_):
+    found_line = []
     with open(filep, mode='r') as f:
         s = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
     if isinstance(strings_, list):
         for string_ in strings_:
             result = s.find(string_)
             if result != -1:
-                break
+                s.seek(result)
+                found_line.append(s.readline())
+                s.seek(0)
+            else:
+                found_line.append(None)
     else:
         result = s.find(strings_)
-
-    if result != -1:
         s.seek(result)
-        return s.readline()
+        found_line.append(s.readline())
 
-    return None
+    return found_line
+

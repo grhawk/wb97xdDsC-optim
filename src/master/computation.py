@@ -72,7 +72,8 @@ class Run(object):
     _inout_id = None
     _run_name = None
     _tset_path = None
-    _config = dict(dormi=5,
+    _config = dict(dormi=30,
+                   dormi_short=3,
                    timeout_max=10,
                    densities_repo='/home/petragli/tmp_density_dir',
                    gamess_bin='/home/petragli/wb97xddsc/gamess-opt/GAMESS',
@@ -80,7 +81,8 @@ class Run(object):
                    sbatch_script_prefix='/home/petragli/wb97xddsc/TMP_DATA',
                    tmp_density_dir='/home/petragli/wb97xddsc/TMP_DATA',
                    well_finished_strings=[b'exit gracefully',
-                                          b'FINAL ENERGY INCLUDING dDsC DISPERSION:'],
+                                          b'FINAL ENERGY INCLUDING dDsC DISPERSION:',
+                                          b''],
                    command_full = '/bin/sbatch',
                    command_func = '/home/petragli/wb97xddsc/gamess-opt/mini-gamess/STARTall.x'
                    )
@@ -136,7 +138,7 @@ class Run(object):
 
     def _run(self, command):
         lg.debug('Should run {}'.format(command))
-        subprocess.call(command)
+        return subprocess.check_output(command)
 
     def _readout(self):
         timeout = 0
@@ -152,17 +154,17 @@ class Run(object):
 
             find = find_in_file(self._inout_out_path,
                             __class__._config['well_finished_strings'])
-            if find:
+            if find[1]:
                 if not_found:
                     lg.warning('Final energy for file {} found!!'.format(self._inout_out_path))
-                return float(find.split()[5])
+                return float(find[1].split()[5])
 
 
     def _move_data(self):
         dens_orig = os.path.join(__class__._config['tmp_density_dir'], self.molID+'.dens')
         ddsc_orig = os.path.join(__class__._config['tmp_density_dir'], self.molID+'.ddsc')
         while True:
-            time.sleep(__class__._config['dormi'])
+            time.sleep(__class__._config['dormi_short'])
             allfile = True
             for filep in [dens_orig, ddsc_orig]:
                 try:
@@ -220,13 +222,19 @@ class Run(object):
         return energy
 
     def func(self):
-        command = shlex.split('{COMMAND:s} {DENS:s} {DDSC:s}'
+        wb97x_param = os.path.join(__class__._config['params_dir'], 'FUNC_PAR.dat')
+        ddsc_param = os.path.join(__class__._config['params_dir'], 'a0b0')
+        command = shlex.split('{COMMAND:s} {WB97X_DATA:s} {DDSC_DATA:s} {WB97X_PARAM:s} {DDSC_PARAM:s}'
                               .format(COMMAND=__class__._config['command_func'],
-                                      DENS=self._wb97x_saves,
-                                      DDSC=self._ddsc_saves))
-        self._run(command)
-#        self._readout()
-        return 1000.0
+                                      WB97X_DATA=self._wb97x_saves,
+                                      DDSC_DATA=self._ddsc_saves,
+                                      WB97X_PARAM=wb97x_param,
+                                      DDSC_PARAM=ddsc_param))
+
+        exc, edisp = self._run(command).split()[1:4:2]
+        exc, edisp = float(exc), float(edisp)
+        print(exc, edisp)
+        return exc + edisp
 
 
 

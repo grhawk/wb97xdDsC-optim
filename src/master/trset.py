@@ -380,6 +380,7 @@ class System(object):
 #        return self.random_noise_result()
         if self.blacklisted: self.blacklisted_error()
         enrgs = []
+        #Fix: Add a number to the maximum processes!!!
         my_pool = mproc.MyPool()
         output = [my_pool.apply_async(mol.full_energy_calc)
                   for mol in self.needed_mol]
@@ -448,7 +449,7 @@ class System(object):
         Return: The error in the func energy computation
 
         """
-        return self.func_energy() - self.ref_ener
+        return self.p_func_energy() - self.ref_ener
 
     def p_compute_MAE(self, kind):
         """Absolute error for the system.
