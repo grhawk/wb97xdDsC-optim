@@ -37,7 +37,7 @@ __maintainer__ = 'Riccardo Petraglia'
 __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
 
-config = dict(Processes_Func=50,
+config = dict(Processes_Func=16,
               Processes_Full=10)
 
 
