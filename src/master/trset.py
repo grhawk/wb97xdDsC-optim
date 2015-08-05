@@ -17,7 +17,7 @@ import os
 import sys
 import copy
 import mproc
-import computation
+from computation import Run
 
 # Try determining the version from git:
 try:
@@ -132,12 +132,10 @@ class Molecule(object):
         self.xyzp = os.path.abspath(path)
         self.belonging_dataset = None
         self.myprm = params.Parameters()
-        self.dft_energy = None
-        self.func_energy = None
+        self._full_energy = None
+        self._func_energy = None
         self._molecule_creator()
-        self._run = computation.Run(self.id, self.belonging_dataset)
-        # self._runGamess = computation.RunGamess()
-        # self._runFunc = computation.RunAll()
+        self._run = Run(molID=self.id, dset=self.belonging_dataset)
 
     def __str__(self):
         """Return a human readable string when the object is printed.
@@ -165,7 +163,16 @@ class Molecule(object):
         """.format(DATASET=self.belonging_dataset, NAME=self.name, ID=self.id,
                    PATH=self.xyzp))
 
-    def fulldft_energy(self):
+    @property
+    def full_energy(self):
+        return self._full_energy
+
+    @full_energy.getter
+    def full_energy(self):
+        self._fulldft_energy()
+        return self._full_energy
+
+    def _fulldft_energy(self):
         """Retrieve the energy at fulldft level.
 
         Check if the parameters are changed from the last computation and in
@@ -175,13 +182,27 @@ class Molecule(object):
         Returns:
             dft_energy if successfull, 0.00 otherwise
         """
-
-        if self.dft_energy or not self.myprm.check_prsm():
+        lg.debug('Full Energy for {ID:s} started'.format(ID=self.id))
+        lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
+                 .format(str(self._full_energy), str(self.myprm.check_prms)))
+        if not self._full_energy or not self.myprm.check_prms():
             print('Compute the BigGamess energy. If problem return None')
             self.myprm.refresh()
-        return self.dft_energy
+            self._full_energy = self._run.full()
+            lg.debug('Full Energy for {ID:s} is {ENERGY:12.6f}'
+                     .format(ID=self.id, ENERGY=self._full_energy))
 
-    def funtional_energy(self):
+
+    @property
+    def func_energy(self):
+        return self._func_energy
+
+    @func_energy.getter
+    def func_energy(self):
+        self._functional_energy()
+        return self._func_energy
+    
+    def _functional_energy(self):
         """Retrieve the energy computed with the optimized density.
 
         Check if the parameters are changed from the last computation and in
@@ -192,11 +213,12 @@ class Molecule(object):
             func_energy if successfull, 0.00 otherwise
         """
 
-        if self.func_energy or not self.myprm.validity():
-            print('Compute the SmallGamess energy. If problem return None')
+        if not self._func_energy or not self.myprm.check_prms():
             self.myprm.refresh()
-            self._runFunc
-        return self.func_energy
+            self._func_energy = self._run.func()
+            lg.debug('Func Energy for {ID:s} is {ENERGY:12.6f}'
+                     .format(ID=self.id, ENERGY=self._func_energy))
+            
 
 
 class System(object):
@@ -340,7 +362,7 @@ class System(object):
         if self.blacklisted: self.blacklisted_error()
         enrgs = []
         for mol in self.needed_mol:
-            enrgs.append(mol.fulldft_energy())
+            enrgs.append(mol.full_energy)
         return self._apply_rule(enrgs)
 
     def func_energy(self):
@@ -362,7 +384,7 @@ class System(object):
             return self.fulldft_energy()
         enrgs = []
         for mol in self.needed_mol:
-            enrgs.append(mol.func_energy())
+            enrgs.append(mol.func_energy)
         return self._apply_rule(enrgs)
 
     def p_func_energy(self):
@@ -418,6 +440,24 @@ class System(object):
         time.sleep(4)
         print('Sleeping 4 sec in {}!'.format(self.id))
 
+        if kind == 'func':
+            return self.func_energy_error()
+        elif kind == 'fulldft':
+            return self.fulldft_energy_error()
+        else:
+            msg = 'Critical error in implementation!'
+            lg.critical(msg)
+            raise NotImplementedError(msg)
+
+    def compute_MAE(self, kind):
+        """Absolute error for the system.
+
+        The name is to exploit a python feature in the Set class.
+
+        Args:
+            kind (str): Can be func or fulldft
+
+        """
         if kind == 'func':
             return self.func_energy_error()
         elif kind == 'fulldft':

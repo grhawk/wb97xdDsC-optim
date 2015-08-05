@@ -7,17 +7,23 @@ import logging as lg
 sys.path.append('/home/petragli/wb97xddsc/gamess-opt/wb97xdDsC-optim/src/master')
 
 from trset import TrainingSet
+from computation import Run
 
 config = dict(TraininSetPath = '../example/trset-tree-example/',
               TraininSetName = 'trset-tree-example',
+              Name = 'test1',
               logfile = 'logging.log',
               loglevel = 'DEBUG',
+              
               )
 
 def main():
     init_logging()
+    #init computation
+    Run(run_name=config['Name'], tset_path=config['TraininSetPath']).index='DENS-0000'
     trset = TrainingSet(config['TraininSetPath'], config['TraininSetName'])
-    print(trset.compute_MAE('func'))
+    print(trset.container[0].container[0].compute_MAE('fulldft'))
+#    print(trset.compute_MAE('fulldft'))
 
 
 def init_logging():

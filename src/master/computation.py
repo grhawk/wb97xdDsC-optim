@@ -70,6 +70,8 @@ __status__ = 'development'
 class Run(object):
 
     _inout_id = None
+    _run_name = None
+    _tset_path = None
     _config = dict(dormi=60,
                    timout=0,
                    timeout_max=10,
@@ -80,35 +82,52 @@ class Run(object):
                    well_finished_strings=[b'exit gracefully'],
                    )
 
-    def __init__(self, molID=None, dset_path=None):
+    def __init__(self, molID=None, dset=None, run_name=None, tset_path=None):
 
-        if molID and dset_path:
-            self._inout_path = os.path.join(dset_path, 'inout', __class__._inout_id)
+        if molID and dset and not run_name and not tset_path:
+            if not __class__._run_name or not __class__._tset_path:
+                msg = 'run_name has to be specified before to instance a useful class!'
+                lg.critical(msg)
+                raise RuntimeError(msg)
+            self._inout_path = os.path.join(__class__._run_name, dset, 'inout', __class__._inout_id)
             self._inout_path = os.path.abspath(self._inout_path)
             if not os.path.isdir(self._inout_path):
                 os.makedirs(self._inout_path)
 
-            self._xyzp = os.path.join(dset_path, 'geometry', molID.split('.')[1])
+            self._xyzp = os.path.join(__class__._tset_path, dset, 'geometry', molID.split('.')[1]+'.xyz')
 
             self._inout_inp_path = os.path.join(self._inout_path, molID + '.inp')
             self._inout_out_path = os.path.join(self._inout_path, molID + '.log')
             self.molID = molID
-            self._wb97x_saves = os.path.join(__class__.config['densities_repo'],
+            self._wb97x_saves = os.path.join(__class__._config['densities_repo'],
                                      self.molID + '.wb97x')
-            self._ddsc_saves = os.path.join(__class__.config['densities_repo'],
+            self._ddsc_saves = os.path.join(__class__._config['densities_repo'],
                                      self.molID + '.ddsc')
             self._sbatch_file = \
                 os.path.join(__class__._config['sbatch_script_prefix'], self.molID)
+        elif not molID and not dset and run_name and tset_path:
+            __class__._run_name = run_name
+            __class__._tset_path = tset_path
+        else:
+            msg = 'You cannot specify run_name, dset_path and molID all together in Run'
+            lg.critical(msg)
+            raise AttributeError(msg)
 
+    @property
+    def index(self):
+        return __class__._inout_id
 
+    @index.setter
+    def index(self, index):
+        lg.debug('Index set to {}'.format(index))
+        __class__._inout_id = index
 
     def _write_input(self):
         Input(self._xyzp).write(self._inout_inp_path)
 
     def _run(self, command):
-        print('Should run {}'.format(command))
-        out = open(self.name + "log", mode='w')
-        subprocess.call(self.command, stdout=out)
+        lg.debug('Should run {}'.format(command))
+        subprocess.call(command)
 
     def _readout(self):
         while True:
@@ -131,51 +150,55 @@ class Run(object):
         shutil.move('dDsC_PAR', self._ddsc_saves)
 
     def _write_sbatch(self):
-        txt = '#!/bin/bash'
-        txt += '#SBATCH -J {TITLE:s}'.format(TITLE=self.molID)
-        txt += '#SBATCH -o /home/petragli/err/{TITLE:s}.stdout_%j'.\
+        input_path, input_file = os.path.split(self._inout_inp_path)
+        txt = '#!/bin/bash\n'
+        txt += '#SBATCH -J {TITLE:s}\n'.format(TITLE=self.molID)
+        txt += '#SBATCH -o /home/petragli/err/{TITLE:s}.stdout_%j\n'.\
             format(TITLE=self.molID)
-        txt += '#SBATCH -e /home/petragli/err/{TITLE:s}.stderr_%j'.\
+        txt += '#SBATCH -e /home/petragli/err/{TITLE:s}.stderr_%j\n'.\
             format(TITLE=self.molID)
-        txt += '#SBATCH --mem=8000'
-        txt += '#SBATCH --nodes=1'
-        txt += '#SBATCH --ntasks-per-node=1'
-        txt += 'source /software/ENV/set_mkl-110.sh'
-        txt += 'source /software/ENV/set_impi_410.sh'
-        txt += 'export EXTBAS=/dev/null'
-        txt += 'export SLURM_NODEFILE=$SLURM_TMPDIR/machines'
-        txt += 'srun --ntasks=$SLURM_NNODES hostname -s > $SLURM_NODEFILE'
-        txt += 'cd $SLURM_SUBMIT_DIR'
-        txt += 'cp {PARAMS_DIR:s}/a0b0 $SLURM_TMPDIR'.\
+        txt += '#SBATCH --mem=8000\n'
+        txt += '#SBATCH --nodes=1\n'
+        txt += '#SBATCH --ntasks-per-node=1\n'
+        txt += 'source /software/ENV/set_mkl-110.sh\n'
+        txt += 'source /software/ENV/set_impi_410.sh\n'
+        txt += 'export EXTBAS=/dev/null\n'
+        txt += 'export SLURM_NODEFILE=$SLURM_TMPDIR/machines\n'
+        txt += 'srun --ntasks=$SLURM_NNODES hostname -s > $SLURM_NODEFILE\n'
+        txt += 'cd {INPUT_PATH:s}\n'.format(INPUT_PATH=input_path)
+        txt += 'cp {PARAMS_DIR:s}/a0b0 $SLURM_TMPDIR\n'.\
             format(PARAMS_DIR=__class__._config['params_dir'])
-        txt += 'cp {PARAMS_DIR:s}/FUNC_PAR.dat $SLURM_TMPDIR'.\
+        txt += 'cp {PARAMS_DIR:s}/FUNC_PAR.dat $SLURM_TMPDIR\n'.\
             format(PARAMS_DIR=__class__._config['params_dir'])
-        txt += '{BIN:s}/rungmsQUEUE {INPUT:s} 00 1 $SLURM_CPUS_ON_NODE &> {OUTPUT:s}'.\
-            format(INPUT=self._inout_inp_path,
+        txt += '{BIN:s}/rungmsQUEUE {INPUT:s} 00 1 $SLURM_CPUS_ON_NODE &> {OUTPUT:s}\n'.\
+            format(INPUT=input_file,
                    OUTPUT=self._inout_out_path,
-                   BIN=__class__._config['GAMESS_BIN'])
-        txt += 'joberror=$?'
-        txt += 'cp -r $SLURM_TMPDIR/PARAM_UNF.dat {DENSITY_DEST}'.\
+                   BIN=__class__._config['gamess_bin'])
+        txt += 'joberror=$?\n'
+        txt += 'cp -r $SLURM_TMPDIR/PARAM_UNF.dat {DENSITY_DEST}\n'.\
             format(DENSITY_DEST='')
-        txt += 'cp -r $SLURM_TMPDIR/dDsC_PAR {dDSC_DEST}'.\
+        txt += 'cp -r $SLURM_TMPDIR/dDsC_PAR {dDSC_DEST}\n'.\
             format(dDSC_DEST='')
-        txt += 'exit'
+        txt += 'exit\n'
 
         with open(self._sbatch_file, 'w') as f:
             f.write(txt)
 
-    def fulldft(self):
+    def full(self):
         command = shlex.split('/bin/sbatch {SBATCH_FILE:s}'
-                              .format(self._sbatch_file))
+                              .format(SBATCH_FILE=self._sbatch_file))
         self._write_input()
+        self._write_sbatch()
         self._run(command)
-        self._readout()
-        self._move_data()
+#        self._readout()
+#        self._move_data()
+        return 2000.0
 
     def func(self):
         command = ['./START.x']
-        self._run(command)
-        self._readout()
+#        self._run(command)
+#        self._readout()
+        return 1000.0
 
 
 

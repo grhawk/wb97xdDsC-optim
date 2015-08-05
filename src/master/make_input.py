@@ -120,7 +120,7 @@ class Input(object):
         self.gamess = {'BASIS': dict(GBASIS='',
                                      NGAUSS=''),
                        'CONTRL': dict(EXETYP='RUN',
-                                      SCFTYP='RHF',
+                                      SCFTYP='ROHF',
                                       RUNTYP='ENERGY',
                                       DFTTYP='wB97X',
                                       MAXIT='200',),
@@ -131,7 +131,17 @@ def atnum(atom_label):
     at_num = dict(O=8,
                   H=1,
                   C=6,
-                  S=16,)
+                  S=16,
+                  N=7,
+                  Al=13,
+                  Cl=17,
+                  F=9,
+                  B=5,
+                  Be=4,
+                  Si=14,
+                  Li=3,
+                  Na=11,
+                  P=15)
     if not (atom_label in at_num):
         lg_msg = 'Number of electons not defined for {}.'.format(atom_label)
         lg.critical(lg_msg)
