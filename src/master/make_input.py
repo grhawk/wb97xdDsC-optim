@@ -50,7 +50,7 @@ class Input(object):
         self.z = []
         self.charge = ''
         self.multiplicity = ''
-        self.title = ''
+        self.title = 'Should be setted!'
 
         self._template()
 
@@ -101,20 +101,30 @@ class Input(object):
 
     def write(self, filep):
         self._building_data()
-        txt = ''
+        self._set_keyword_based_on_structures()
+        txt = []
         for kw in self.gamess:
-            txt += ' $' + kw + ' '
             if kw == 'DATA':
-                txt += '\n'
-                txt += '\n'.join(self.gamess['DATA'])
-                txt += '\n $END\n'
+                txt.append(' $' + kw)
+                txt.append('\n'.join(self.gamess['DATA']))
+                txt.append(' $END')
                 continue
+            txt_line = (' $' + kw + ' ')
             for k, v in self.gamess[kw].items():
-                txt += str(k) + '=' + str(v) + ' '
-            txt += '$END\n'
+                txt_line += str(k) + '=' + str(v) + ' '
+                if len(txt_line) > 60:
+                    txt.append(txt_line)
+                    txt_line = ''
+            txt_line += '$END'
+            txt.append(txt_line)
 
         with open(filep, 'w') as outfp:
-            outfp.write(txt)
+            outfp.write('\n'.join(txt))
+
+    def _set_keyword_based_on_structures(self):
+        self.gamess['CONTRL']['ICHARG'] = self.charge
+        self.gamess['CONTRL']['MULT'] = self.multiplicity
+        
 
     def _template(self):
         self.gamess = {'BASIS': dict(GBASIS='',
@@ -123,10 +133,13 @@ class Input(object):
                                       SCFTYP='ROHF',
                                       RUNTYP='ENERGY',
                                       DFTTYP='wB97X',
-                                      MAXIT='200',),
+                                      MAXIT='200',
+                                      ICHARG='',
+                                      MULT=''),
                        'DATA': [],
                        'DFT': dict(DDSC='.t.'),
-                       'SYSTEM': dict(MWORDS='8')}
+                       'SYSTEM': dict(MWORDS='8'),
+                       'SCF': dict(DIRSCF='.t.')}
 
 
 def atnum(atom_label):
