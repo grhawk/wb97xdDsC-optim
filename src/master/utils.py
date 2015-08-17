@@ -39,7 +39,7 @@ def file_exists(filep):
     if not os.path.isfile(filep):
         lg_msg = 'File {} does not exist!'.format(filep)
         lg.critical(lg_msg)
-        raise(FileNotFoundError(lg_msg))
+        raise FileNotFoundError(lg_msg)
 
     lg.debug('{} found!'.format(filep))
     return True
@@ -47,9 +47,17 @@ def file_exists(filep):
 
 def find_in_file(filep, strings_):
     found_line = []
+    returnNone = False
     with open(filep, mode='r') as f:
-        s = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+        try:
+            s = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+        except ValueError:
+            lg.warning('File {} empty... try increasing sleep time'
+                       .format(filep))
+            returnNone = True
     if isinstance(strings_, list):
+        if returnNone:
+            return [None] * len(strings_)
         for string_ in strings_:
             result = s.find(string_)
             if result != -1:
@@ -58,10 +66,14 @@ def find_in_file(filep, strings_):
                 s.seek(0)
             else:
                 found_line.append(None)
-    else:
+    elif isinstance(strings_, str):
+        if returnNone:
+            return [None]
         result = s.find(strings_)
         s.seek(result)
         found_line.append(s.readline())
+    else:
+        raise ValueError('The second argument can obly be a string or a list of strings')
 
     return found_line
 
