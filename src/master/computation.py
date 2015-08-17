@@ -72,7 +72,7 @@ class Run(object):
     _inout_id = None
     _run_name = None
     _tset_path = None
-    _config = dict(dormi=30,
+    _config = dict(dormi=1,
                    dormi_short=3,
                    timeout_max=10,
                    densities_repo='/home/petragli/tmp_density_dir',
@@ -82,7 +82,8 @@ class Run(object):
                    tmp_density_dir='/home/petragli/wb97xddsc/TMP_DATA',
                    well_finished_strings=[b'exit gracefully',
                                           b'FINAL ENERGY INCLUDING dDsC DISPERSION:',
-                                          b''],
+                                          b'DFT EXCHANGE + CORRELATION ENERGY =',
+                                          b'Final Energy'],
                    command_full = '/bin/sbatch',
                    command_func = '/home/petragli/wb97xddsc/gamess-opt/mini-gamess/STARTall.x'
                    )
@@ -154,14 +155,14 @@ class Run(object):
 
             find = find_in_file(self._inout_out_path,
                             __class__._config['well_finished_strings'])
-            if find[1]:
+            if find[1] and find[2] and find[3]:
                 if not_found:
                     lg.warning('Final energy for file {} found!!'.format(self._inout_out_path))
-                return float(find[1].split()[5])
+                return (float(find[1].split()[5]), float(find[2].split()[6]), float(find[3].split()[2]))
 
 
     def _move_data(self):
-        dens_orig = os.path.join(__class__._config['tmp_density_dir'], self.molID+'.dens')
+        dens_orig = os.path.join(__class__._config['tmp_density_dir'], self.molID+'.wb97x')
         ddsc_orig = os.path.join(__class__._config['tmp_density_dir'], self.molID+'.ddsc')
         while True:
             time.sleep(__class__._config['dormi_short'])
@@ -179,32 +180,31 @@ class Run(object):
         input_path, input_file = os.path.split(self._inout_inp_path)
         txt = '#!/bin/bash\n'
         txt += '#SBATCH -J {TITLE:s}\n'.format(TITLE=self.molID)
-        txt += '#SBATCH -o /home/petragli/err/{TITLE:s}.stdout_%j\n'.\
-            format(TITLE=self.molID)
-        txt += '#SBATCH -e /home/petragli/err/{TITLE:s}.stderr_%j\n'.\
-            format(TITLE=self.molID)
+        txt += '#SBATCH -o ' + os.path.join(self._inout_path, self.molID+'.stdout') + '\n'
+        txt += '#SBATCH -e ' + os.path.join(self._inout_path, self.molID+'.stderr') + '\n'
         txt += '#SBATCH --mem=8000\n'
         txt += '#SBATCH --nodes=1\n'
         txt += '#SBATCH --ntasks-per-node=1\n'
         txt += 'source /software/ENV/set_mkl-110.sh\n'
         txt += 'source /software/ENV/set_impi_410.sh\n'
         txt += 'export EXTBAS=/dev/null\n'
-        txt += 'export SLURM_NODEFILE=$SLURM_TMPDIR/machines\n'
-        txt += 'srun --ntasks=$SLURM_NNODES hostname -s > $SLURM_NODEFILE\n'
+#        txt += 'export SLURM_NODEFILE=$SLURM_TMPDIR/machines\n'
+#        txt += 'srun --ntasks=$SLURM_NNODES hostname -s > $SLURM_NODEFILE\n'
         txt += 'cd {INPUT_PATH:s}\n'.format(INPUT_PATH=input_path)
         txt += 'cp {PARAMS_DIR:s}/a0b0 $SLURM_TMPDIR\n'.\
             format(PARAMS_DIR=__class__._config['params_dir'])
         txt += 'cp {PARAMS_DIR:s}/FUNC_PAR.dat $SLURM_TMPDIR\n'.\
             format(PARAMS_DIR=__class__._config['params_dir'])
-        txt += '{BIN:s}/rungmsQUEUE {INPUT:s} 00 1 $SLURM_CPUS_ON_NODE &> {OUTPUT:s}\n'.\
+        txt += '{BIN:s}/rungms {INPUT:s} 00 1 &> {OUTPUT:s}\n'.\
             format(INPUT=input_file,
                    OUTPUT=self._inout_out_path,
                    BIN=__class__._config['gamess_bin'])
         txt += 'joberror=$?\n'
         txt += 'cp -r $SLURM_TMPDIR/PARAM_UNF.dat {DENSITY_DEST}\n'.\
-            format(DENSITY_DEST=os.path.join(__class__._config['tmp_density_dir'], self.molID+'.dens'))
+            format(DENSITY_DEST=os.path.join(__class__._config['tmp_density_dir'], self.molID+'.wb97x'))
         txt += 'cp -r $SLURM_TMPDIR/dDsC_PAR {dDSC_DEST}\n'.\
             format(dDSC_DEST=os.path.join(__class__._config['tmp_density_dir'], self.molID+'.ddsc'))
+        txt += 'cp -ar $SLURM_TMPDIR .\n'
         txt += 'exit\n'
 
         with open(self._sbatch_file, 'w') as f:
@@ -217,9 +217,10 @@ class Run(object):
         self._write_input()
         self._write_sbatch()
         self._run(command)
-        energy = self._readout()
+        energies = self._readout()
+        print(energies)
         self._move_data()
-        return energy
+        return energies
 
     def func(self):
         wb97x_param = os.path.join(__class__._config['params_dir'], 'FUNC_PAR.dat')
@@ -231,10 +232,17 @@ class Run(object):
                                       WB97X_PARAM=wb97x_param,
                                       DDSC_PARAM=ddsc_param))
 
-        exc, edisp = self._run(command).split()[1:4:2]
-        exc, edisp = float(exc), float(edisp)
-        print(exc, edisp)
-        return exc + edisp
+        print ('{COMMAND:s} {WB97X_DATA:s} {DDSC_DATA:s} {WB97X_PARAM:s} {DDSC_PARAM:s}'
+                              .format(COMMAND=__class__._config['command_func'],
+                                      WB97X_DATA=self._wb97x_saves,
+                                      DDSC_DATA=self._ddsc_saves,
+                                      WB97X_PARAM=wb97x_param,
+                                      DDSC_PARAM=ddsc_param))
 
+        return (float(self._run(command).split()[1]))
+	
+#        exc, edisp = float(exc), float(edisp)
+#        print(exc, edisp)
+#        return exc + edisp
 
 
