@@ -131,8 +131,10 @@ class Molecule(object):
         self.id = None  # If none there is some problem!
         self.xyzp = os.path.abspath(path)
         self.belonging_dataset = None
-        self.myprm = params.Parameters()
+        self.myprm_full = params.Parameters()
+        self.myprm_func = params.Parameters()
         self._full_energy = None
+        self._uni_energy = None
         self._func_energy = None
         self._molecule_creator()
         self._run = Run(molID=self.id, dset=self.belonging_dataset)
@@ -165,11 +167,12 @@ class Molecule(object):
 
     @property
     def full_energy(self):
-        return self.full_energy
+        return self._full_energy
 
     @full_energy.getter
     def full_energy(self):
-        return self.full_energy_calc()
+        self._full_energy = self.full_energy_calc()[0]
+        return self._full_energy
 
 
     def full_energy_calc(self):
@@ -184,15 +187,28 @@ class Molecule(object):
         """
         lg.debug('Full Energy for {ID:s} started'.format(ID=self.id))
         lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
-                 .format(str(self._full_energy), str(self.myprm.check_prms())))
-        if not self._full_energy or not self.myprm.check_prms():
+                 .format(str(self._full_energy), str(self.myprm_full.check_prms())))
+        refresh_myprm_full = False
+        if not self._full_energy or not self.myprm_full.check_prms():
             print('Compute the BigGamess energy. If problem return None')
-            self.myprm.refresh()
-            self._full_energy = self._run.full()
-            lg.debug('Full Energy for {ID:s} is {ENERGY:12.6f}'
-                     .format(ID=self.id, ENERGY=self._full_energy))
-        return self._full_energy
+            full_energy, full_exc, full_disp = self._run.full()
+            uni_energy = full_energy - full_exc - full_disp
+            lg.debug('Full Energy for {ID:s} is {ENERGY:12.6f} and UNIENERGY is{UNIENERGY:12.6f}'
+                     .format(ID=self.id, ENERGY=full_energy, UNIENERGY=uni_energy))
+            self._full_energy = full_energy
+            self._uni_energy = uni_energy
+            self.myprm_full.refresh()
+            refresh_myprm_full = True
 
+        return self._full_energy, refresh_myprm_full, self._uni_energy
+
+    def set_full_energy_results(self, tuple_):
+        self._full_energy = tuple_[0]
+        self._uni_energy = tuple_[2]
+        if tuple_[1]:
+            self.myprm_full.refresh()
+            
+        
 
     @property
     def func_energy(self):
@@ -200,7 +216,8 @@ class Molecule(object):
 
     @func_energy.getter
     def func_energy(self):
-        return self.func_energy_calc()
+        self._func_energy = self.func_energy_calc()[0]
+        return self._func_energy
     
     def func_energy_calc(self):
         """Retrieve the energy computed with the optimized density.
@@ -215,13 +232,23 @@ class Molecule(object):
 
         lg.debug('Func Energy for {ID:s} started'.format(ID=self.id))
         lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
-                 .format(str(self._full_energy), str(self.myprm.check_prms())))
-        if not self._func_energy or not self.myprm.check_prms():
-            self.myprm.refresh()
-            self._func_energy = self._run.func()
+                 .format(str(self._full_energy), str(self.myprm_func.check_prms())))
+        refresh_myprm_func = False
+        if not self._func_energy or not self.myprm_func.check_prms():
+            func_energy = self._run.func()
             lg.debug('Func Energy for {ID:s} is {ENERGY:12.6f}'
-                     .format(ID=self.id, ENERGY=self._func_energy))
-        return self._func_energy
+                     .format(ID=self.id, ENERGY=func_energy))
+
+            self.myprm_func.refresh()
+            self._func_energy = func_energy + self._uni_energy
+            refresh_myprm_func = True
+
+        return self._func_energy, refresh_myprm_func
+
+    def set_func_energy_results(self, tuple_):
+        self._func_energy = tuple_[0]
+        if tuple_[1]:
+            self.myprm_func.refresh()
 
 
 class System(object):
@@ -384,8 +411,14 @@ class System(object):
         my_pool = mproc.MyPool()
         output = [my_pool.apply_async(mol.full_energy_calc)
                   for mol in self.needed_mol]
-        enrgs = [p.get() for p in output]
-
+        enrgs_plus = [p.get() for p in output]
+        print('FULL ENERGY PLUS:', enrgs_plus)
+        for i,mol in enumerate(self.needed_mol):
+            mol.set_full_energy_results(enrgs_plus[i])
+            mol._uni_energy
+        enrgs = list(map(lambda x: x[0], enrgs_plus))
+        print('FULL ENERGY LIST:', enrgs)
+        print('FULL APPLY RULE:', self._apply_rule(enrgs))
         return self._apply_rule(enrgs)
 
     def func_energy(self):
@@ -431,7 +464,14 @@ class System(object):
         my_pool = mproc.MyPool(processes=config['Processes_Func'])
         output = [my_pool.apply_async(mol.func_energy_calc)
                   for mol in self.needed_mol]
-        enrgs = [p.get() for p in output]
+        enrgs_plus = [p.get() for p in output]
+        print('FUNC ENERGY PLUS', enrgs_plus)
+        for i,mol in enumerate(self.needed_mol):
+            mol.set_func_energy_results(enrgs_plus[i])
+            mol._uni_energy
+        enrgs = list(map(lambda x: x[0], enrgs_plus))
+        print('FUNC ENERGY LIST', enrgs)
+        print('FUNC APPLY RULE:', self._apply_rule(enrgs))        
 
         return self._apply_rule(enrgs)
 
@@ -579,15 +619,15 @@ class Set(object):
                   for el in self.container]
         results = [p.get() for p in output]
         for r in results:
-            self.MAE += r
-        self.MAE = self.MAE / len(self.container)
+            self.MAE += abs(r)
+        self.MAE = self.MAE / len(results)
         return self.MAE
 
     def compute_MAE(self, kind):
         self.MAE = 0.0
         for el in self.container:
             self.MAE += abs(el.compute_MAE(kind))
-        self.MAE = self.MAE / len(self.container)
+            self.MAE = self.MAE / float(len(self.container) - len(self.blacklist))
         return self.MAE
 
     def compute_RMSE(self):
