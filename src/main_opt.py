@@ -22,9 +22,16 @@ def main():
     #init computation
     Run(run_name=config['Name'], tset_path=config['TraininSetPath']).index='DENS-0000'
     trset = TrainingSet(config['TraininSetPath'], config['TraininSetName'])
-    print(trset.container[0].p_compute_MAE('full'))
-    print(trset.container[0].p_compute_MAE('func'))
-#    print(trset.compute_MAE('fulldft'))
+    # print(trset.container[0].p_compute_MAE('full'))
+    # print(trset.container[0].p_compute_MAE('func'))
+    print(trset.container[0].container[0].p_compute_MAE('full'))
+    print(trset.container[0].container[0].p_compute_MAE('func'))
+    sys.exit()
+    for mol in trset.container[0].container[0].needed_mol:
+        print(mol.id, mol.full_energy)
+        print(mol.id, mol.full_energy_calc())
+        print(mol.id, mol._uni_energy, mol.func_energy_calc())
+        print(mol.id, mol._uni_energy, mol.func_energy)
 
 
 def init_logging():
