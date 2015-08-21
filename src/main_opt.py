@@ -24,8 +24,8 @@ def main():
     trset = TrainingSet(config['TraininSetPath'], config['TraininSetName'])
     # print(trset.container[0].p_compute_MAE('full'))
     # print(trset.container[0].p_compute_MAE('func'))
-    print(trset.container[0].container[0].p_compute_MAE('full'))
-    print(trset.container[0].container[0].p_compute_MAE('func'))
+    print(trset.container[0].compute_MAE('full'))
+    print(trset.container[0].container[0].compute_MAE('func'))
     sys.exit()
     for mol in trset.container[0].container[0].needed_mol:
         print(mol.id, mol.full_energy)

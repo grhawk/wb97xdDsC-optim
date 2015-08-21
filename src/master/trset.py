@@ -171,7 +171,9 @@ class Molecule(object):
 
     @full_energy.getter
     def full_energy(self):
-        self._full_energy = self.full_energy_calc()[0]
+        refresh_params = False
+        self._full_energy, refresh_params, self.uni_energy =  self.full_energy_calc()
+        if refresh_params: self.myprm_full
         return self._full_energy
 
 
@@ -199,7 +201,6 @@ class Molecule(object):
             self._uni_energy = uni_energy
             self.myprm_full.refresh()
             refresh_myprm_full = True
-
         return self._full_energy, refresh_myprm_full, self._uni_energy
 
     def set_full_energy_results(self, tuple_):
@@ -216,7 +217,9 @@ class Molecule(object):
 
     @func_energy.getter
     def func_energy(self):
-        self._func_energy = self.func_energy_calc()[0]
+        refresh_params = False
+        self._func_energy, refresh_params = self.func_energy_calc()
+        if refresh_params: self.myprm_func.refresh()
         return self._func_energy
     
     def func_energy_calc(self):
@@ -230,6 +233,7 @@ class Molecule(object):
             func_energy if successfull, 0.00 otherwise
         """
 
+        if self._uni_energy == None: exit()
         lg.debug('Func Energy for {ID:s} started'.format(ID=self.id))
         lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
                  .format(str(self._full_energy), str(self.myprm_func.check_prms())))
@@ -240,7 +244,13 @@ class Molecule(object):
                      .format(ID=self.id, ENERGY=func_energy))
 
             self.myprm_func.refresh()
-            self._func_energy = func_energy + self._uni_energy
+            try:
+                self._func_energy = func_energy + self._uni_energy
+            except:
+                self._func_energy = 0.000
+                print('BBBBBBBB',self._func_energy, func_energy, self._uni_energy)
+                sys.exit()
+            
             refresh_myprm_func = True
 
         return self._func_energy, refresh_myprm_func
@@ -393,6 +403,7 @@ class System(object):
         enrgs = []
         for mol in self.needed_mol:
             enrgs.append(mol.full_energy)
+        print('AAAAAAAAAAAA',enrgs)
         return self._apply_rule(enrgs)
 
     def p_full_energy(self):
@@ -412,13 +423,13 @@ class System(object):
         output = [my_pool.apply_async(mol.full_energy_calc)
                   for mol in self.needed_mol]
         enrgs_plus = [p.get() for p in output]
-        print('FULL ENERGY PLUS:', enrgs_plus)
+#        print('FULL ENERGY PLUS:', enrgs_plus)
         for i,mol in enumerate(self.needed_mol):
             mol.set_full_energy_results(enrgs_plus[i])
             mol._uni_energy
         enrgs = list(map(lambda x: x[0], enrgs_plus))
-        print('FULL ENERGY LIST:', enrgs)
-        print('FULL APPLY RULE:', self._apply_rule(enrgs))
+#        print('FULL ENERGY LIST:', enrgs)
+#        print('FULL APPLY RULE:', self._apply_rule(enrgs))
         return self._apply_rule(enrgs)
 
     def func_energy(self):
@@ -465,13 +476,13 @@ class System(object):
         output = [my_pool.apply_async(mol.func_energy_calc)
                   for mol in self.needed_mol]
         enrgs_plus = [p.get() for p in output]
-        print('FUNC ENERGY PLUS', enrgs_plus)
+#        print('FUNC ENERGY PLUS', enrgs_plus)
         for i,mol in enumerate(self.needed_mol):
             mol.set_func_energy_results(enrgs_plus[i])
             mol._uni_energy
         enrgs = list(map(lambda x: x[0], enrgs_plus))
-        print('FUNC ENERGY LIST', enrgs)
-        print('FUNC APPLY RULE:', self._apply_rule(enrgs))        
+#        print('FUNC ENERGY LIST', enrgs)
+#        print('FUNC APPLY RULE:', self._apply_rule(enrgs))        
 
         return self._apply_rule(enrgs)
 
@@ -481,7 +492,7 @@ class System(object):
         Return: The error in the fulldft energy computation
 
         """
-        return self.p_full_energy() - self.ref_ener
+        return self.full_energy() - self.ref_ener
 
     def func_energy_error(self):
         """Provide the func energy error for this system.
@@ -489,7 +500,7 @@ class System(object):
         Return: The error in the func energy computation
 
         """
-        return self.p_func_energy() - self.ref_ener
+        return self.func_energy() - self.ref_ener
 
     def p_compute_MAE(self, kind):
         """Absolute error for the system.
@@ -522,7 +533,7 @@ class System(object):
         if kind == 'func':
             return self.func_energy_error()
         elif kind == 'full':
-            return self.fulldft_energy_error()
+            return self.full_energy_error()
         else:
             msg = 'Critical error in implementation!'
             lg.critical(msg)

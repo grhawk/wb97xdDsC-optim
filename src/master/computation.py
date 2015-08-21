@@ -154,10 +154,14 @@ class Run(object):
             if not os.path.exists(self._inout_out_path): continue
 
             find = find_in_file(self._inout_out_path,
-                            __class__._config['well_finished_strings'])
+                                __class__._config['well_finished_strings'], reversed=True)
+
             if find[1] and find[2] and find[3]:
                 if not_found:
                     lg.warning('Final energy for file {} found!!'.format(self._inout_out_path))
+                if abs(float(find[1].split()[5])) < float(b'0.0E-8'):
+                    print('Problem with energy in GAMESS',float(find[1].split()[5] ))
+                    exit()
                 return (float(find[1].split()[5]), float(find[2].split()[6]), float(find[3].split()[2]))
 
 
@@ -189,8 +193,6 @@ class Run(object):
         txt += 'source /software/ENV/set_mkl-110.sh\n'
         txt += 'source /software/ENV/set_impi_410.sh\n'
         txt += 'export EXTBAS=/dev/null\n'
-#        txt += 'export SLURM_NODEFILE=$SLURM_TMPDIR/machines\n'
-#        txt += 'srun --ntasks=$SLURM_NNODES hostname -s > $SLURM_NODEFILE\n'
         txt += 'cd $SLURM_TMPDIR\n'
         txt += 'cp {INPUTFILE:s} $SLURM_TMPDIR\n'.format(INPUTFILE=self._inout_inp_path)
         txt += 'cp {PARAMS_DIR:s}/a0b0 $SLURM_TMPDIR\n'.\
@@ -220,7 +222,6 @@ class Run(object):
         self._write_sbatch()
 #        self._run(command)
         energies = self._readout()
-        print(energies)
 #        self._move_data()
         return energies
 
