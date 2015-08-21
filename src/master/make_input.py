@@ -137,7 +137,9 @@ class Input(object):
                                       ICHARG='',
                                       MULT=''),
                        'DATA': [],
-                       'DFT': dict(DDSC='.t.'),
+                       'DFT': dict(DDSC='.t.',
+                                   NLEB='110',
+                                   NRAD='24'),
                        'SYSTEM': dict(MWORDS='8'),
                        'SCF': dict(DIRSCF='.t.')}
 
