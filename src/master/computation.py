@@ -220,9 +220,9 @@ class Run(object):
                                       SBATCH_FILE=self._sbatch_file))
         self._write_input()
         self._write_sbatch()
-#        self._run(command)
+        self._run(command)
         energies = self._readout()
-#        self._move_data()
+        self._move_data()
         return energies
 
     def func(self):

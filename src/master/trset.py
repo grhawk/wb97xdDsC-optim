@@ -57,6 +57,17 @@ class MolSet(object):
     container = []
 
     @staticmethod
+    def refresh_mol(mol):
+        k = 0
+        for m in container:
+            if m.id == mol.id:
+                container[k] = mol
+                return mol
+            else:
+                k += 1
+        return None
+
+    @staticmethod
     def get_by_id(my_id):
         """Found a molecule in the container.
 
@@ -166,12 +177,21 @@ class Molecule(object):
                    PATH=self.xyzp))
 
     @property
+    def uni_energy(self):
+        return self._uni_energy
+
+    @uni_energy.getter
+    def uni_energy(self):
+        self.full_energy_calc()
+        return self._uni_energy
+
+    @property
     def full_energy(self):
         return self._full_energy
 
     @full_energy.getter
     def full_energy(self):
-        self._full_energy = self.full_energy_calc()[0]
+        self.full_energy_calc()
         return self._full_energy
 
 
@@ -183,12 +203,11 @@ class Molecule(object):
         return the last computed energy.
 
         Returns:
-            dft_energy if successfull, 0.00 otherwise
+            self
         """
         lg.debug('Full Energy for {ID:s} started'.format(ID=self.id))
         lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
                  .format(str(self._full_energy), str(self.myprm_full.check_prms())))
-        refresh_myprm_full = False
         if not self._full_energy or not self.myprm_full.check_prms():
             print('Compute the BigGamess energy. If problem return None')
             full_energy, full_exc, full_disp = self._run.full()
@@ -198,17 +217,9 @@ class Molecule(object):
             self._full_energy = full_energy
             self._uni_energy = uni_energy
             self.myprm_full.refresh()
-            refresh_myprm_full = True
+#            refresh_myprm_full = True
 
-        return self._full_energy, refresh_myprm_full, self._uni_energy
-
-    def set_full_energy_results(self, tuple_):
-        self._full_energy = tuple_[0]
-        self._uni_energy = tuple_[2]
-        if tuple_[1]:
-            self.myprm_full.refresh()
-            
-        
+        return self #._full_energy, refresh_myprm_full, self._uni_energy
 
     @property
     def func_energy(self):
@@ -216,7 +227,7 @@ class Molecule(object):
 
     @func_energy.getter
     def func_energy(self):
-        self._func_energy = self.func_energy_calc()[0]
+        self.func_energy_calc()
         return self._func_energy
     
     def func_energy_calc(self):
@@ -227,13 +238,12 @@ class Molecule(object):
         return the last computed energy.
 
         Returns:
-            func_energy if successfull, 0.00 otherwise
+            self
         """
 
         lg.debug('Func Energy for {ID:s} started'.format(ID=self.id))
         lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
                  .format(str(self._full_energy), str(self.myprm_func.check_prms())))
-        refresh_myprm_func = False
         if not self._func_energy or not self.myprm_func.check_prms():
             func_energy = self._run.func()
             lg.debug('Func Energy for {ID:s} is {ENERGY:12.6f}'
@@ -241,14 +251,8 @@ class Molecule(object):
 
             self.myprm_func.refresh()
             self._func_energy = func_energy + self._uni_energy
-            refresh_myprm_func = True
 
-        return self._func_energy, refresh_myprm_func
-
-    def set_func_energy_results(self, tuple_):
-        self._func_energy = tuple_[0]
-        if tuple_[1]:
-            self.myprm_func.refresh()
+        return self
 
 
 class System(object):
@@ -300,7 +304,6 @@ class System(object):
         self.blacklisted = False
         self.fulldftlisted = False
         self._system_creator(rule_line)
-#        self.full
 
     def __str__(self):
         """Return a human readable string when the object is printed.
@@ -408,17 +411,21 @@ class System(object):
         if self.blacklisted: self.blacklisted_error()
         enrgs = []
         #Fix: Add a number to the maximum processes!!!
+        print('PARAMETERS BEFORE ENERGY FROM NEEDEDMOL:', self.needed_mol[0].myprm_full.sprms)
+        print('PARAMETERS BEFORE ENERGY FROM MOLSET:', MolSet.container[0].myprm_full.sprms)
         my_pool = mproc.MyPool()
         output = [my_pool.apply_async(mol.full_energy_calc)
                   for mol in self.needed_mol]
-        enrgs_plus = [p.get() for p in output]
-        print('FULL ENERGY PLUS:', enrgs_plus)
-        for i,mol in enumerate(self.needed_mol):
-            mol.set_full_energy_results(enrgs_plus[i])
-            mol._uni_energy
-        enrgs = list(map(lambda x: x[0], enrgs_plus))
+        refreshed_mol = [p.get() for p in output]
+        print('FULL ENERGY PLUS:', refreshed_mol)
+        # for i,mol in enumerate(self.needed_mol):
+        #     mol = refreshed_mol
+        self.needed_mol = copy.deepcopy(refreshed_mol)
+        del(refreshed_mol)
+        enrgs = list(map(lambda x: x.full_energy, self.needed_mol))
         print('FULL ENERGY LIST:', enrgs)
         print('FULL APPLY RULE:', self._apply_rule(enrgs))
+        print('FULL UNI ENERGY:', list(map(lambda x: x.uni_energy, self.needed_mol)))
         return self._apply_rule(enrgs)
 
     def func_energy(self):
@@ -464,12 +471,11 @@ class System(object):
         my_pool = mproc.MyPool(processes=config['Processes_Func'])
         output = [my_pool.apply_async(mol.func_energy_calc)
                   for mol in self.needed_mol]
-        enrgs_plus = [p.get() for p in output]
-        print('FUNC ENERGY PLUS', enrgs_plus)
-        for i,mol in enumerate(self.needed_mol):
-            mol.set_func_energy_results(enrgs_plus[i])
-            mol._uni_energy
-        enrgs = list(map(lambda x: x[0], enrgs_plus))
+        refreshed_mol = [p.get() for p in output]
+        print('FUNC ENERGY PLUS', refreshed_mol)
+        self.needed_mol = copy.deepcopy(refreshed_mol)
+        del(refreshed_mol)
+        enrgs = list(map(lambda x: x.func_energy, self.needed_mol))
         print('FUNC ENERGY LIST', enrgs)
         print('FUNC APPLY RULE:', self._apply_rule(enrgs))        
 
@@ -502,9 +508,11 @@ class System(object):
         """
 
         if kind == 'func':
-            return self.func_energy_error()
+            self.MAE = self.func_energy_error()
+            return self #.func_energy_error()
         elif kind == 'full':
-            return self.full_energy_error()
+            self.MAE = self.full_energy_error()
+            return self #.full_energy_error()
         else:
             msg = 'Critical error in implementation!'
             lg.critical(msg)
@@ -593,9 +601,13 @@ class Set(object):
         self.id = None
         self.blacklist = []  # Will contains system object
         self.fulldftlist = []
-        self.MAE = None
+        self._MAE = None
         self.RMSE = None
         self.MRE = None
+
+    @property
+    def MAE(self):
+        return self._MAE
 
     def get_blacklist(self):
         tmp = []
@@ -613,22 +625,23 @@ class Set(object):
         """
         Todo: Make a parallel function inside the System energy calculator
         """
-        self.MAE = 0.0
+        self._MAE = 0.0
         my_pool = mproc.MyPool(processes=50)
         output = [my_pool.apply_async(el.p_compute_MAE, args=(kind,))
                   for el in self.container]
         results = [p.get() for p in output]
+        self.container = copy.deepcopy(results)
         for r in results:
-            self.MAE += abs(r)
-        self.MAE = self.MAE / len(results)
-        return self.MAE
+            self._MAE += abs(r.MAE)
+        self._MAE = self._MAE / len(results)
+        return self
 
     def compute_MAE(self, kind):
-        self.MAE = 0.0
+        self._MAE = 0.0
         for el in self.container:
-            self.MAE += abs(el.compute_MAE(kind))
-            self.MAE = self.MAE / float(len(self.container) - len(self.blacklist))
-        return self.MAE
+            self._MAE += abs(el.compute_MAE(kind))
+            self._MAE = self._MAE / float(len(self.container) - len(self.blacklist))
+        return self._MAE
 
     def compute_RMSE(self):
         raise(NotImplementedError)
