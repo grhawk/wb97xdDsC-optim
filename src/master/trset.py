@@ -17,6 +17,7 @@ import os
 import sys
 import copy
 import mproc
+import multiprocessing as mproc
 from computation import Run
 
 # Try determining the version from git:
@@ -172,7 +173,8 @@ class Molecule(object):
     @full_energy.getter
     def full_energy(self):
         refresh_params = False
-        self._full_energy, refresh_params, self.uni_energy =  self.full_energy_calc()
+        self._full_energy, refresh_params, self._uni_energy =  self.full_energy_calc()
+        print('UNIENERGY in process',mproc.current_process(),'is:', self._uni_energy)
         if refresh_params: self.myprm_full
         return self._full_energy
 
@@ -233,7 +235,9 @@ class Molecule(object):
             func_energy if successfull, 0.00 otherwise
         """
 
-        if self._uni_energy == None: exit()
+        if self._uni_energy == None:
+            print('UNIENERGY NOT DEFINED')
+            exit()
         lg.debug('Func Energy for {ID:s} started'.format(ID=self.id))
         lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
                  .format(str(self._full_energy), str(self.myprm_func.check_prms())))
@@ -502,7 +506,7 @@ class System(object):
         """
         return self.func_energy() - self.ref_ener
 
-    def p_compute_MAE(self, kind):
+    def p_compute_MAE(self, kind, queue):
         """Absolute error for the system.
 
         The name is to exploit a python feature in the Set class.
@@ -513,8 +517,16 @@ class System(object):
         """
 
         if kind == 'func':
+            try:
+                queue.put(self.func_energy_error())
+            except:
+                pass
             return self.func_energy_error()
         elif kind == 'full':
+            try:
+                queue.put(self.full_energy_error())
+            except:
+                pass
             return self.full_energy_error()
         else:
             msg = 'Critical error in implementation!'
@@ -620,19 +632,31 @@ class Set(object):
             tmp.append(s)
         return tmp
 
-    def p_compute_MAE(self, kind):
+    def p_compute_MAE(self, kind, queue):
         """
         Todo: Make a parallel function inside the System energy calculator
         """
         self.MAE = 0.0
-        my_pool = mproc.MyPool(processes=50)
-        output = [my_pool.apply_async(el.p_compute_MAE, args=(kind,))
-                  for el in self.container]
-        results = [p.get() for p in output]
+        results = []
+        # my_pool = mproc.MyPool(processes=50)
+        # output = [my_pool.apply_async(el.p_compute_MAE, args=(kind,))
+        #           for el in self.container]
+        # results = [p.get() for p in output]
+        myq = mproc.JoinableQueue()
+        procs = [mproc.Process(target=el.p_compute_MAE, args=(kind,myq))
+                 for el in self.container]
+        for p in procs:
+            p.start()
+        for p in procs:
+            results.append(myq.get())
         for r in results:
             self.MAE += abs(r)
         self.MAE = self.MAE / len(results)
-        return self.MAE
+
+        try:
+            queue.put(self.MAE)
+        except:
+            return self.MAE
 
     def compute_MAE(self, kind):
         self.MAE = 0.0
