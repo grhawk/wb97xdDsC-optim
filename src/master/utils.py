@@ -45,7 +45,7 @@ def file_exists(filep):
     return True
 
 
-def find_in_file(filep, strings_):
+def find_in_file(filep, strings_, reversed=False):
     found_line = []
     returnNone = False
     with open(filep, mode='r') as f:
@@ -59,7 +59,10 @@ def find_in_file(filep, strings_):
         if returnNone:
             return [None] * len(strings_)
         for string_ in strings_:
-            result = s.find(string_)
+            if reversed:
+                result = s.rfind(string_)
+            else:
+                result = s.find(string_)
             if result != -1:
                 s.seek(result)
                 found_line.append(s.readline())
