@@ -33,10 +33,24 @@ def main():
     # trset.p_compute_MAE('func')
     # print(trset.MAE)
     #    print(trset.compute_MAE('fulldft'))
-    print(MolSet.container)
-    print(MolSet.to_compute)
-    trset.computeall('full')
-    #    print(trset.compute_MAE('full'))
+    # print(MolSet.container)
+    # print(MolSet.container[0] is MolSet.to_compute[0])
+    # print(MolSet.to_compute[0].myprm_full.sprms)
+    # print(MolSet.to_compute[1].myprm_full.sprms)
+    # MolSet.to_compute[0].myprm_full.refresh()
+    # print(MolSet.container[0] is MolSet.to_compute[0])
+    # print(MolSet.container[0].myprm_full.sprms)
+    # print(MolSet.to_compute[1].myprm_full.sprms)
+    # print(MolSet.container[0].id,MolSet.container[0].myprm_full.sprms)
+    # print(MolSet.to_compute[0].id,MolSet.to_compute[0].myprm_full.sprms, MolSet.to_compute[0].full_energy)
+    # print(MolSet.to_compute[1].id,MolSet.to_compute[1].myprm_full.sprms)
+    # print(MolSet.to_compute[0].id,MolSet.to_compute[0].myprm_full.sprms)
+    MolSet.p_call_mol_energy('full')
+    for mol in MolSet.container:
+        print(mol.myprm_full.sprms)
+#        print('FULL ENERGY',mol.full_energy)
+#    print(MolSet.container[0].full_energy)
+#    print(trset.compute_MAE('full'))
 
 
 def init_logging():

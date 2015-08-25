@@ -59,7 +59,7 @@ class Parameters(object):
 
     def __init__(self):
         self._sparameters = copy.deepcopy(__class__._parameters)
-        self.prms = {'tta' : [10000]}
+        self.sprms = {'tta' : [1]}
 
     @property
     def optim(self):

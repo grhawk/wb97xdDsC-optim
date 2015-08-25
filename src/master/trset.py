@@ -94,7 +94,12 @@ class MolSet(object):
                 msg = 'Critical error in implementation'
                 lg.critical(msg)
                 raise RuntimeError(msg)
-            __class__.refresh_container([p.get() for p in output])
+            for p in output:
+#                print(p.get()._full_energy)
+                new_mols = [p.get() for p in output]
+            __class__.refresh_container(new_mols)
+            for mol in new_mols:
+                print(mol.full_energy, mol.myprm_full.sprms)
             print('Everything computed')
             __class__._lock = False
 
@@ -121,11 +126,12 @@ class MolSet(object):
         for mol in mols:
             obj = __class__.get_by_id(mol.id)
             if obj is None:
-                __class__.container.append(obj)
+                __class__.container.append(mol)
             else:
                 for i, el in enumerate(__class__.container):
-                    if el.id == obj:
-                       __class__.container[i] = obj
+                    if el.id == mol.id:
+                        print(el.id, mol.id, mol.full_energy)
+                        __class__.container[i] = mol
         return None
 
     @staticmethod
@@ -278,7 +284,8 @@ class Molecule(object):
         lg.debug('Full Energy for {ID:s} started'.format(ID=self.id))
         lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
                  .format(str(self._full_energy), str(self.myprm_full.check_prms())))
-        print('COMPUTE OR NOT:',self._full_energy, self.myprm_full.check_prms())
+        print('COMPUTE OR NOT:',self._full_energy, self.myprm_full.check_prms(),
+              not self._full_energy, not self.myprm_full.check_prms())
         if not self._full_energy or not self.myprm_full.check_prms():
             print('Compute the BigGamess energy. If problem return None')
             full_energy, full_exc, full_disp = self._run.full()
@@ -287,7 +294,11 @@ class Molecule(object):
                      .format(ID=self.id, ENERGY=full_energy, UNIENERGY=uni_energy))
             self._full_energy = full_energy
             self._uni_energy = uni_energy
-            self.myprm_full.refresh()
+            print('PARAMETERS BEFORE REFRESHING')
+            print(self.myprm_full.sprms)
+            self.myprm_full.refresh()            
+            print('PARAMETERS AFTER REFRESHING')
+            print(self.myprm_full.sprms)
 #            refresh_myprm_full = True
 
         return self #._full_energy, refresh_myprm_full, self._uni_energy
