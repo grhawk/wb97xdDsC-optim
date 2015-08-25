@@ -18,7 +18,7 @@ the charge and multiplicity.
 import utils as uts
 import re
 import logging as lg
-
+import time
 
 # Try determining the version from git:
 try:
@@ -120,17 +120,22 @@ class Input(object):
 
         with open(filep, 'w') as outfp:
             outfp.write('\n'.join(txt))
+            time.sleep(.5)
 
     def _set_keyword_based_on_structures(self):
         self.gamess['CONTRL']['ICHARG'] = self.charge
         self.gamess['CONTRL']['MULT'] = self.multiplicity
+        if len(self.atoms) < 2:
+            self.gamess['CONTRL']['SCFTYP'] = 'UHF'
+        else:
+            self.gamess['CONTRL']['SCFTYP'] = 'ROHF'
         
 
     def _template(self):
         self.gamess = {'BASIS': dict(GBASIS='',
                                      NGAUSS=''),
                        'CONTRL': dict(EXETYP='RUN',
-                                      SCFTYP='ROHF',
+                                      SCFTYP='UHF',
                                       RUNTYP='ENERGY',
                                       DFTTYP='wB97X',
                                       MAXIT='200',
