@@ -17,6 +17,7 @@ import os
 import sys
 import copy
 import mproc
+import multiprocessing as mproc
 from computation import Run
 import itertools
 
@@ -333,6 +334,9 @@ class Molecule(object):
             self
         """
 
+        if self._uni_energy == None:
+            print('UNIENERGY NOT DEFINED')
+            exit()
         lg.debug('Func Energy for {ID:s} started'.format(ID=self.id))
         lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
                  .format(str(self._full_energy), str(self.myprm_func.check_prms())))
@@ -505,6 +509,7 @@ class System(object):
         enrgs = []
         for mol in self.needed_mol:
             enrgs.append(mol.full_energy)
+        print('AAAAAAAAAAAA',enrgs)
         return self._apply_rule(enrgs)
 
     def p_full_energy(self):
@@ -606,7 +611,7 @@ class System(object):
         """
         return self.func_energy() - self.ref_ener
 
-    def p_compute_MAE(self, kind):
+    def p_compute_MAE(self, kind, queue):
         """Absolute error for the system.
 
         The name is to exploit a python feature in the Set class.
@@ -735,7 +740,7 @@ class Set(object):
             tmp.append(s)
         return tmp
 
-    def p_compute_MAE(self, kind):
+    def p_compute_MAE(self, kind, queue):
         """
         Todo: Make a parallel function inside the System energy calculator
         """
