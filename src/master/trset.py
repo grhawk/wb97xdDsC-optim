@@ -17,7 +17,7 @@ import os
 import sys
 import copy
 import mproc
-import multiprocessing as mproc
+import mproc
 from computation import Run
 import itertools
 

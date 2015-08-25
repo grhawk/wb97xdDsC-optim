@@ -84,10 +84,14 @@ def find_in_file(filep, strings_, reverse=False):
 
 def create_dir(path):
     check_path = os.path.exists(path) and not os.path.isdir(path)
+    check_path_dir = os.path.exists(path) and os.path.isdir(path)
     if check_path:
         msg = 'Remove the following path before continue:\n'
         msg += '{:s}\n'.format(path)
         lg.critical(msg)
         raise RuntimeError(msg)
+    elif check_path_dir:
+        return
     else:
-        os.makedirs(__class__._config['densities_repo'])
+        os.makedirs(path)
+    return
