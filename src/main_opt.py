@@ -48,9 +48,10 @@ def main():
     MolSet.p_call_mol_energy('full')
     for mol in MolSet.container:
         print(mol.myprm_full.sprms)
-#        print('FULL ENERGY',mol.full_energy)
+
+    print('MolFromTrSET', trset.container[0].container[0].needed_mol[0].full_energy)
 #    print(MolSet.container[0].full_energy)
-#    print(trset.compute_MAE('full'))
+    print(trset.compute_MAE('full'))
 
 
 def init_logging():

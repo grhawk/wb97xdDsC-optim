@@ -18,6 +18,7 @@ import sys
 import copy
 import mproc
 from computation import Run
+import itertools
 
 # Try determining the version from git:
 try:
@@ -160,6 +161,15 @@ class MolSet(object):
         msg = 'Molecule ++{}++ not found!'.format(my_id.strip())
         lg.warning(msg)
         return None
+
+    @staticmethod
+    def get_pos_by_id(mols):
+        poss = []
+        for mol in mols:
+            for i, el in enumerate(__class__.container):
+                if mol.id == el.id:
+                    poss.append(i)
+        return poss
 
     @staticmethod
     def load_molecules(names, dsetp):
@@ -380,7 +390,7 @@ class System(object):
         self.belonging_dataset = None
         self.id = 'None'
         self.name = None
-        self.needed_mol = []
+        self._needed_mol = []
         self.rule = []
         self.ref_ener = None
         self.blacklisted = False
@@ -441,8 +451,23 @@ class System(object):
 
         """
 
-        self.needed_mol = MolSet.load_molecules(names, self.dsetp)
-        MolSet.addto_compute(self.needed_mol)
+        self._needed_mol = MolSet.load_molecules(names, self.dsetp)
+        MolSet.addto_compute(self._needed_mol)
+        self._needed_mol = MolSet.get_pos_by_id(self._needed_mol)
+
+    @property
+    def needed_mol(self):
+        return self._needed_mol
+
+    @needed_mol.getter
+    def needed_mol(self):
+        tmp = [0]*len(MolSet.container)
+        print('NEEDEDMOLMASK:', self._needed_mol)
+        for idx in self._needed_mol:
+            tmp[idx] = 1
+        print('NEEDEDMOLTMP:', tmp)
+        print('NEEDEDMOLLIST:',list(itertools.compress(MolSet.container, self._needed_mol)))
+        return list(itertools.compress(MolSet.container, tmp))
 
     def _apply_rule(self, enrgs):
         """Compute the system energy applying the rule.
