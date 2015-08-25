@@ -6,7 +6,7 @@ import logging as lg
 
 sys.path.append('/home/petragli/wb97xddsc/gamess-opt/wb97xdDsC-optim/src/master')
 
-from trset import TrainingSet
+from trset import TrainingSet, MolSet
 from computation import Run
 
 config = dict(TraininSetPath = '../example/trset-tree-example/',
@@ -28,11 +28,15 @@ def main():
     # print(trset.container[0].MAE)
     # trset.container[0].p_compute_MAE('func')
     # print(trset.container[0].MAE)
-    trset.p_compute_MAE('full')
-    print(trset.MAE)
-    trset.p_compute_MAE('func')
-    print(trset.MAE)
-#    print(trset.compute_MAE('fulldft'))
+    # trset.p_compute_MAE('full')
+    # print(trset.MAE)
+    # trset.p_compute_MAE('func')
+    # print(trset.MAE)
+    #    print(trset.compute_MAE('fulldft'))
+    print(MolSet.container)
+    print(MolSet.to_compute)
+    trset.computeall('full')
+    #    print(trset.compute_MAE('full'))
 
 
 def init_logging():

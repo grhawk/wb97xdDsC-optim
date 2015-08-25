@@ -55,20 +55,81 @@ class MolSet(object):
     """
 
     container = []
+    to_compute = []
+    _lock = False
 
     @staticmethod
-    def refresh_mol(mol):
-        k = 0
-        for m in container:
-            if m.id == mol.id:
-                container[k] = mol
-                return mol
+    def addto_compute(mols):
+        for mol in mols:
+            my_id = mol.id
+            obj = __class__.get_by_id(my_id, in_list='to_compute')
+            if obj is not None:
+                lg.debug('Molecule {} added in to_compute'.format(my_id))
             else:
-                k += 1
+                __class__.to_compute.append(mol)
+
+    @staticmethod #Todo: Need to be tested and implemented in the blacklist stuff
+    def remove_compute(mol):
+        for i, el in enumerate(__class__.to_compute):
+            if mol.id.strip() == el.id:
+                __class__.to_compute.pop(i)
+                msg = 'Mol: {MOL:s} popped out from the compute list'.format(
+                    MOL=mol.id)
+                lg.debug(msg)
+
+    @staticmethod
+    def p_call_mol_energy(kind):
+        if __class__._lock :
+            return None
+        else:
+            __class__.lock = True
+            my_pool = mproc.MyPool()
+            if kind == 'full':
+                output = [my_pool.apply_async(mol.full_energy_calc)
+                          for mol in __class__.to_compute]
+            elif kind == 'func':
+                output = [my_pool.apply_async(mol.func_energy_calc)
+                          for mol in __class__.to_compute]
+            else:
+                msg = 'Critical error in implementation'
+                lg.critical(msg)
+                raise RuntimeError(msg)
+            __class__.refresh_container([p.get() for p in output])
+            print('Everything computed')
+            __class__._lock = False
+
+
+    @staticmethod
+    def call_mol_energy(kind):
+        if __class__._lock :
+            return None
+        else:
+            __class__._lock = True
+            for mol in __class__.to_compute:
+                if kind == 'full':
+                    mol.full_energy_calc()
+                elif kind == 'func':
+                    mol.func_energy_calc()
+                else:
+                    msg = 'Critical error in implementation'
+                    lg.critical(msg)
+                    raise RuntimeError(msg)
+            __class__._lock = False
+
+    @staticmethod
+    def refresh_container(mols):
+        for mol in mols:
+            obj = __class__.get_by_id(mol.id)
+            if obj is None:
+                __class__.container.append(obj)
+            else:
+                for i, el in enumerate(__class__.container):
+                    if el.id == obj:
+                       __class__.container[i] = obj
         return None
 
     @staticmethod
-    def get_by_id(my_id):
+    def get_by_id(my_id, in_list='container'):
         """Found a molecule in the container.
 
         Args:
@@ -77,8 +138,17 @@ class MolSet(object):
         Returns: the molecule obj if exists, None otherwise.
 
         """
-
-        for el in __class__.container:
+        if in_list == 'container':
+            list_ = __class__.container
+        elif in_list == 'to_compute':
+            list_ = __class__.to_compute
+        else:
+            msg = 'Critical error in implementation'
+            lg.critical(msg)
+            raise RuntimeError(msg)
+            
+        
+        for el in list_:
             if my_id.strip() == el.id:
                 return el
         msg = 'Molecule ++{}++ not found!'.format(my_id.strip())
@@ -208,6 +278,7 @@ class Molecule(object):
         lg.debug('Full Energy for {ID:s} started'.format(ID=self.id))
         lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
                  .format(str(self._full_energy), str(self.myprm_full.check_prms())))
+        print('COMPUTE OR NOT:',self._full_energy, self.myprm_full.check_prms())
         if not self._full_energy or not self.myprm_full.check_prms():
             print('Compute the BigGamess energy. If problem return None')
             full_energy, full_exc, full_disp = self._run.full()
@@ -360,6 +431,7 @@ class System(object):
         """
 
         self.needed_mol = MolSet.load_molecules(names, self.dsetp)
+        MolSet.addto_compute(self.needed_mol)
 
     def _apply_rule(self, enrgs):
         """Compute the system energy applying the rule.
@@ -444,7 +516,7 @@ class System(object):
             msg = 'System: {} - Calling fulldft even for func_energy'.\
                 format(self.id)
             lg.warning(msg)
-            return self.fulldft_energy()
+            return self.full_energy()
         enrgs = []
         for mol in self.needed_mol:
             enrgs.append(mol.func_energy)
@@ -467,7 +539,7 @@ class System(object):
             msg = 'System: {} - Calling fulldft even for func_energy'.\
                 format(self.id)
             lg.warning(msg)
-            return self.p_fulldft_energy()
+            return self.p_full_energy()
         my_pool = mproc.MyPool(processes=config['Processes_Func'])
         output = [my_pool.apply_async(mol.func_energy_calc)
                   for mol in self.needed_mol]
@@ -487,7 +559,7 @@ class System(object):
         Return: The error in the fulldft energy computation
 
         """
-        return self.p_full_energy() - self.ref_ener
+        return self.full_energy() - self.ref_ener
 
     def func_energy_error(self):
         """Provide the func energy error for this system.
@@ -495,7 +567,7 @@ class System(object):
         Return: The error in the func energy computation
 
         """
-        return self.p_func_energy() - self.ref_ener
+        return self.func_energy() - self.ref_ener
 
     def p_compute_MAE(self, kind):
         """Absolute error for the system.
@@ -530,7 +602,7 @@ class System(object):
         if kind == 'func':
             return self.func_energy_error()
         elif kind == 'full':
-            return self.fulldft_energy_error()
+            return self.full_energy_error()
         else:
             msg = 'Critical error in implementation!'
             lg.critical(msg)
@@ -608,6 +680,11 @@ class Set(object):
     @property
     def MAE(self):
         return self._MAE
+    @MAE.getter
+    def MAE(self, kind):
+        self.compute_MAE(kind)
+        return self._MAE
+        
 
     def get_blacklist(self):
         tmp = []
@@ -641,6 +718,7 @@ class Set(object):
         for el in self.container:
             self._MAE += abs(el.compute_MAE(kind))
             self._MAE = self._MAE / float(len(self.container) - len(self.blacklist))
+            print(self._MAE)
         return self._MAE
 
     def compute_RMSE(self):
@@ -811,6 +889,11 @@ class TrainingSet(Set):
 
     def add_to_blacklist(self, name_list):
         self._add_to_list(name_list, 'black')
+
+    def computeall(self, kind):
+        MolSet.p_call_mol_energy(kind)
+#        super().compute_MAE(kind)
+
 
 
 class RuleFormatError(TypeError):
