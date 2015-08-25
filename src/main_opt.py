@@ -46,12 +46,19 @@ def main():
     # print(MolSet.to_compute[1].id,MolSet.to_compute[1].myprm_full.sprms)
     # print(MolSet.to_compute[0].id,MolSet.to_compute[0].myprm_full.sprms)
     MolSet.p_call_mol_energy('full')
+    # print('NEEDEDMOL:',list(map(lambda x: x.id,trset.container[0].container[0].needed_mol)))
+    # print('UNIENERGY:',list(map(lambda x: x.uni_energy,trset.container[0].container[0].needed_mol)))
+    # print('FULLENERGY:',list(map(lambda x: x.full_energy,trset.container[0].container[0].needed_mol)))
+    # print('FUNCENERGY:',list(map(lambda x: x.func_energy,trset.container[0].container[0].needed_mol)))
+#    sys.exit()
+    MolSet.p_call_mol_energy('func')
     for mol in MolSet.container:
         print(mol.myprm_full.sprms)
+        print(mol.myprm_func.sprms)
 
-    print('MolFromTrSET', trset.container[0].container[0].needed_mol[0].full_energy)
-#    print(MolSet.container[0].full_energy)
+        
     print(trset.compute_MAE('full'))
+    print(trset.compute_MAE('func'))
 
 
 def init_logging():

@@ -60,17 +60,14 @@ class MolSet(object):
     _lock = False
 
     @staticmethod
-    def addto_compute(mols):
-        for mol in mols:
-            my_id = mol.id
-            obj = __class__.get_by_id(my_id, in_list='to_compute')
-            if obj is not None:
-                lg.debug('Molecule {} added in to_compute'.format(my_id))
-            else:
-                __class__.to_compute.append(mol)
+    def addto_compute(mols_cidx):
+        for idx in mols_cidx:
+            if idx not in __class__.to_compute:
+                __class__.to_compute.append(idx)
 
     @staticmethod #Todo: Need to be tested and implemented in the blacklist stuff
     def remove_compute(mol):
+        raise NotImplementedError
         for i, el in enumerate(__class__.to_compute):
             if mol.id.strip() == el.id:
                 __class__.to_compute.pop(i)
@@ -84,13 +81,17 @@ class MolSet(object):
             return None
         else:
             __class__.lock = True
+            tmp = [0]*len(__class__.container)
+            for i in __class__.to_compute:
+                tmp[i] = 1
+            print('ITERTOOLS:', itertools.compress(__class__.container, tmp))
             my_pool = mproc.MyPool()
             if kind == 'full':
                 output = [my_pool.apply_async(mol.full_energy_calc)
-                          for mol in __class__.to_compute]
+                          for mol in itertools.compress(__class__.container, tmp)]
             elif kind == 'func':
                 output = [my_pool.apply_async(mol.func_energy_calc)
-                          for mol in __class__.to_compute]
+                          for mol in itertools.compress(__class__.container, tmp)]
             else:
                 msg = 'Critical error in implementation'
                 lg.critical(msg)
@@ -111,7 +112,11 @@ class MolSet(object):
             return None
         else:
             __class__._lock = True
-            for mol in __class__.to_compute:
+            tmp = [0]*len(__class__.container)
+            for i in __class__.to_compute:
+                tmp[i] = 1
+            print('ITERTOOLS:', itertools.compress(__class__.container, tmp))
+            for mol in itertools.compress(__class__.container, tmp):
                 if kind == 'full':
                     mol.full_energy_calc()
                 elif kind == 'func':
@@ -304,12 +309,7 @@ class Molecule(object):
                      .format(ID=self.id, ENERGY=full_energy, UNIENERGY=uni_energy))
             self._full_energy = full_energy
             self._uni_energy = uni_energy
-            print('PARAMETERS BEFORE REFRESHING')
-            print(self.myprm_full.sprms)
             self.myprm_full.refresh()            
-            print('PARAMETERS AFTER REFRESHING')
-            print(self.myprm_full.sprms)
-#            refresh_myprm_full = True
 
         return self #._full_energy, refresh_myprm_full, self._uni_energy
 
@@ -342,6 +342,10 @@ class Molecule(object):
                      .format(ID=self.id, ENERGY=func_energy))
 
             self.myprm_func.refresh()
+            if not isinstance(self._uni_energy, float):
+                msg = 'UniEnergy is not a float for {MOLID:s}!'\
+                      .format(MOLID=self.id)
+                raise RuntimeError(msg)
             self._func_energy = func_energy + self._uni_energy
 
         return self
@@ -452,8 +456,8 @@ class System(object):
         """
 
         self._needed_mol = MolSet.load_molecules(names, self.dsetp)
-        MolSet.addto_compute(self._needed_mol)
         self._needed_mol = MolSet.get_pos_by_id(self._needed_mol)
+        MolSet.addto_compute(self._needed_mol)
 
     @property
     def needed_mol(self):
@@ -462,11 +466,8 @@ class System(object):
     @needed_mol.getter
     def needed_mol(self):
         tmp = [0]*len(MolSet.container)
-        print('NEEDEDMOLMASK:', self._needed_mol)
         for idx in self._needed_mol:
             tmp[idx] = 1
-        print('NEEDEDMOLTMP:', tmp)
-        print('NEEDEDMOLLIST:',list(itertools.compress(MolSet.container, self._needed_mol)))
         return list(itertools.compress(MolSet.container, tmp))
 
     def _apply_rule(self, enrgs):
@@ -754,7 +755,6 @@ class Set(object):
         for el in self.container:
             self._MAE += abs(el.compute_MAE(kind))
             self._MAE = self._MAE / float(len(self.container) - len(self.blacklist))
-            print(self._MAE)
         return self._MAE
 
     def compute_RMSE(self):
