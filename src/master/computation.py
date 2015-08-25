@@ -45,8 +45,7 @@ import shutil
 import logging as lg
 from make_input import Input
 import os
-import mmap
-from utils import find_in_file, file_exists
+from utils import find_in_file, file_exists, create_dir
 
 # Try determining the version from git:
 try:
@@ -59,7 +58,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-08-05"
+__updated__ = "2015-08-25"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -84,9 +83,10 @@ class Run(object):
                                           b'FINAL ENERGY INCLUDING dDsC DISPERSION:',
                                           b'DFT EXCHANGE + CORRELATION ENERGY =',
                                           b'Final Energy'],
-                   command_full = '/bin/sbatch',
-                   command_func = '/home/petragli/wb97xddsc/gamess-opt/gamess/mini-gamess/STARTall.x'
+                   command_full='/bin/sbatch',
+                   command_func='/home/petragli/wb97xddsc/gamess-opt/gamess/mini-gamess/STARTall.x'
                    )
+
 
     def __init__(self, molID=None, dset=None, run_name=None, tset_path=None):
 
@@ -95,28 +95,30 @@ class Run(object):
                 msg = 'run_name has to be specified before to instance a useful class!'
                 lg.critical(msg)
                 raise RuntimeError(msg)
-            self._inout_path = os.path.join(__class__._run_name, dset, 'inout', __class__._inout_id)
-            #Note: Check if path exists even if not dir!
+            self._inout_path = os.path.join(__class__._run_name, dset,
+                                            'inout', __class__._inout_id)
             self._inout_path = os.path.abspath(self._inout_path)
-            if not os.path.isdir(self._inout_path):
-                os.makedirs(self._inout_path)
 
-            self._xyzp = os.path.join(__class__._tset_path, dset, 'geometry', molID.split('.')[1]+'.xyz')
+            create_dir(self._inout_path)
 
-            self._inout_inp_path = os.path.join(self._inout_path, molID + '.inp')
-            self._inout_out_path = os.path.join(self._inout_path, molID + '.log')
+            self._xyzp = os.path.join(__class__._tset_path, dset,
+                                      'geometry', molID.split('.')[1] + '.xyz')
+
+            self._inout_inp_path = os.path.join(self._inout_path,
+                                                molID + '.inp')
+            self._inout_out_path = os.path.join(self._inout_path,
+                                                molID + '.log')
             self.molID = molID
 
-            #Note: Check if path exists even if not dir!
-            if not os.path.isdir(__class__._config['densities_repo']):
-                os.makedirs(__class__._config['densities_repo'])
-                
+            create_dir(__class__._config['densities_repo'])
+
             self._wb97x_saves = os.path.join(__class__._config['densities_repo'],
-                                     self.molID + '.wb97x')
+                                             self.molID + '.wb97x')
             self._ddsc_saves = os.path.join(__class__._config['densities_repo'],
-                                     self.molID + '.ddsc')
+                                            self.molID + '.ddsc')
             self._sbatch_file = \
-                os.path.join(__class__._config['sbatch_script_prefix'], self.molID)
+                os.path.join(__class__._config['sbatch_script_prefix'],
+                             self.molID)
         elif not molID and not dset and run_name and tset_path:
             __class__._run_name = run_name
             __class__._tset_path = tset_path
@@ -147,27 +149,33 @@ class Run(object):
         while True:
             timeout += 1
             time.sleep(__class__._config['dormi'])
-            if timeout%__class__._config['timeout_max'] == 0:
+            if timeout % __class__._config['timeout_max'] == 0:
                 not_found = True
-                lg.warning('Final energy not found for file {}... Do something!!'.format(self._inout_out_path))
+                lg.warning('Final energy not found for file {}... Do something!!'
+                           .format(self._inout_out_path))
 
             if not os.path.exists(self._inout_out_path): continue
 
             find = find_in_file(self._inout_out_path,
-                                __class__._config['well_finished_strings'], reversed=True)
+                                __class__._config['well_finished_strings'],
+                                reverse=True)
 
             if find[1] and find[2] and find[3]:
                 if not_found:
-                    lg.warning('Final energy for file {} found!!'.format(self._inout_out_path))
+                    lg.warning('Final energy for file {} found!!'
+                               .format(self._inout_out_path))
                 if abs(float(find[1].split()[5])) < float(b'0.0E-8'):
-                    print('Problem with energy in GAMESS',float(find[1].split()[5] ))
+                    print('Problem with energy in GAMESS',
+                          float(find[1].split()[5]))
                     exit()
-                return (float(find[1].split()[5]), float(find[2].split()[6]), float(find[3].split()[2]))
-
+                return (float(find[1].split()[5]),
+                        float(find[2].split()[6]), float(find[3].split()[2]))
 
     def _move_data(self):
-        dens_orig = os.path.join(__class__._config['tmp_density_dir'], self.molID+'.wb97x')
-        ddsc_orig = os.path.join(__class__._config['tmp_density_dir'], self.molID+'.ddsc')
+        dens_orig = os.path.join(__class__._config['tmp_density_dir'],
+                                 self.molID + '.wb97x')
+        ddsc_orig = os.path.join(__class__._config['tmp_density_dir'],
+                                 self.molID + '.ddsc')
         while True:
             time.sleep(__class__._config['dormi_short'])
             allfile = True
@@ -182,10 +190,13 @@ class Run(object):
 
     def _write_sbatch(self):
         input_path, input_file = os.path.split(self._inout_inp_path)
+        del(input_path)
         txt = '#!/bin/bash\n'
         txt += '#SBATCH -J {TITLE:s}\n'.format(TITLE=self.molID)
-        txt += '#SBATCH -o ' + os.path.join(self._inout_path, self.molID+'.stdout') + '\n'
-        txt += '#SBATCH -e ' + os.path.join(self._inout_path, self.molID+'.stderr') + '\n'
+        txt += '#SBATCH -o ' + os.path.join(self._inout_path,
+                                            self.molID + '.stdout') + '\n'
+        txt += '#SBATCH -e ' + os.path.join(self._inout_path,
+                                            self.molID + '.stderr') + '\n'
         txt += '#SBATCH --mem=8000\n'
         txt += '#SBATCH --nodes=1\n'
         txt += '#SBATCH --ntasks-per-node=1\n'
@@ -194,9 +205,10 @@ class Run(object):
         txt += 'source /software/ENV/set_impi_410.sh\n'
         txt += 'export EXTBAS=/dev/null\n'
         txt += 'cd $SLURM_TMPDIR\n'
-        txt += 'cp {INPUTFILE:s} $SLURM_TMPDIR\n'.format(INPUTFILE=self._inout_inp_path)
-        txt += 'cp {PARAMS_DIR:s}/a0b0 $SLURM_TMPDIR\n'.\
-            format(PARAMS_DIR=__class__._config['params_dir'])
+        txt += 'cp {INPUTFILE:s} $SLURM_TMPDIR\n'\
+            .format(INPUTFILE=self._inout_inp_path)
+        txt += 'cp {PARAMS_DIR:s}/a0b0 $SLURM_TMPDIR\n'\
+            .format(PARAMS_DIR=__class__._config['params_dir'])
         txt += 'cp {PARAMS_DIR:s}/FUNC_PAR.dat $SLURM_TMPDIR\n'.\
             format(PARAMS_DIR=__class__._config['params_dir'])
         txt += '{BIN:s}/rungms {INPUT:s} 00 1 &> {OUTPUT:s}\n'.\
@@ -205,9 +217,13 @@ class Run(object):
                    BIN=__class__._config['gamess_bin'])
         txt += 'joberror=$?\n'
         txt += 'cp -r $SLURM_TMPDIR/PARAM_UNF.dat {DENSITY_DEST}\n'.\
-            format(DENSITY_DEST=os.path.join(__class__._config['tmp_density_dir'], self.molID+'.wb97x'))
+            format(DENSITY_DEST=os.path.join(__class__
+                                             ._config['tmp_density_dir'],
+                                             self.molID + '.wb97x'))
         txt += 'cp -r $SLURM_TMPDIR/dDsC_PAR {dDSC_DEST}\n'.\
-            format(dDSC_DEST=os.path.join(__class__._config['tmp_density_dir'], self.molID+'.ddsc'))
+            format(dDSC_DEST=os.path.join(__class__
+                                          ._config['tmp_density_dir'],
+                                          self.molID + '.ddsc'))
 #        txt += 'cp -ar $SLURM_TMPDIR .\n'
         txt += 'exit\n'
 
@@ -220,13 +236,14 @@ class Run(object):
                                       SBATCH_FILE=self._sbatch_file))
         self._write_input()
         self._write_sbatch()
-        #self._run(command)
+        # self._run(command)
         energies = self._readout()
-        #self._move_data()
+        # self._move_data()
         return energies
 
     def func(self):
-        wb97x_param = os.path.join(__class__._config['params_dir'], 'FUNC_PAR.dat')
+        wb97x_param = os.path.join(__class__
+                                   ._config['params_dir'], 'FUNC_PAR.dat')
         ddsc_param = os.path.join(__class__._config['params_dir'], 'a0b0')
         command = shlex.split('{COMMAND:s} {WB97X_DATA:s} {DDSC_DATA:s} {WB97X_PARAM:s} {DDSC_PARAM:s}'
                               .format(COMMAND=__class__._config['command_func'],
@@ -235,18 +252,5 @@ class Run(object):
                                       WB97X_PARAM=wb97x_param,
                                       DDSC_PARAM=ddsc_param))
 
-        print ('{COMMAND:s} {WB97X_DATA:s} {DDSC_DATA:s} {WB97X_PARAM:s} {DDSC_PARAM:s}'
-                              .format(COMMAND=__class__._config['command_func'],
-                                      WB97X_DATA=self._wb97x_saves,
-                                      DDSC_DATA=self._ddsc_saves,
-                                      WB97X_PARAM=wb97x_param,
-                                      DDSC_PARAM=ddsc_param))
-
         print(self._run(command).split())
         return (float(self._run(command).split()[1]))
-	
-#        exc, edisp = float(exc), float(edisp)
-#        print(exc, edisp)
-#        return exc + edisp
-
-

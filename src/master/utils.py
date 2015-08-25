@@ -26,7 +26,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-08-04"
+__updated__ = "2015-08-25"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -45,7 +45,7 @@ def file_exists(filep):
     return True
 
 
-def find_in_file(filep, strings_, reversed=False):
+def find_in_file(filep, strings_, reverse=False):
     found_line = []
     returnNone = False
     with open(filep, mode='r') as f:
@@ -59,7 +59,7 @@ def find_in_file(filep, strings_, reversed=False):
         if returnNone:
             return [None] * len(strings_)
         for string_ in strings_:
-            if reversed:
+            if reverse:
                 result = s.rfind(string_)
             else:
                 result = s.find(string_)
@@ -76,7 +76,18 @@ def find_in_file(filep, strings_, reversed=False):
         s.seek(result)
         found_line.append(s.readline())
     else:
-        raise ValueError('The second argument can obly be a string or a list of strings')
+        msg = 'The second argument can be a string or a list of strings'
+        raise ValueError(msg)
 
     return found_line
 
+
+def create_dir(path):
+    check_path = os.path.exists(path) and not os.path.isdir(path)
+    if check_path:
+        msg = 'Remove the following path before continue:\n'
+        msg += '{:s}\n'.format(path)
+        lg.critical(msg)
+        raise RuntimeError(msg)
+    else:
+        os.makedirs(__class__._config['densities_repo'])
