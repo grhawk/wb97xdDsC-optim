@@ -895,9 +895,9 @@ class TrainingSet(Set):
     def add_to_blacklist(self, name_list):
         self._add_to_list(name_list, 'black')
 
-    def computeall(self, kind):
+    def compute_MAE(self, kind):
         MolSet.p_call_mol_energy(kind)
-#        super().compute_MAE(kind)
+        return super().compute_MAE(kind)
 
 
 
