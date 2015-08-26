@@ -90,4 +90,4 @@ def create_dir(path):
         lg.critical(msg)
         raise RuntimeError(msg)
     else:
-        os.makedirs(__class__._config['densities_repo'])
+        os.makedirs(path)
