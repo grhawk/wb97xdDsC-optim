@@ -32,7 +32,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-08-04"
+__updated__ = "2015-08-26"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -66,7 +66,7 @@ class MolSet(object):
             if idx not in __class__.to_compute:
                 __class__.to_compute.append(idx)
 
-    @staticmethod #Todo: Need to be tested and implemented in the blacklist stuff
+    @staticmethod  # Todo: Need to be tested and implemented in the blacklist stuff
     def remove_compute(mol):
         raise NotImplementedError
         for i, el in enumerate(__class__.to_compute):
@@ -82,7 +82,7 @@ class MolSet(object):
             return None
         else:
             __class__.lock = True
-            tmp = [0]*len(__class__.container)
+            tmp = [0] * len(__class__.container)
             for i in __class__.to_compute:
                 tmp[i] = 1
             print('ITERTOOLS:', itertools.compress(__class__.container, tmp))
@@ -113,7 +113,7 @@ class MolSet(object):
             return None
         else:
             __class__._lock = True
-            tmp = [0]*len(__class__.container)
+            tmp = [0] * len(__class__.container)
             for i in __class__.to_compute:
                 tmp[i] = 1
             print('ITERTOOLS:', itertools.compress(__class__.container, tmp))
@@ -159,8 +159,8 @@ class MolSet(object):
             msg = 'Critical error in implementation'
             lg.critical(msg)
             raise RuntimeError(msg)
-            
-        
+
+
         for el in list_:
             if my_id.strip() == el.id:
                 return el
@@ -300,7 +300,7 @@ class Molecule(object):
         lg.debug('Full Energy for {ID:s} started'.format(ID=self.id))
         lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
                  .format(str(self._full_energy), str(self.myprm_full.check_prms())))
-        print('COMPUTE OR NOT:',self._full_energy, self.myprm_full.check_prms(),
+        print('COMPUTE OR NOT:', self._full_energy, self.myprm_full.check_prms(),
               not self._full_energy, not self.myprm_full.check_prms())
         if not self._full_energy or not self.myprm_full.check_prms():
             print('Compute the BigGamess energy. If problem return None')
@@ -310,9 +310,9 @@ class Molecule(object):
                      .format(ID=self.id, ENERGY=full_energy, UNIENERGY=uni_energy))
             self._full_energy = full_energy
             self._uni_energy = uni_energy
-            self.myprm_full.refresh()            
+            self.myprm_full.refresh()
 
-        return self #._full_energy, refresh_myprm_full, self._uni_energy
+        return self  # ._full_energy, refresh_myprm_full, self._uni_energy
 
     @property
     def func_energy(self):
@@ -322,7 +322,7 @@ class Molecule(object):
     def func_energy(self):
         self.func_energy_calc()
         return self._func_energy
-    
+
     def func_energy_calc(self):
         """Retrieve the energy computed with the optimized density.
 
@@ -469,7 +469,7 @@ class System(object):
 
     @needed_mol.getter
     def needed_mol(self):
-        tmp = [0]*len(MolSet.container)
+        tmp = [0] * len(MolSet.container)
         for idx in self._needed_mol:
             tmp[idx] = 1
         return list(itertools.compress(MolSet.container, tmp))
@@ -509,7 +509,7 @@ class System(object):
         enrgs = []
         for mol in self.needed_mol:
             enrgs.append(mol.full_energy)
-        print('AAAAAAAAAAAA',enrgs)
+        print('AAAAAAAAAAAA', enrgs)
         return self._apply_rule(enrgs)
 
     def p_full_energy(self):
@@ -591,7 +591,7 @@ class System(object):
         del(refreshed_mol)
         enrgs = list(map(lambda x: x.func_energy, self.needed_mol))
         print('FUNC ENERGY LIST', enrgs)
-        print('FUNC APPLY RULE:', self._apply_rule(enrgs))        
+        print('FUNC APPLY RULE:', self._apply_rule(enrgs))
 
         return self._apply_rule(enrgs)
 
@@ -610,27 +610,6 @@ class System(object):
 
         """
         return self.func_energy() - self.ref_ener
-
-    def p_compute_MAE(self, kind, queue):
-        """Absolute error for the system.
-
-        The name is to exploit a python feature in the Set class.
-
-        Args:
-            kind (str): Can be func or fulldft
-
-        """
-
-        if kind == 'func':
-            self.MAE = self.func_energy_error()
-            return self #.func_energy_error()
-        elif kind == 'full':
-            self.MAE = self.full_energy_error()
-            return self #.full_energy_error()
-        else:
-            msg = 'Critical error in implementation!'
-            lg.critical(msg)
-            raise NotImplementedError(msg)
 
     def compute_MAE(self, kind):
         """Absolute error for the system.
@@ -726,7 +705,7 @@ class Set(object):
     def MAE(self, kind):
         self.compute_MAE(kind)
         return self._MAE
-        
+
 
     def get_blacklist(self):
         tmp = []
@@ -739,21 +718,6 @@ class Set(object):
         for s in self.fulldftlist:
             tmp.append(s)
         return tmp
-
-    def p_compute_MAE(self, kind, queue):
-        """
-        Todo: Make a parallel function inside the System energy calculator
-        """
-        self._MAE = 0.0
-        my_pool = mproc.MyPool(processes=50)
-        output = [my_pool.apply_async(el.p_compute_MAE, args=(kind,))
-                  for el in self.container]
-        results = [p.get() for p in output]
-        self.container = copy.deepcopy(results)
-        for r in results:
-            self._MAE += abs(r.MAE)
-        self._MAE = self._MAE / len(results)
-        return self
 
     def compute_MAE(self, kind):
         self._MAE = 0.0
