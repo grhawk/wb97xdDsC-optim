@@ -26,7 +26,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-08-25"
+__updated__ = "2015-08-26"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -84,10 +84,14 @@ def find_in_file(filep, strings_, reverse=False):
 
 def create_dir(path):
     check_path = os.path.exists(path) and not os.path.isdir(path)
+    check_path_dir = os.path.exists(path) and os.path.isdir(path)
     if check_path:
         msg = 'Remove the following path before continue:\n'
         msg += '{:s}\n'.format(path)
         lg.critical(msg)
         raise RuntimeError(msg)
+    elif check_path_dir:
+        return
     else:
         os.makedirs(path)
+    return
