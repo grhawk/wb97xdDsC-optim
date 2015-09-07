@@ -7,20 +7,22 @@ import logging as lg
 sys.path.append('/home/petragli/wb97xddsc/gamess-opt/wb97xdDsC-optim/src/master')
 
 from trset import TrainingSet, MolSet
+from params import Parameters
 from computation import Run
 
-config = dict(TraininSetPath = '../example/trset-tree-example/',
-              TraininSetName = 'trset-tree-example',
-              Name = 'test1',
-              logfile = 'logging.log',
-              loglevel = 'DEBUG',
-              
+config = dict(TraininSetPath='../example/trset-tree-example/',
+              TraininSetName='trset-tree-example',
+              Name='test1',
+              logfile='logging.log',
+              loglevel='DEBUG',
+
               )
 
 def main():
     init_logging()
-    #init computation
-    Run(run_name=config['Name'], tset_path=config['TraininSetPath']).index='DENS-0000'
+    # init computation
+    prms = Parameters()
+    Run(run_name=config['Name'], tset_path=config['TraininSetPath']).index = 'DENS-0000'
     trset = TrainingSet(config['TraininSetPath'], config['TraininSetName'])
 #    print(trset.container[0].container[0].p_compute_MAE('full'))
 #    print(trset.container[0].container[0].p_compute_MAE('func'))
@@ -45,7 +47,7 @@ def main():
     # print(MolSet.to_compute[0].id,MolSet.to_compute[0].myprm_full.sprms, MolSet.to_compute[0].full_energy)
     # print(MolSet.to_compute[1].id,MolSet.to_compute[1].myprm_full.sprms)
     # print(MolSet.to_compute[0].id,MolSet.to_compute[0].myprm_full.sprms)
-    #MolSet.p_call_mol_energy('full')
+    # MolSet.p_call_mol_energy('full')
     # print('NEEDEDMOL:',list(map(lambda x: x.id,trset.container[0].container[0].needed_mol)))
     # print('UNIENERGY:',list(map(lambda x: x.uni_energy,trset.container[0].container[0].needed_mol)))
     # print('FULLENERGY:',list(map(lambda x: x.full_energy,trset.container[0].container[0].needed_mol)))
@@ -56,7 +58,7 @@ def main():
     #     print(mol.myprm_full.sprms)
     #     print(mol.myprm_func.sprms)
 
-        
+    prms.optim = dict(tta=500, cc_aa_1=2)
     print(trset.compute_MAE('full'))
     print(trset.compute_MAE('func'))
 

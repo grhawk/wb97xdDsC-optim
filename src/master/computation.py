@@ -58,7 +58,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-08-25"
+__updated__ = "2015-09-07"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -71,7 +71,7 @@ class Run(object):
     _inout_id = None
     _run_name = None
     _tset_path = None
-    _config = dict(dormi=1,
+    _config = dict(dormi=10,
                    dormi_short=3,
                    timeout_max=10,
                    densities_repo='/home/petragli/tmp_density_dir',
@@ -83,7 +83,7 @@ class Run(object):
                                           b'FINAL ENERGY INCLUDING dDsC DISPERSION:',
                                           b'DFT EXCHANGE + CORRELATION ENERGY =',
                                           b'Final Energy'],
-                   command_full='/bin/sbatch',
+                   command_full='/usr/bin/sbatch',
                    command_func='/home/petragli/wb97xddsc/gamess-opt/gamess/mini-gamess/STARTall.x'
                    )
 
@@ -236,9 +236,9 @@ class Run(object):
                                       SBATCH_FILE=self._sbatch_file))
         self._write_input()
         self._write_sbatch()
-        # self._run(command)
+        self._run(command)
         energies = self._readout()
-        # self._move_data()
+        self._move_data()
         return energies
 
     def func(self):

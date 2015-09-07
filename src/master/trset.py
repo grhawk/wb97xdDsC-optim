@@ -636,6 +636,7 @@ class Set(object):
         self._MAE = None
         self.RMSE = None
         self.MRE = None
+        self.prms = params.Parameters()
 
     @property
     def MAE(self):
@@ -698,6 +699,16 @@ class Set(object):
                 listf.write('\n'.join(map(lambda x: x.name, list_to_save)))
             except AttributeError:
                 listf.write('\n'.join(list_to_save))
+
+    def optimizer(self, params, kind, error_type):
+        dict_ = {}
+        for i, p in enumerate(self.prms.optim):
+            dict_[p] = params[i]
+        self.prms.optim = dict_
+
+        if error_type == 'MAE':
+            return self.compute_MAE(kind)
+
 
 
 class DataSet(Set):
