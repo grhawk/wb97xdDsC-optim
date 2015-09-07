@@ -17,7 +17,6 @@ import os
 import sys
 import copy
 import mproc
-import mproc
 from computation import Run
 import itertools
 
@@ -66,7 +65,8 @@ class MolSet(object):
             if idx not in __class__.to_compute:
                 __class__.to_compute.append(idx)
 
-    @staticmethod  # Todo: Need to be tested and implemented in the blacklist stuff
+    # Todo: Need to be tested and implemented in the blacklist stuff
+    @staticmethod
     def remove_compute(mol):
         raise NotImplementedError
         for i, el in enumerate(__class__.to_compute):
@@ -78,7 +78,7 @@ class MolSet(object):
 
     @staticmethod
     def p_call_mol_energy(kind):
-        if __class__._lock :
+        if __class__._lock:
             return None
         else:
             __class__.lock = True
@@ -89,16 +89,17 @@ class MolSet(object):
             my_pool = mproc.MyPool()
             if kind == 'full':
                 output = [my_pool.apply_async(mol.full_energy_calc)
-                          for mol in itertools.compress(__class__.container, tmp)]
+                          for mol in itertools.compress(__class__.container,
+                                                        tmp)]
             elif kind == 'func':
                 output = [my_pool.apply_async(mol.func_energy_calc)
-                          for mol in itertools.compress(__class__.container, tmp)]
+                          for mol in itertools.compress(__class__.container,
+                                                        tmp)]
             else:
                 msg = 'Critical error in implementation'
                 lg.critical(msg)
                 raise RuntimeError(msg)
             for p in output:
-#                print(p.get()._full_energy)
                 new_mols = [p.get() for p in output]
             __class__.refresh_container(new_mols)
             for mol in new_mols:
@@ -106,10 +107,9 @@ class MolSet(object):
             print('Everything computed')
             __class__._lock = False
 
-
     @staticmethod
     def call_mol_energy(kind):
-        if __class__._lock :
+        if __class__._lock:
             return None
         else:
             __class__._lock = True
@@ -159,7 +159,6 @@ class MolSet(object):
             msg = 'Critical error in implementation'
             lg.critical(msg)
             raise RuntimeError(msg)
-
 
         for el in list_:
             if my_id.strip() == el.id:
@@ -286,7 +285,6 @@ class Molecule(object):
         self.full_energy_calc()
         return self._full_energy
 
-
     def full_energy_calc(self):
         """Retrieve the energy at fulldft level.
 
@@ -299,9 +297,11 @@ class Molecule(object):
         """
         lg.debug('Full Energy for {ID:s} started'.format(ID=self.id))
         lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
-                 .format(str(self._full_energy), str(self.myprm_full.check_prms())))
-        print('COMPUTE OR NOT:', self._full_energy, self.myprm_full.check_prms(),
-              not self._full_energy, not self.myprm_full.check_prms())
+                 .format(str(self._full_energy),
+                         str(self.myprm_full.check_prms())))
+        print('COMPUTE OR NOT:', self._full_energy,
+              self.myprm_full.check_prms(), not self._full_energy,
+              not self.myprm_full.check_prms())
         if not self._full_energy or not self.myprm_full.check_prms():
             print('Compute the BigGamess energy. If problem return None')
             full_energy, full_exc, full_disp = self._run.full()
