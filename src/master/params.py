@@ -26,7 +26,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-07-30"
+__updated__ = "2015-09-07"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -118,6 +118,11 @@ class Parameters(object):
         """
         __class__._parameters_old = copy.deepcopy(__class__._parameters)
         self.general_setter(kvd, __class__._parameters)
+        # Decidere quali dei parametri "legati" vogliamo poter cambiare
+        # e cambiare l'altro di conseguenza. Se viene cambiato l'altro (ovvero
+        # il valore passato per l'altro parametro e' diverso da None) allora
+        # raise un warning. Poi settare i parametri in modo che siano sempre
+        # consistenti e scriverli nel giusto file con la giusta formattazione!
         with open(config['ParamFile'], 'w') as pf:
             pf.write(' '.join(map(str, self.convert2list(__class__._parameters))))
 
