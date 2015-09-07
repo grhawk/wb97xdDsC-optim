@@ -71,7 +71,7 @@ class Run(object):
     _inout_id = None
     _run_name = None
     _tset_path = None
-    _config = dict(dormi=10,
+    _config = dict(dormi=1,
                    dormi_short=3,
                    timeout_max=10,
                    densities_repo='/home/petragli/tmp_density_dir',
@@ -236,9 +236,9 @@ class Run(object):
                                       SBATCH_FILE=self._sbatch_file))
         self._write_input()
         self._write_sbatch()
-        self._run(command)
+#        self._run(command)
         energies = self._readout()
-        self._move_data()
+#        self._move_data()
         return energies
 
     def func(self):

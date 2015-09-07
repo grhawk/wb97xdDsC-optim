@@ -58,10 +58,12 @@ def main():
     #     print(mol.myprm_full.sprms)
     #     print(mol.myprm_func.sprms)
 
-    prms.optim = dict(tta=500, cc_aa_1=2)
     print(trset.compute_MAE('full'))
     print(trset.compute_MAE('func'))
-
+    print('APRMS', prms.prms)
+    prms.optim = dict(tta=500, cc_aa_1=2)
+    trset.optimizer([12,3], 'func', 'MAE')
+    print('BPRMS', prms.prms)
 
 def init_logging():
     if os.path.isfile(config['logfile']):
