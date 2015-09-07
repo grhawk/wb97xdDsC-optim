@@ -306,8 +306,10 @@ class Molecule(object):
             print('Compute the BigGamess energy. If problem return None')
             full_energy, full_exc, full_disp = self._run.full()
             uni_energy = full_energy - full_exc - full_disp
-            lg.debug('Full Energy for {ID:s} is {ENERGY:12.6f} and UNIENERGY is{UNIENERGY:12.6f}'
-                     .format(ID=self.id, ENERGY=full_energy, UNIENERGY=uni_energy))
+            lg.debug('Full Energy for {ID:s} is {ENERGY:12.6f}'
+                     ' and UNIENERGY is{UNIENERGY:12.6f}'
+                     .format(ID=self.id, ENERGY=full_energy,
+                             UNIENERGY=uni_energy))
             self._full_energy = full_energy
             self._uni_energy = uni_energy
             self.myprm_full.refresh()
@@ -334,12 +336,13 @@ class Molecule(object):
             self
         """
 
-        if self._uni_energy == None:
+        if self._uni_energy is None:
             print('UNIENERGY NOT DEFINED')
             exit()
         lg.debug('Func Energy for {ID:s} started'.format(ID=self.id))
         lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
-                 .format(str(self._full_energy), str(self.myprm_func.check_prms())))
+                 .format(str(self._full_energy),
+                         str(self.myprm_func.check_prms())))
         if not self._func_energy or not self.myprm_func.check_prms():
             func_energy = self._run.func()
             lg.debug('Func Energy for {ID:s} is {ENERGY:12.6f}'
@@ -625,6 +628,9 @@ class System(object):
 
 
 class Set(object):
+    """
+    Todo: Implement all errors as property
+    """
 
     def __init__(self, path):
         self.container = []
@@ -641,11 +647,11 @@ class Set(object):
     @property
     def MAE(self):
         return self._MAE
+
     @MAE.getter
     def MAE(self, kind):
         self.compute_MAE(kind)
         return self._MAE
-
 
     def get_blacklist(self):
         tmp = []
@@ -663,18 +669,15 @@ class Set(object):
         self._MAE = 0.0
         for el in self.container:
             self._MAE += abs(el.compute_MAE(kind))
-            self._MAE = self._MAE / float(len(self.container) - len(self.blacklist))
+            self._MAE = self._MAE / \
+                float(len(self.container) - len(self.blacklist))
         return self._MAE
 
     def compute_RMSE(self):
         raise(NotImplementedError)
 
     def compute_MRE(self, kind):
-        self.MRE = 0.0
-        for el in self.container:
-            self.MRE += abs(el.compute_MRE(kind))
-        self.MRE = self.MRE / len(self.container)
-        return self.MRE
+        raise(NotImplementedError)
 
     def compute_all_errors(self):
         self.compute_MAE()
@@ -708,7 +711,6 @@ class Set(object):
 
         if error_type == 'MAE':
             return self.compute_MAE(kind)
-
 
 
 class DataSet(Set):
@@ -848,7 +850,6 @@ class TrainingSet(Set):
     def compute_MAE(self, kind):
         MolSet.p_call_mol_energy(kind)
         return super().compute_MAE(kind)
-
 
 
 class RuleFormatError(TypeError):
