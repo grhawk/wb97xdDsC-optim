@@ -32,7 +32,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-08-26"
+__updated__ = "2015-09-07"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -512,36 +512,6 @@ class System(object):
         print('AAAAAAAAAAAA', enrgs)
         return self._apply_rule(enrgs)
 
-    def p_full_energy(self):
-        """Compute the full dft energy for the system.
-
-        This method provides the right molecular energies to the _apply_rule
-        method and check if the system is blacklisted.
-
-        Return: The energy of the system.
-
-        """
-#        return self.random_noise_result()
-        if self.blacklisted: self.blacklisted_error()
-        enrgs = []
-        #Fix: Add a number to the maximum processes!!!
-        print('PARAMETERS BEFORE ENERGY FROM NEEDEDMOL:', self.needed_mol[0].myprm_full.sprms)
-        print('PARAMETERS BEFORE ENERGY FROM MOLSET:', MolSet.container[0].myprm_full.sprms)
-        my_pool = mproc.MyPool()
-        output = [my_pool.apply_async(mol.full_energy_calc)
-                  for mol in self.needed_mol]
-        refreshed_mol = [p.get() for p in output]
-        print('FULL ENERGY PLUS:', refreshed_mol)
-        # for i,mol in enumerate(self.needed_mol):
-        #     mol = refreshed_mol
-        self.needed_mol = copy.deepcopy(refreshed_mol)
-        del(refreshed_mol)
-        enrgs = list(map(lambda x: x.full_energy, self.needed_mol))
-        print('FULL ENERGY LIST:', enrgs)
-        print('FULL APPLY RULE:', self._apply_rule(enrgs))
-        print('FULL UNI ENERGY:', list(map(lambda x: x.uni_energy, self.needed_mol)))
-        return self._apply_rule(enrgs)
-
     def func_energy(self):
         """Compute the func energy for the system.
 
@@ -562,37 +532,6 @@ class System(object):
         enrgs = []
         for mol in self.needed_mol:
             enrgs.append(mol.func_energy)
-        return self._apply_rule(enrgs)
-
-    def p_func_energy(self):
-        """Compute the func energy for the system.
-
-        This method provides the right molecular energies to the _apply_rule
-        method and check if the system is blacklisted. If the system is
-        fulldftlisted, the method will call the fulldft_energy method
-        automatically.
-
-        Return: the energy of the system.
-
-        """
-        # return self.random_noise_result()
-        if self.blacklisted: self.blacklisted_error()
-        if self.fulldftlisted:
-            msg = 'System: {} - Calling fulldft even for func_energy'.\
-                format(self.id)
-            lg.warning(msg)
-            return self.p_full_energy()
-        my_pool = mproc.MyPool(processes=config['Processes_Func'])
-        output = [my_pool.apply_async(mol.func_energy_calc)
-                  for mol in self.needed_mol]
-        refreshed_mol = [p.get() for p in output]
-        print('FUNC ENERGY PLUS', refreshed_mol)
-        self.needed_mol = copy.deepcopy(refreshed_mol)
-        del(refreshed_mol)
-        enrgs = list(map(lambda x: x.func_energy, self.needed_mol))
-        print('FUNC ENERGY LIST', enrgs)
-        print('FUNC APPLY RULE:', self._apply_rule(enrgs))
-
         return self._apply_rule(enrgs)
 
     def full_energy_error(self):
