@@ -4,7 +4,9 @@
 import sys, os
 import logging as lg
 
-sys.path.append('/home/student1/Alberto/wb97xddsc/wb97xdDsC-optim/src/master')
+# Easier to port
+home = os.path.expanduser("~")
+sys.path.append(os.path.join(home, 'wb97xddsc/wb97xdDsC-optim/src/master'))
 
 from trset import TrainingSet, MolSet
 from params import Parameters
@@ -24,29 +26,6 @@ def main():
     prms = Parameters()
     Run(run_name=config['Name'], tset_path=config['TraininSetPath']).index = 'DENS-0000'
     trset = TrainingSet(config['TraininSetPath'], config['TraininSetName'])
-#    print(trset.container[0].container[0].p_compute_MAE('full'))
-#    print(trset.container[0].container[0].p_compute_MAE('func'))
-    # trset.container[0].p_compute_MAE('full')
-    # print(trset.container[0].MAE)
-    # trset.container[0].p_compute_MAE('func')
-    # print(trset.container[0].MAE)
-    # trset.p_compute_MAE('full')
-    # print(trset.MAE)
-    # trset.p_compute_MAE('func')
-    # print(trset.MAE)
-    #    print(trset.compute_MAE('fulldft'))
-    # print(MolSet.container)
-    # print(MolSet.container[0] is MolSet.to_compute[0])
-    # print(MolSet.to_compute[0].myprm_full.sprms)
-    # print(MolSet.to_compute[1].myprm_full.sprms)
-    # MolSet.to_compute[0].myprm_full.refresh()
-    # print(MolSet.container[0] is MolSet.to_compute[0])
-    # print(MolSet.container[0].myprm_full.sprms)
-    # print(MolSet.to_compute[1].myprm_full.sprms)
-    # print(MolSet.container[0].id,MolSet.container[0].myprm_full.sprms)
-    # print(MolSet.to_compute[0].id,MolSet.to_compute[0].myprm_full.sprms, MolSet.to_compute[0].full_energy)
-    # print(MolSet.to_compute[1].id,MolSet.to_compute[1].myprm_full.sprms)
-    # print(MolSet.to_compute[0].id,MolSet.to_compute[0].myprm_full.sprms)
     # MolSet.p_call_mol_energy('full')
     # print('NEEDEDMOL:',list(map(lambda x: x.id,trset.container[0].container[0].needed_mol)))
     # print('UNIENERGY:',list(map(lambda x: x.uni_energy,trset.container[0].container[0].needed_mol)))
@@ -69,14 +48,12 @@ def main():
 
 #    print(trset.compute_MAE('full'))
 #    print(trset.compute_MAE('func'))
-    print('APRMS', prms.prms)
     print(prms._parameters)
 
-    prms.optim = dict(tta=500, cx_aa_0=0.5)
+    prms.optim = ['tta', 'cx_aa_0']
+    trset.optimizer([13,0.5], 'full', 'MAE')
     print(prms._parameters)
 
-#    trset.optimizer([13,0.5], 'full', 'MAE')
-    print('BPRMS', prms.prms)
 
 def init_logging():
     if os.path.isfile(config['logfile']):

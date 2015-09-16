@@ -66,6 +66,8 @@ __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
 
 
+home = os.path.expanduser("~")
+
 class Run(object):
 
     _inout_id = None
@@ -74,17 +76,17 @@ class Run(object):
     _config = dict(dormi=1,
                    dormi_short=3,
                    timeout_max=10,
-                   densities_repo='/home/student1/Alberto/tmp_density_dir',
-                   gamess_bin='/home/student1/Alberto/LAST/gamess-all/gamess',
-                   params_dir='/home/student1/Alberto/wb97xddsc/TMP_DATA',
-                   sbatch_script_prefix='/home/student1/Alberto/wb97xddsc/TMP_DATA',
-                   tmp_density_dir='/home/student1/Alberto/wb97xddsc/TMP_DATA',
+                   densities_repo=os.path.join(home, 'tmp_density_dir'),
+                   gamess_bin=os.path.join(home, 'wb97xddsc/gamess-all/gamess'),
+                   params_dir=os.path.join(home, 'wb97xddsc/TMP_DATA'),
+                   sbatch_script_prefix=os.path.join(home, 'wb97xddsc/TMP_DATA'),
+                   tmp_density_dir=os.path.join(home, 'wb97xddsc/TMP_DATA'),
                    well_finished_strings=[b'exit gracefully',
                                           b'FINAL ENERGY INCLUDING dDsC DISPERSION:',
                                           b'DFT EXCHANGE + CORRELATION ENERGY =',
                                           b'Final Energy'],
                    command_full='/usr/bin/sbatch',
-                   command_func='/home/student1/Alberto/LAST/gamess-all/mini-gamess/STARTall.x'
+                   command_func=os.path.join(home, 'wb97xddsc/gamess-all/mini-gamess/STARTall.x')
                    )
 
 
@@ -201,8 +203,9 @@ class Run(object):
         txt += '#SBATCH --nodes=1\n'
         txt += '#SBATCH --ntasks-per-node=1\n'
         txt += '#SBATCH --partition=debug\n'
-        txt += 'source /software/ENV/set_mkl-110.sh\n'
-        txt += 'source /software/ENV/set_impi_410.sh\n'
+#        txt += 'source /software/ENV/set_mkl-110.sh\n'
+#        txt += 'source /software/ENV/set_impi_410.sh\n'
+        txt += 'module load intel/14.0.2\n'
         txt += 'export EXTBAS=/dev/null\n'
         txt += 'cd $SLURM_TMPDIR\n'
         txt += 'cp {INPUTFILE:s} $SLURM_TMPDIR\n'\

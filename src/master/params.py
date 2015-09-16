@@ -14,6 +14,8 @@
 
 import logging as lg
 import copy
+import os
+import re
 
 # Try determining the version from git:
 try:
@@ -33,9 +35,10 @@ __maintainer__ = 'Riccardo Petraglia'
 __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
 
+home = os.path.expanduser("~")
 config = dict(Precision=1E-8,
-              ParamFile='/home/student1/Alberto/wb97xddsc/TMP_DATA/FUNC_PAR.dat',
-	      dDsCParamFile='/home/student1/Alberto/wb97xddsc/TMP_DATA/a0b0')
+              ParamFile=os.path.join(home, 'wb97xddsc/TMP_DATA/FUNC_PAR.dat'),
+	      dDsCParamFile=os.path.join(home, 'wb97xddsc/TMP_DATA/a0b0'))
 
 
 class Parameters(object):
@@ -77,36 +80,37 @@ class Parameters(object):
         return __class__._to_optimize
 
     @optim.setter
-    def optim(self, dict_):
-        possible_parameters = list(__class__._parameters.keys())
-        to_add = ['cx_aa', 'cc_aa', 'cc_ab']
-        tmp = []
-        for p in possible_parameters:
-            if p in to_add:
-                for i in range(0, 5):
-                    tmp.append('{}_{:1d}'.format(p, int(i)))
-        for p in to_add:
-            possible_parameters.remove(p)
-        possible_parameters += tmp
+    def optim(self, list_):
+        # possible_parameters = list(__class__._parameters.keys())
+        # to_add = ['cx_aa', 'cc_aa', 'cc_ab']
+        # tmp = []
+        # for p in possible_parameters:
+        #     if p in to_add:
+        #         for i in range(0, 5):
+        #             tmp.append('{}_{:1d}'.format(p, int(i)))
+        # for p in to_add:
+        #     possible_parameters.remove(p)
+        # possible_parameters += tmp
 
-        tmp = copy.deepcopy(__class__._parameters)
+        # tmp = copy.deepcopy(__class__._parameters)
 
-        for k, v in dict_.items():
-            if k not in possible_parameters:
-                msg = 'Parameter {} cannot be used!'.format(k)
-                lg.error(msg)
-                raise TypeError(msg)
-            __class__._to_optimize.append(k)
+        # for k, v in dict_.items():
+        #     if k not in possible_parameters:
+        #         msg = 'Parameter {} cannot be used!'.format(k)
+        #         lg.error(msg)
+        #         raise TypeError(msg)
+        #     __class__._to_optimize.append(k)
 
-            try:
-                if int(k[-1]) < 5 and int(k[-1]) > -1:
-                    tmp[k[:-2]][int(k[-1])] = float(v)
-            except ValueError:
-                pass
+        #     try:
+        #         if int(k[-1]) < 5 and int(k[-1]) > -1:
+        #             tmp[k[:-2]][int(k[-1])] = float(v)
+        #     except ValueError:
+        #         pass
 
-            tmp[k] = [float(v)]
+        #     tmp[k] = [float(v)]
+        __class__._to_optimize = list_
 
-        self.prms = copy.deepcopy(tmp)
+        # self.prms = copy.deepcopy(tmp)
 
     @optim.getter
     def optim(self):
@@ -148,6 +152,7 @@ class Parameters(object):
             list_=['tta','ttb']
             for k in list_:
                 for i, v in enumerate(__class__._parameters[k]):
+                    print(k,i,v)
                     msg += str(v)+'\n'
             pf2.write(msg)
             
@@ -185,18 +190,57 @@ class Parameters(object):
             self.convert2dict(kvd, prms)
 
         if isinstance(kvd, dict):
+            expand_params = re.compile(r'\w{2}\_\w{2}\_\d')
+            expanded_selection = False
             for k in kvd.keys():
-                if k in prms.keys():
-                    if len(kvd[k]) == len(prms[k]):
-                        prms[k] = kvd[k]
-                    else:
-                        msg = 'The number of parameters specified does not\
-                        match the expected number'
+                if expand_params.match(k):
+                    expanded_selection = True
+                    break
+                    
+            if expanded_selection:
+                dict_ = kvd
+                possible_parameters = list(__class__._parameters.keys())
+                to_add = ['cx_aa', 'cc_aa', 'cc_ab']
+                tmp = []
+                for p in possible_parameters:
+                    if p in to_add:
+                        for i in range(0, 5):
+                            tmp.append('{}_{:1d}'.format(p, int(i)))
+                for p in to_add:
+                    possible_parameters.remove(p)
+                possible_parameters += tmp
+
+                tmp = copy.deepcopy(__class__._parameters)
+
+                for k, v in dict_.items():
+                    if k not in possible_parameters:
+                        msg = 'Parameter {} cannot be used!'.format(k)
                         lg.error(msg)
-                else:
-                    msg = 'The dict contains keys not present in the parameters\
-                    dict. Those will be ignored.'
-                    lg.error(msg)
+                        raise TypeError(msg)
+                    __class__._to_optimize.append(k)
+
+                    try:
+                        if int(k[-1]) < 5 and int(k[-1]) > -1:
+                            tmp[k[:-2]][int(k[-1])] = float(v)
+                    except ValueError:
+                        pass
+
+                    tmp[k] = [float(v)]
+
+                self.prms = copy.deepcopy(tmp)
+            else:
+                for k in kvd.keys():
+                    if k in prms.keys():
+                        if len(kvd[k]) == len(prms[k]):
+                            prms[k] = kvd[k]
+                        else:
+                            msg = 'The number of parameters specified does not\
+                            match the expected number'
+                            lg.error(msg)
+                    else:
+                        msg = 'The dict contains keys not present in the parameters\
+                        dict. Those will be ignored.'
+                        lg.error(msg)
 
     def convert2dict(self, list_, to_dict):
         keys = sorted(list(to_dict.keys()))
