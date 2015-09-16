@@ -46,13 +46,23 @@ def main():
                        cc_aa=[1.000000, -4.33879, 18.2308, -31.7430, 17.2901],
                        cc_ab=[1.000000, 2.37031, -11.3995, 6.58405, -3.78132])
 
-#    print(trset.compute_MAE('full'))
-#    print(trset.compute_MAE('func'))
+    print(prms._parameters)
+#    prms.prms = {'cx_aa_0': 0.5, 'cc_aa_2':12000, 'tta':100}
+    #    print(trset.compute_MAE('full'))
     print(prms._parameters)
 
+
+
     prms.optim = ['tta', 'cx_aa_0']
+    print(prms.optim)
     trset.optimizer([13,0.5], 'full', 'MAE')
-    print(prms._parameters)
+    print('11111111', prms._parameters)
+    trset.optimizer([13,0.5], 'func', 'MAE')
+    print('22222222', prms._parameters)
+    print('RESTARTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT')
+    trset.optimizer([13.1,0.5], 'func', 'MAE')
+    print('33333333',prms._parameters)
+#    print(trset.compute_MAE('func'))
 
 
 def init_logging():

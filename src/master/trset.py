@@ -85,7 +85,6 @@ class MolSet(object):
             tmp = [0] * len(__class__.container)
             for i in __class__.to_compute:
                 tmp[i] = 1
-            print('ITERTOOLS:', itertools.compress(__class__.container, tmp))
             my_pool = mproc.MyPool()
             if kind == 'full':
                 output = [my_pool.apply_async(mol.full_energy_calc)
@@ -102,9 +101,8 @@ class MolSet(object):
             for p in output:
                 new_mols = [p.get() for p in output]
             __class__.refresh_container(new_mols)
-            for mol in new_mols:
-                print(mol.full_energy, mol.myprm_full.sprms)
-            print('Everything computed')
+            # for mol in new_mols:
+            #     print(mol.full_energy, mol.myprm_full.sprms)
             __class__._lock = False
 
     @staticmethod
@@ -116,7 +114,7 @@ class MolSet(object):
             tmp = [0] * len(__class__.container)
             for i in __class__.to_compute:
                 tmp[i] = 1
-            print('ITERTOOLS:', itertools.compress(__class__.container, tmp))
+            # print('ITERTOOLS:', itertools.compress(__class__.container, tmp))
             for mol in itertools.compress(__class__.container, tmp):
                 if kind == 'full':
                     mol.full_energy_calc()
@@ -299,11 +297,11 @@ class Molecule(object):
         lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
                  .format(str(self._full_energy),
                          str(self.myprm_full.check_prms())))
-        print('COMPUTE OR NOT:', self._full_energy,
-              self.myprm_full.check_prms(), not self._full_energy,
-              not self.myprm_full.check_prms())
+        # print('COMPUTE OR NOT:', self._full_energy,
+        #       self.myprm_full.check_prms(), not self._full_energy,
+        #       not self.myprm_full.check_prms())
         if not self._full_energy or not self.myprm_full.check_prms():
-            print('Compute the BigGamess energy. If problem return None')
+            # print('Compute the BigGamess energy. If problem return None')
             full_energy, full_exc, full_disp = self._run.full()
             uni_energy = full_energy - full_exc - full_disp
             lg.debug('Full Energy for {ID:s} is {ENERGY:12.6f}'
@@ -512,7 +510,6 @@ class System(object):
         enrgs = []
         for mol in self.needed_mol:
             enrgs.append(mol.full_energy)
-        print('AAAAAAAAAAAA', enrgs)
         return self._apply_rule(enrgs)
 
     def func_energy(self):
@@ -705,9 +702,12 @@ class Set(object):
 
     def optimizer(self, params, kind, error_type):
         dict_ = {}
+        print('aAAAAAAAAa',self.prms.optim)
         for i, p in enumerate(self.prms.optim):
+            print (i,p)
             dict_[p] = params[i]
-        self.prms.optim = dict_
+        print(dict_)
+        self.prms.prms = dict_
 
         if error_type == 'MAE':
             return self.compute_MAE(kind)

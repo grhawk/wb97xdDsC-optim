@@ -239,9 +239,9 @@ class Run(object):
                                       SBATCH_FILE=self._sbatch_file))
         self._write_input()
         self._write_sbatch()
-        self._run(command)
+        #self._run(command)
         energies = self._readout()
-        self._move_data()
+        #self._move_data()
         return energies
 
     def func(self):
@@ -255,5 +255,5 @@ class Run(object):
                                       WB97X_PARAM=wb97x_param,
                                       DDSC_PARAM=ddsc_param))
 
-        print(self._run(command).split())
+        #print(self._run(command).split())
         return (float(self._run(command).split()[1]))

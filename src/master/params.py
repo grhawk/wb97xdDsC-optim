@@ -36,7 +36,7 @@ __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
 
 home = os.path.expanduser("~")
-config = dict(Precision=1E-8,
+config = dict(Precision=1E-18,
               ParamFile=os.path.join(home, 'wb97xddsc/TMP_DATA/FUNC_PAR.dat'),
 	      dDsCParamFile=os.path.join(home, 'wb97xddsc/TMP_DATA/a0b0'))
 
@@ -144,7 +144,7 @@ class Parameters(object):
             list_=['cxhf','cx_aa','omega','cc_aa','cc_ab']
             for k in list_:
                 for i, v in enumerate(__class__._parameters[k]):
-                    print(k,i,v)
+#                    print(k,i,v)
                     msg += str(k)+str(i)+'   '+str(v)+'\n'
             pf.write(msg)
         msg=''
@@ -152,7 +152,7 @@ class Parameters(object):
             list_=['tta','ttb']
             for k in list_:
                 for i, v in enumerate(__class__._parameters[k]):
-                    print(k,i,v)
+#                    print(k,i,v)
                     msg += str(v)+'\n'
             pf2.write(msg)
             
@@ -194,9 +194,10 @@ class Parameters(object):
             expanded_selection = False
             for k in kvd.keys():
                 if expand_params.match(k):
+                    print(expand_params.match(k))
                     expanded_selection = True
                     break
-                    
+
             if expanded_selection:
                 dict_ = kvd
                 possible_parameters = list(__class__._parameters.keys())
@@ -210,6 +211,8 @@ class Parameters(object):
                     possible_parameters.remove(p)
                 possible_parameters += tmp
 
+#                print(possible_parameters)
+                
                 tmp = copy.deepcopy(__class__._parameters)
 
                 for k, v in dict_.items():
@@ -217,17 +220,17 @@ class Parameters(object):
                         msg = 'Parameter {} cannot be used!'.format(k)
                         lg.error(msg)
                         raise TypeError(msg)
-                    __class__._to_optimize.append(k)
+                    
+#                    __class__._to_optimize.append(k)
 
                     try:
                         if int(k[-1]) < 5 and int(k[-1]) > -1:
                             tmp[k[:-2]][int(k[-1])] = float(v)
                     except ValueError:
-                        pass
+                        tmp[k] = [float(v)]
 
-                    tmp[k] = [float(v)]
-
-                self.prms = copy.deepcopy(tmp)
+                __class__._parameters = copy.deepcopy(tmp)
+                
             else:
                 for k in kvd.keys():
                     if k in prms.keys():
