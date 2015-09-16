@@ -4,7 +4,7 @@
 import sys, os
 import logging as lg
 
-sys.path.append('/home/petragli/wb97xddsc/gamess-opt/wb97xdDsC-optim/src/master')
+sys.path.append('/home/student1/Alberto/wb97xddsc/wb97xdDsC-optim/src/master')
 
 from trset import TrainingSet, MolSet
 from params import Parameters
@@ -58,11 +58,24 @@ def main():
     #     print(mol.myprm_full.sprms)
     #     print(mol.myprm_func.sprms)
 
-    print(trset.compute_MAE('full'))
-    print(trset.compute_MAE('func'))
+
+    prms.prms = dict(tta=[13.300000190734863],
+                       ttb=[1.5299999713897705],
+                       cxhf=[0.157706],
+                       omega=[0.3],
+                       cx_aa=[0.842294, 0.726479, 1.04760, -5.70635, 13.2794],
+                       cc_aa=[1.000000, -4.33879, 18.2308, -31.7430, 17.2901],
+                       cc_ab=[1.000000, 2.37031, -11.3995, 6.58405, -3.78132])
+
+#    print(trset.compute_MAE('full'))
+#    print(trset.compute_MAE('func'))
     print('APRMS', prms.prms)
-    prms.optim = dict(tta=500, cc_aa_1=2)
-    trset.optimizer([12,3], 'func', 'MAE')
+    print(prms._parameters)
+
+    prms.optim = dict(tta=500, cx_aa_0=0.5)
+    print(prms._parameters)
+
+#    trset.optimizer([13,0.5], 'full', 'MAE')
     print('BPRMS', prms.prms)
 
 def init_logging():

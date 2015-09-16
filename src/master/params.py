@@ -34,7 +34,8 @@ __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
 
 config = dict(Precision=1E-8,
-              ParamFile='parametri.inp')
+              ParamFile='/home/student1/Alberto/wb97xddsc/TMP_DATA/FUNC_PAR.dat',
+	      dDsCParamFile='/home/student1/Alberto/wb97xddsc/TMP_DATA/a0b0')
 
 
 class Parameters(object):
@@ -60,6 +61,16 @@ class Parameters(object):
     def __init__(self):
         self._sparameters = copy.deepcopy(__class__._parameters)
         self.sprms = {'tta' : [1]}
+
+    def _constr(self):
+        cx=list(__class__._parameters['cxhf'])
+        cx0=list(__class__._parameters['cx_aa'])
+        test=abs(1-float(cx0[0]+cx[0]))
+        if test <= 0.1:
+            print('UEG, OK')
+        else:
+            print('UEG, wrong. ALPHAC will be changed.')
+            __class__._parameters['cxhf']=[1.0-float(cx0[0])]
 
     @property
     def optim(self):
@@ -123,8 +134,23 @@ class Parameters(object):
         # il valore passato per l'altro parametro e' diverso da None) allora
         # raise un warning. Poi settare i parametri in modo che siano sempre
         # consistenti e scriverli nel giusto file con la giusta formattazione!
+        self._constr()
+        msg=''
         with open(config['ParamFile'], 'w') as pf:
-            pf.write(' '.join(map(str, self.convert2list(__class__._parameters))))
+            list_=['cxhf','cx_aa','omega','cc_aa','cc_ab']
+            for k in list_:
+                for i, v in enumerate(__class__._parameters[k]):
+                    print(k,i,v)
+                    msg += str(k)+str(i)+'   '+str(v)+'\n'
+            pf.write(msg)
+        msg=''
+        with open(config['dDsCParamFile'], 'w') as pf2:
+            list_=['tta','ttb']
+            for k in list_:
+                for i, v in enumerate(__class__._parameters[k]):
+                    msg += str(v)+'\n'
+            pf2.write(msg)
+            
 
     @prms.getter
     def prms(self):

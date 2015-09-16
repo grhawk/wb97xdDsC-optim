@@ -74,17 +74,17 @@ class Run(object):
     _config = dict(dormi=1,
                    dormi_short=3,
                    timeout_max=10,
-                   densities_repo='/home/petragli/tmp_density_dir',
-                   gamess_bin='/home/petragli/wb97xddsc/gamess-opt/gamess/gamess',
-                   params_dir='/home/petragli/wb97xddsc/TMP_DATA',
-                   sbatch_script_prefix='/home/petragli/wb97xddsc/TMP_DATA',
-                   tmp_density_dir='/home/petragli/wb97xddsc/TMP_DATA',
+                   densities_repo='/home/student1/Alberto/tmp_density_dir',
+                   gamess_bin='/home/student1/Alberto/LAST/gamess-all/gamess',
+                   params_dir='/home/student1/Alberto/wb97xddsc/TMP_DATA',
+                   sbatch_script_prefix='/home/student1/Alberto/wb97xddsc/TMP_DATA',
+                   tmp_density_dir='/home/student1/Alberto/wb97xddsc/TMP_DATA',
                    well_finished_strings=[b'exit gracefully',
                                           b'FINAL ENERGY INCLUDING dDsC DISPERSION:',
                                           b'DFT EXCHANGE + CORRELATION ENERGY =',
                                           b'Final Energy'],
                    command_full='/usr/bin/sbatch',
-                   command_func='/home/petragli/wb97xddsc/gamess-opt/gamess/mini-gamess/STARTall.x'
+                   command_func='/home/student1/Alberto/LAST/gamess-all/mini-gamess/STARTall.x'
                    )
 
 
@@ -236,9 +236,9 @@ class Run(object):
                                       SBATCH_FILE=self._sbatch_file))
         self._write_input()
         self._write_sbatch()
-#        self._run(command)
+        self._run(command)
         energies = self._readout()
-#        self._move_data()
+        self._move_data()
         return energies
 
     def func(self):
