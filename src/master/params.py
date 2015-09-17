@@ -70,7 +70,8 @@ class Parameters(object):
         cx0=list(__class__._parameters['cx_aa'])
         test=abs(1-float(cx0[0]+cx[0]))
         if test <= 0.1:
-            print('UEG, OK')
+            pass
+            #print('UEG, OK')
         else:
             print('UEG, wrong. ALPHAC will be changed.')
             __class__._parameters['cxhf']=[1.0-float(cx0[0])]

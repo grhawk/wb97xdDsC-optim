@@ -114,7 +114,6 @@ class MolSet(object):
             tmp = [0] * len(__class__.container)
             for i in __class__.to_compute:
                 tmp[i] = 1
-            # print('ITERTOOLS:', itertools.compress(__class__.container, tmp))
             for mol in itertools.compress(__class__.container, tmp):
                 if kind == 'full':
                     mol.full_energy_calc()
@@ -135,7 +134,6 @@ class MolSet(object):
             else:
                 for i, el in enumerate(__class__.container):
                     if el.id == mol.id:
-                        print(el.id, mol.id, mol.full_energy)
                         __class__.container[i] = mol
         return None
 
@@ -351,6 +349,7 @@ class Molecule(object):
                 msg = 'UniEnergy is not a float for {MOLID:s}!'\
                       .format(MOLID=self.id)
                 raise RuntimeError(msg)
+            print('UNIENERGY:',self._uni_energy)
             self._func_energy = func_energy + self._uni_energy
 
         return self
@@ -702,11 +701,8 @@ class Set(object):
 
     def optimizer(self, params, kind, error_type):
         dict_ = {}
-        print('aAAAAAAAAa',self.prms.optim)
         for i, p in enumerate(self.prms.optim):
-            print (i,p)
             dict_[p] = params[i]
-        print(dict_)
         self.prms.prms = dict_
 
         if error_type == 'MAE':

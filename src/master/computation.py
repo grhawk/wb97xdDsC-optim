@@ -237,6 +237,7 @@ class Run(object):
         command = shlex.split('{COMMAND:s} {SBATCH_FILE:s}'
                               .format(COMMAND=__class__._config['command_full'],
                                       SBATCH_FILE=self._sbatch_file))
+        print('FULL HAS BEEN CALLED')
         self._write_input()
         self._write_sbatch()
         #self._run(command)
