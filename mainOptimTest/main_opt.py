@@ -3,11 +3,11 @@
 
 import sys, os
 import logging as lg
-
+from scipy.optimize import minimize
 
 # Easier to port
 home = os.path.expanduser("~")
-sys.path.append(os.path.join(home, 'wb97xddsc/wb97xdDsC-optim/src/master'))
+sys.path.append(os.path.join(home, 'wb97xddsc/wb97xdDsC-optim/mainOptimTest/master'))
 
 from trset import TrainingSet, MolSet
 from params import Parameters
@@ -47,26 +47,23 @@ def main():
                        cc_aa=[1.000000, -4.33879, 18.2308, -31.7430, 17.2901],
                        cc_ab=[1.000000, 2.37031, -11.3995, 6.58405, -3.78132])
 
-#    print(prms._parameters)
+    print(prms._parameters)
 #    prms.prms = {'cx_aa_0': 0.5, 'cc_aa_2':12000, 'tta':100}
-    #    print(trset.compute_MAE('full'))
+#    print(trset.compute_MAE('full'))
 #    print(prms._parameters)
-
-
 
     prms.optim = ['tta', 'cx_aa_0']
-
-
-
     print(prms.optim)
-    trset.optimizer([13,0.5], 'full', 'MAE')
-    print('11111111')#, prms._parameters)
-    trset.optimizer([13,0.5], 'func', 'MAE')
-    print('22222222')#, prms._parameters)
-    trset.optimizer([13.1,0.5], 'func', 'MAE')
-    print('33333333')#,prms._parameters)
-#    print(trset.compute_MAE('func'))
+    
+    x0_=[13.40000, 0.5000]
 
+
+    def printer(xc):
+       print('END of STEP')
+       print(xc)
+
+    print(trset.optimizer(x0_,'full','MAE'))
+    print(minimize(trset.optimizer,x0_,args=('func','MAE'),method='BFGS', callback=printer, options={'disp':True}))
 
 def init_logging():
     if os.path.isfile(config['logfile']):
