@@ -77,7 +77,7 @@ class Run(object):
                    dormi_short=3,
                    timeout_max=10,
                    densities_repo=os.path.join(home, 'tmp_density_dir'),
-                   gamess_bin=os.path.join(home, 'wb97xddsc/gamess-all/gamess'),
+                   gamess_bin=os.path.join(home, 'wb97xddsc/GAMESS/gamess'),
                    params_dir=os.path.join(home, 'wb97xddsc/TMP_DATA'),
                    sbatch_script_prefix=os.path.join(home, 'wb97xddsc/TMP_DATA'),
                    tmp_density_dir=os.path.join(home, 'wb97xddsc/TMP_DATA'),
@@ -86,7 +86,7 @@ class Run(object):
                                           b'DFT EXCHANGE + CORRELATION ENERGY =',
                                           b'Final Energy'],
                    command_full='/usr/bin/sbatch',
-                   command_func=os.path.join(home, 'wb97xddsc/gamess-all/mini-gamess/STARTall.x')
+                   command_func=os.path.join(home, 'wb97xddsc/GAMESS/mini-gamess/STARTall.x')
                    )
 
 
@@ -240,9 +240,9 @@ class Run(object):
         print('FULL HAS BEEN CALLED')
         self._write_input()
         self._write_sbatch()
-        #self._run(command)
+        self._run(command)
         energies = self._readout()
-        #self._move_data()
+        self._move_data()
         return energies
 
     def func(self):
