@@ -54,14 +54,19 @@ def main():
 
 
     prms.optim = ['tta', 'cx_aa_0']
-    print(prms.optim)
-    trset.optimizer([13,0.5], 'full', 'MAE')
-    print('11111111')#, prms._parameters)
-    trset.optimizer([13,0.5], 'func', 'MAE')
-    print('22222222')#, prms._parameters)
-    trset.optimizer([13.1,0.5], 'func', 'MAE')
-    print('33333333')#,prms._parameters)
+#    print(prms.optim)
+#    print(trset.optimizer([13,0.5], 'full', 'MAE'))
+#    print('11111111')#, prms._parameters)
+#    print(trset.optimizer([13,0.5], 'func', 'MAE'))
+#    print('22222222')#, prms._parameters)
+#    print(trset.optimizer([13.1,0.5], 'func', 'MAE'))
+#    print('33333333')#,prms._parameters)
 #    print(trset.compute_MAE('func'))
+    print(trset.optimizer([13, .5], 'full', 'MAE'))
+#    print(trset.optimizer([13, .5], 'func', 'MAE'))
+    for i in range(0,100):
+       print(i, trset.optimizer([13+i/10, .5], 'func', 'MAE'))
+
 
 
 def init_logging():

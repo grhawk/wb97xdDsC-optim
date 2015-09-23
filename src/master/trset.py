@@ -16,7 +16,8 @@ import logging as lg
 import os
 import sys
 import copy
-import mproc
+#import mproc
+import multiprocessing as mproc
 from computation import Run
 import itertools
 
@@ -58,6 +59,7 @@ class MolSet(object):
     container = []
     to_compute = []
     _lock = False
+    my_pool = mproc.Pool()
 
     @staticmethod
     def addto_compute(mols_cidx):
@@ -85,7 +87,7 @@ class MolSet(object):
             tmp = [0] * len(__class__.container)
             for i in __class__.to_compute:
                 tmp[i] = 1
-            my_pool = mproc.MyPool()
+            my_pool = mproc.Pool()
             if kind == 'full':
                 output = [my_pool.apply_async(mol.full_energy_calc)
                           for mol in itertools.compress(__class__.container,
@@ -103,6 +105,7 @@ class MolSet(object):
             __class__.refresh_container(new_mols)
             # for mol in new_mols:
             #     print(mol.full_energy, mol.myprm_full.sprms)
+            my_pool.terminate()
             __class__._lock = False
 
     @staticmethod
@@ -279,6 +282,7 @@ class Molecule(object):
     @full_energy.getter
     def full_energy(self):
         self.full_energy_calc()
+        print(self.id, self._full_energy)
         return self._full_energy
 
     def full_energy_calc(self):
@@ -319,6 +323,7 @@ class Molecule(object):
     @func_energy.getter
     def func_energy(self):
         self.func_energy_calc()
+        print(self.id, self._func_energy)
         return self._func_energy
 
     def func_energy_calc(self):
@@ -349,9 +354,7 @@ class Molecule(object):
                 msg = 'UniEnergy is not a float for {MOLID:s}!'\
                       .format(MOLID=self.id)
                 raise RuntimeError(msg)
-            print('UNIENERGY:',self._uni_energy)
             self._func_energy = func_energy + self._uni_energy
-
         return self
 
 

@@ -39,7 +39,8 @@ class NoDaemonProcess(multiprocessing.Process):
 
 
 class MyPool(multiprocessing.pool.Pool):
-    Process = NoDaemonProcess
+    #Process = NoDaemonProcess
+    pass
 
 
 if __name__ == '__main__':
