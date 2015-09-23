@@ -85,8 +85,8 @@ class Run(object):
                                           b'FINAL ENERGY INCLUDING dDsC DISPERSION:',
                                           b'DFT EXCHANGE + CORRELATION ENERGY =',
                                           b'Final Energy'],
-                   command_full='ssh lcmdlc2 /usr/bin/sbatch',
-                   command_func=os.path.join(home, 'wb97xddsc/gamess-all/mini-gamess/STARTall.x')
+                   command_full='/usr/bin/sbatch',
+                   command_func=os.path.join(home, 'wb97xddsc/GAMESS/mini-gamess/STARTall.x')
                    )
 
 
@@ -170,7 +170,6 @@ class Run(object):
                     print('Problem with energy in GAMESS',
                           float(find[1].split()[5]))
                     exit()
-                print(find[1],find[2],find[3])
                 return (float(find[1].split()[5]),
                         float(find[2].split()[6]), float(find[3].split()[2]))
 
@@ -204,10 +203,10 @@ class Run(object):
         txt += '#SBATCH --nodes=1\n'
         txt += '#SBATCH --ntasks-per-node=1\n'
         txt += '#SBATCH --partition=debug\n'
+#        txt += 'source /software/ENV/set_mkl-110.sh\n'
+#        txt += 'source /software/ENV/set_impi_410.sh\n'
         txt += 'module load intel/14.0.2\n'
         txt += 'export EXTBAS=/dev/null\n'
-        txt += 'echo $PWD\n'
-        txt += 'WORKINGDIR=$PWD\n'
         txt += 'cd $SLURM_TMPDIR\n'
         txt += 'cp {INPUTFILE:s} $SLURM_TMPDIR\n'\
             .format(INPUTFILE=self._inout_inp_path)
@@ -228,7 +227,7 @@ class Run(object):
             format(dDSC_DEST=os.path.join(__class__
                                           ._config['tmp_density_dir'],
                                           self.molID + '.ddsc'))
-        txt += 'cp -ar $SLURM_TMPDIR $WORKINGDIR\n'
+#        txt += 'cp -ar $SLURM_TMPDIR .\n'
         txt += 'exit\n'
 
         with open(self._sbatch_file, 'w') as f:
@@ -238,6 +237,7 @@ class Run(object):
         command = shlex.split('{COMMAND:s} {SBATCH_FILE:s}'
                               .format(COMMAND=__class__._config['command_full'],
                                       SBATCH_FILE=self._sbatch_file))
+        print('FULL HAS BEEN CALLED')
         self._write_input()
         self._write_sbatch()
         self._run(command)
@@ -249,14 +249,12 @@ class Run(object):
         wb97x_param = os.path.join(__class__
                                    ._config['params_dir'], 'FUNC_PAR.dat')
         ddsc_param = os.path.join(__class__._config['params_dir'], 'a0b0')
-        command = '{COMMAND:s} {WB97X_DATA:s} {DDSC_DATA:s} {WB97X_PARAM:s} {DDSC_PARAM:s}'\
-            .format(COMMAND=__class__._config['command_func'],
-                    WB97X_DATA=self._wb97x_saves,
-                    DDSC_DATA=self._ddsc_saves,
-                    WB97X_PARAM=wb97x_param,
-                    DDSC_PARAM=ddsc_param)
-        print(command)
-        command = shlex.split(command)
-        
-        print(self._run(command).split())
+        command = shlex.split('{COMMAND:s} {WB97X_DATA:s} {DDSC_DATA:s} {WB97X_PARAM:s} {DDSC_PARAM:s}'
+                              .format(COMMAND=__class__._config['command_func'],
+                                      WB97X_DATA=self._wb97x_saves,
+                                      DDSC_DATA=self._ddsc_saves,
+                                      WB97X_PARAM=wb97x_param,
+                                      DDSC_PARAM=ddsc_param))
+
+        #print(self._run(command).split())
         return (float(self._run(command).split()[1]))
