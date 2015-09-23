@@ -63,7 +63,7 @@ def main():
        print(xc)
 
     print(trset.optimizer(x0_,'full','MAE'))
-    print(minimize(trset.optimizer,x0_,args=('func','MAE'),method='BFGS', callback=printer, options={'disp':True}))
+    print(minimize(trset.optimizer,x0_,args=('func','MAE'),method='BFGS', callback=printer))
 
 def init_logging():
     if os.path.isfile(config['logfile']):

@@ -709,7 +709,7 @@ class Set(object):
         if error_type == 'MAE':
             min = self.compute_MAE(kind)
 
-        print(params, min)
+#       print(params, min)
         return min
 
 

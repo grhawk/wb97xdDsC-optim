@@ -86,7 +86,7 @@ class Run(object):
                                           b'DFT EXCHANGE + CORRELATION ENERGY =',
                                           b'Final Energy'],
                    command_full='ssh lcmdlc2 /usr/bin/sbatch',
-                   command_func=os.path.join(home, 'wb97xddsc/gamess-all/mini-gamess/STARTall.x')
+                   command_func=os.path.join(home, 'wb97xddsc/GAMESS/mini-gamess/STARTall.x')
                    )
 
 

@@ -709,7 +709,10 @@ class Set(object):
         self.prms.prms = dict_
 
         if error_type == 'MAE':
-            return self.compute_MAE(kind)
+            min = self.compute_MAE(kind)
+
+        print(params, min)
+        return min
 
 
 class DataSet(Set):

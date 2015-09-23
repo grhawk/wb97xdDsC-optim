@@ -3,7 +3,7 @@
 
 import sys, os
 import logging as lg
-
+from scipy.optimize import minimize
 
 # Easier to port
 home = os.path.expanduser("~")
@@ -47,28 +47,19 @@ def main():
                        cc_aa=[1.000000, -4.33879, 18.2308, -31.7430, 17.2901],
                        cc_ab=[1.000000, 2.37031, -11.3995, 6.58405, -3.78132])
 
-#    print(prms._parameters)
-#    prms.prms = {'cx_aa_0': 0.5, 'cc_aa_2':12000, 'tta':100}
-    #    print(trset.compute_MAE('full'))
-#    print(prms._parameters)
+    prms.optim = ['tta', 'cx_aa_0']
+    print(prms.optim)
+    
+    x0_=[13.30000, 0.8400]
 
 
+    def printer(xc):
+       print('END of STEP', xc)
 
     prms.optim = ['tta', 'cx_aa_0']
-#    print(prms.optim)
-#    print(trset.optimizer([13,0.5], 'full', 'MAE'))
-#    print('11111111')#, prms._parameters)
-#    print(trset.optimizer([13,0.5], 'func', 'MAE'))
-#    print('22222222')#, prms._parameters)
-#    print(trset.optimizer([13.1,0.5], 'func', 'MAE'))
-#    print('33333333')#,prms._parameters)
-#    print(trset.compute_MAE('func'))
-    print(trset.optimizer([13, .5], 'full', 'MAE'))
-#    print(trset.optimizer([13, .5], 'func', 'MAE'))
-    for i in range(0,100):
-       print(i, trset.optimizer([13+i/10, .5], 'func', 'MAE'))
 
-
+    print(trset.optimizer(x0_,'full','MAE'))
+    print(minimize(trset.optimizer,x0_,args=('func','MAE'),method='BFGS', callback=printer))
 
 def init_logging():
     if os.path.isfile(config['logfile']):
