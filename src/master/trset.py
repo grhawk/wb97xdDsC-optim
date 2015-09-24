@@ -282,7 +282,7 @@ class Molecule(object):
     @full_energy.getter
     def full_energy(self):
         self.full_energy_calc()
-        print(self.id, self._full_energy)
+        # print(self.id, self._full_energy)
         return self._full_energy
 
     def full_energy_calc(self):
@@ -323,7 +323,7 @@ class Molecule(object):
     @func_energy.getter
     def func_energy(self):
         self.func_energy_calc()
-        print(self.id, self._func_energy)
+        # print(self.id, self._func_energy)
         return self._func_energy
 
     def func_energy_calc(self):
@@ -711,7 +711,7 @@ class Set(object):
         if error_type == 'MAE':
             min = self.compute_MAE(kind)
 
-        print(params, min)
+        print('PAR:',params, 'MAD:',min)
         return min
 
 

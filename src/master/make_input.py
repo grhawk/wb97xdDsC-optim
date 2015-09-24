@@ -127,7 +127,6 @@ class Input(object):
         self.gamess['CONTRL']['MULT'] = self.multiplicity
         if len(self.atoms) < 2:
             self.gamess['CONTRL']['SCFTYP'] = 'UHF'
-            print("Alberto", self.atoms[0].upper())
             if self.atoms[0].upper() == 'H':
                self.gamess['CONTRL']['DFTTYP'] = 'B97'
         else:

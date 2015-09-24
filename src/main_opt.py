@@ -47,19 +47,41 @@ def main():
                        cc_aa=[1.000000, -4.33879, 18.2308, -31.7430, 17.2901],
                        cc_ab=[1.000000, 2.37031, -11.3995, 6.58405, -3.78132])
 
+
+
     prms.optim = ['tta', 'cx_aa_0']
-    print(prms.optim)
-    
     x0_=[13.30000, 0.8400]
 
+    trset.optimizer(x0_,'full','MAE')
+#    print(minimize(trset.optimizer,x0_,args=('func','MAE'),method='BFGS', options={'maxiter':1}))
+    # for i in range(10):
+    #     trset.optimizer(x0_[:1] + [x0_[1]+float(i)/10.]+ [x0_[2]-float(i)/10.],'func','MAE')
 
-    def printer(xc):
-       print('END of STEP', xc)
+    all_x = []
+    all_l = []
+    with open('asd', 'r') as f:
+        for l in f:
+            if l.find('PAR:') > -1:
+                x = l.split()[2:4]
+                try:
+                    x = [float(x[0]), float(x[1][:-1])]
+                except:
+                    pass
+                all_x.append(x)
+                all_l.append(l)    
 
-    prms.optim = ['tta', 'cx_aa_0']
 
-    print(trset.optimizer(x0_,'full','MAE'))
-    print(minimize(trset.optimizer,x0_,args=('func','MAE'),method='BFGS', callback=printer))
+    import random
+    for k in range(1,10):
+        i = random.randint(0,len(all_x))
+        trset.optimizer(all_x[i],'func','MAE')
+        print(all_l[i])
+
+                    
+def printer(xc):
+    print('END of STEP', xc)
+
+
 
 def init_logging():
     if os.path.isfile(config['logfile']):

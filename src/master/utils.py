@@ -95,3 +95,7 @@ def create_dir(path):
     else:
         os.makedirs(path)
     return
+
+
+def sum_is_one(flt1, flt2):
+    return abs(1.0-flt1+flt2) <= 1E-6

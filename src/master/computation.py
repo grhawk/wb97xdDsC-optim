@@ -77,7 +77,7 @@ class Run(object):
                    dormi_short=3,
                    timeout_max=10,
                    densities_repo=os.path.join(home, 'tmp_density_dir'),
-                   gamess_bin=os.path.join(home, 'wb97xddsc/GAMESS/gamess'),
+                   gamess_bin=os.path.join(home, 'wb97xddsc/gamess-all/gamess'),
                    params_dir=os.path.join(home, 'wb97xddsc/TMP_DATA'),
                    sbatch_script_prefix=os.path.join(home, 'wb97xddsc/TMP_DATA'),
                    tmp_density_dir=os.path.join(home, 'wb97xddsc/TMP_DATA'),
@@ -86,7 +86,7 @@ class Run(object):
                                           b'DFT EXCHANGE + CORRELATION ENERGY =',
                                           b'Final Energy'],
                    command_full='ssh lcmdlc2 /usr/bin/sbatch',
-                   command_func=os.path.join(home, 'wb97xddsc/GAMESS/mini-gamess/STARTall.x')
+                   command_func=os.path.join(home, 'wb97xddsc/gamess-all/mini-gamess/STARTall.x')
                    )
 
 
@@ -170,7 +170,7 @@ class Run(object):
                     print('Problem with energy in GAMESS',
                           float(find[1].split()[5]))
                     exit()
-                print(find[1],find[2],find[3])
+                # print(find[1],find[2],find[3])
                 return (float(find[1].split()[5]),
                         float(find[2].split()[6]), float(find[3].split()[2]))
 
@@ -255,8 +255,8 @@ class Run(object):
                     DDSC_DATA=self._ddsc_saves,
                     WB97X_PARAM=wb97x_param,
                     DDSC_PARAM=ddsc_param)
-        print(command)
+        # print(command)
         command = shlex.split(command)
         
-        print(self._run(command).split())
+        # print(self._run(command).split())
         return (float(self._run(command).split()[1]))
