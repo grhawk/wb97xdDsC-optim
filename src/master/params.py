@@ -37,8 +37,11 @@ __status__ = 'development'
 
 home = os.path.expanduser("~")
 config = dict(Precision=1E-18,
-              ParamFile=os.path.join(home, 'wb97xddsc/TMP_DATA/FUNC_PAR.dat'),
-	      dDsCParamFile=os.path.join(home, 'wb97xddsc/TMP_DATA/a0b0'))
+             ParamFile=os.path.join('/scratch/TMP_DATA/FUNC_PAR.dat'),
+             dDsCParamFile=os.path.join('/scratch/TMP_DATA/a0b0'))
+
+#              ParamFile=os.path.join(home, 'wb97xddsc/TMP_DATA/FUNC_PAR.dat'),
+#	      dDsCParamFile=os.path.join(home, 'wb97xddsc/TMP_DATA/a0b0'))
 
 
 class Parameters(object):

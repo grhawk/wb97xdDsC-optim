@@ -47,19 +47,31 @@ def main():
                        cc_aa=[1.000000, -4.33879, 18.2308, -31.7430, 17.2901],
                        cc_ab=[1.000000, 2.37031, -11.3995, 6.58405, -3.78132])
 
-    prms.optim = ['tta', 'cx_aa_0']
+    print(prms._parameters)
+#    prms.prms = {'cx_aa_0': 0.5, 'cc_aa_2':12000, 'tta':100}
+#    print(trset.compute_MAE('full'))
+#    print(prms._parameters)
+
+    prms.optim = ['tta', 'cx_aa_0','cx_aa_1','cx_aa_2','cx_aa_3']
     print(prms.optim)
     
-    x0_=[13.30000, 0.8400]
-
+    x0_=[13.3, 0.842294, 0.726479, 1.0476, -5.70635]
+#    x1_=[13.3, 0.04334172, 2.14371968, 2.0473701, -5.10893517,  13.63496978]
+#    x2_=[13.4, 0.05334172, 2.14371968, 2.0473701, -5.10893517,  13.63496978]
 
     def printer(xc):
-       print('END of STEP', xc)
+       print('END of STEP')
+       print(xc)
 
-    prms.optim = ['tta', 'cx_aa_0']
-
+    bnds=((None,None),(0,None),(None,None),(None,None),(None,None))
     print(trset.optimizer(x0_,'full','MAE'))
-    print(minimize(trset.optimizer,x0_,args=('func','MAE'),method='BFGS', callback=printer))
+#   print(trset.optimizer(x1_,'func','MAE'))
+#   print(trset.optimizer(x2_,'func','MAE'))
+#   print(minimize(trset.optimizer,x0_,args=('func','MAE'),method='L-BFGS-B', callback=printer, bounds=bnds,  options={'disp': True} ))
+
+    print(minimize(trset.optimizer,x0_,args=('func','MAE'), method='TNC', bounds=bnds, callback=printer, options={'disp': True,'gtol': 1e-11 }))
+#    print(minimize(trset.optimizer,x0_,args=('func','MAE'), method='L-BFGS-B', bounds=bnds, callback=printer, options={'disp': True,'gtol': 1e-2 }))
+
 
 def init_logging():
     if os.path.isfile(config['logfile']):
