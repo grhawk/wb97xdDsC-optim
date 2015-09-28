@@ -79,6 +79,7 @@ class Parameters(object):
         else:
             print('UEG, wrong. ALPHAC will be changed.')
             __class__._parameters['cxhf']=[1.0-cx0]
+            pass
             if not sum_is_one(__class__._parameters['cxhf'][0], __class__._parameters['cx_aa'][0]):
                 msg = 'Hartree Exchange parameters out of boundary!'
                 lg.critical(msg)
