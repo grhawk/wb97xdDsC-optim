@@ -16,6 +16,8 @@ import logging as lg
 import copy
 import os
 import re
+from utils import sum_is_one
+import sys
 
 # Try determining the version from git:
 try:
@@ -69,15 +71,19 @@ class Parameters(object):
         self.sprms = {'tta' : [1]}
 
     def _constr(self):
-        cx=list(__class__._parameters['cxhf'])
-        cx0=list(__class__._parameters['cx_aa'])
-        test=abs(1-float(cx0[0]+cx[0]))
-        if test <= 0.1:
+        cx = __class__._parameters['cxhf'][0]
+        cx0 = __class__._parameters['cx_aa'][0]
+        if sum_is_one(cx, cx0):
             pass
             #print('UEG, OK')
         else:
             print('UEG, wrong. ALPHAC will be changed.')
-            __class__._parameters['cxhf']=[1.0-float(cx0[0])]
+            __class__._parameters['cxhf']=[1.0-cx0]
+            if not sum_is_one(__class__._parameters['cxhf'][0], __class__._parameters['cx_aa'][0]):
+                msg = 'Hartree Exchange parameters out of boundary!'
+                lg.critical(msg)
+                print(msg)
+                sys.exit()
 
     @property
     def optim(self):
@@ -198,7 +204,7 @@ class Parameters(object):
             expanded_selection = False
             for k in kvd.keys():
                 if expand_params.match(k):
-                    print(expand_params.match(k))
+                    # print(expand_params.match(k))
                     expanded_selection = True
                     break
 
