@@ -7,8 +7,11 @@
 # Creation: Jul 16, 2015
 #
 
-"""Implements all the objects regarding the training set.
+""" Implements all the objects regarding the training set.
 
+    Depends:
+        params
+        computation
 """
 
 import params
