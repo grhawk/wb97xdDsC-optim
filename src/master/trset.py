@@ -16,7 +16,6 @@ import logging as lg
 import os
 import sys
 import copy
-#import mproc
 import multiprocessing as mproc
 from computation import Run
 import itertools
@@ -32,7 +31,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-09-07"
+__updated__ = "2015-09-29"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -52,7 +51,7 @@ class MolSet(object):
 
     Attributes:
         container (list): container for the loaded molecule obj.
-        to_compute (list): filters from container those molecule whose energy 
+        to_compute (list): filters from container those molecule whose energy
                            needs to be upgraded
         _lock (bool): True if the class is computing energies in parallel
     """
@@ -65,10 +64,10 @@ class MolSet(object):
     @staticmethod
     def addto_compute(mol):
         """Add molecules to the to_compute list
-        
+
         The molecule given as argument will be added to the to_compute list.
         This method should be used to implement the blacklist stuff.
-        
+
         Args:
             mol: (mol_obj) molecule to be added to the to_compute list
 
@@ -81,10 +80,10 @@ class MolSet(object):
     @staticmethod
     def remove_compute(mol):
         """Remove molecules from the to_compute list
-        
+
         The molecule given as argument will be removed from the to_compute list.
         This method should be used to implement the blacklist stuff.
-        
+
         Args:
             mol: (mol_obj) molecule to be removed from the to_compute list
 
@@ -105,9 +104,9 @@ class MolSet(object):
         energy computation (given by the to_compute list).
 
         Args:
-            kind: (str) type of energy to compute (func = Only from XC-func, do not
-                  need the density optimization; full = Actual DFT energy following a 
-                  density optimization procedure.
+            kind: (str) type of energy to compute (func = Only from XC-func, do
+                  not need the density optimization; full = Actual DFT energy
+                  following a density optimization procedure.
         """
         if __class__._lock:
             return None
@@ -141,13 +140,13 @@ class MolSet(object):
     def call_mol_energy(kind):
         """Start computation of energy in serial for all the mols.
 
-        Start a process for each molecule who need energy computation 
+        Start a process for each molecule who need energy computation
         (given by the to_compute list).
 
         Args:
-            kind: (str) type of energy to compute (func = Only from XC-func, do not
-                  need the density optimization; full = Actual DFT energy following a 
-                  density optimization procedure.
+            kind: (str) type of energy to compute (func = Only from XC-func, do
+                  not need the density optimization; full = Actual DFT energy
+                  following a density optimization procedure.
         """
         if __class__._lock:
             return None
@@ -171,9 +170,9 @@ class MolSet(object):
     def refresh_container(mols):
         """Refresh the mol container adding/upgrading the mol objs inside.
 
-        If a new molecule is in the argument list, that molecule will be 
-        added to the container (if not already there), otherwise the 
-        mol obj in the container will be overridden by the one in the args 
+        If a new molecule is in the argument list, that molecule will be
+        added to the container (if not already there), otherwise the
+        mol obj in the container will be overridden by the one in the args
         assuming the one in the args is more recent.
 
         Args:
@@ -192,14 +191,14 @@ class MolSet(object):
     @staticmethod
     def get_by_id(my_id, in_list='container'):
         """Found a molecule in the container or in the to_compute list.
-        
+
         Find molecules given the ID of the molecule. By default the
         method look for molecules in the container list (for "historical
         reasons")
 
         Args:
             my_id: (str) ID of the molecule you want to find.
-            in_list: (str) can be "container" (default) or "to_compute" 
+            in_list: (str) can be "container" (default) or "to_compute"
 
         Returns: the molecule obj if exists, None otherwise.
 
@@ -331,11 +330,11 @@ class Molecule(object):
     @property
     def uni_energy(self):
         """Total DFT energy - dispersion - XCcontribution.
-        
+
         This energy will be used to get the total energy
         of a molecule when only the XC contribution is computed
         (func_energy).
-        It is a property mostly for consistency since it is never 
+        It is a property mostly for consistency since it is never
         as property.
         """
 
@@ -362,7 +361,7 @@ class Molecule(object):
     def func_energy(self):
         """Total DFT energy computed after a single XC evaluation.
 
-        Energy computed with a freezed density and different XC-d 
+        Energy computed with a freezed density and different XC-d
         parameters.
         """
         return self._func_energy
@@ -386,11 +385,7 @@ class Molecule(object):
         lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
                  .format(str(self._full_energy),
                          str(self.myprm_full.check_prms())))
-        # print('COMPUTE OR NOT:', self._full_energy,
-        #       self.myprm_full.check_prms(), not self._full_energy,
-        #       not self.myprm_full.check_prms())
         if not self._full_energy or not self.myprm_full.check_prms():
-            # print('Compute the BigGamess energy. If problem return None')
             full_energy, full_exc, full_disp = self._run.full()
             uni_energy = full_energy - full_exc - full_disp
             lg.debug('Full Energy for {ID:s} is {ENERGY:12.6f}'
@@ -401,7 +396,7 @@ class Molecule(object):
             self._uni_energy = uni_energy
             self.myprm_full.refresh()
 
-        return self  # ._full_energy, refresh_myprm_full, self._uni_energy
+        return self
 
     def func_energy_calc(self):
         """Retrieve the energy computed with the optimized density.
@@ -436,9 +431,9 @@ class Molecule(object):
 
 
 class System(object):
-    """Provides the System object: a set of molecule and a rule and a reference.
+    """Provides the System object: a set of molecules, a rule and a reference.
 
-    A System is composed by a set of molecules and rule to mix the energy of
+    A System is composed by a set of molecules, a rule to mix the energy of
     those molecules so that, if the energies are correct the results will be the
     reference energy.
 
@@ -558,7 +553,7 @@ class System(object):
     def needed_mol(self):
         tmp = []
         for idx in self._needed_mol:
-            tmp.append( MolSet.container[idx])
+            tmp.append(MolSet.container[idx])
         return tmp
 
     def _apply_rule(self, enrgs):
@@ -596,7 +591,7 @@ class System(object):
         if self.blacklisted: self.blacklisted_error()
         enrgs = []
         for mol in self.needed_mol:
-            print('NEEDED_MOL:',list(map(str, self.needed_mol)))
+            print('NEEDED_MOL:', list(map(str, self.needed_mol)))
             enrgs.append(mol.full_energy)
         return self._apply_rule(enrgs)
 
@@ -656,25 +651,6 @@ class System(object):
             lg.critical(msg)
             raise NotImplementedError(msg)
 
-    def compute_MRE(self, kind):
-        """Relative absolute error for the system.
-
-        The name is to exploit a python feature in the Set class.
-
-        Args:
-            kind (str): Can be func or fulldft
-
-        """
-        raise NotImplementedError
-        if kind == 'func':
-            return self.func_energy_error() / self.ref_ener
-        elif kind == 'full':
-            return self.full_energy_error() / self.ref_ener
-        else:
-            msg = 'Critical error in implementation!'
-            lg.critical(msg)
-            sys.exit()
-
     def random_noise_result(self):
         """Used in testing!
 
@@ -717,7 +693,7 @@ class Set(object):
     """Shared method among DataSet and TrainingSet classes.
 
     All the variable defined in the init will be referred to dataset
-    or trainingSet depending on which class is called. As example the 
+    or trainingSet depending on which class is called. As example the
     container will contain DataSet objs if the TrainingSet class is used or
     System objs if the DataSet class is used. The same can be applied to
     all instance variables.
@@ -725,7 +701,6 @@ class Set(object):
     Args:
         path: (str) path to the rule file or the traningset file.
 
-    Todo: Implement all errors as property
     """
 
     def __init__(self, path):
@@ -736,8 +711,6 @@ class Set(object):
         self.blacklist = []  # Will contains system object
         self.fulldftlist = []
         self._MAE = None
-        self.RMSE = None
-        self.MRE = None
         self.prms = params.Parameters()
 
     @property
@@ -779,21 +752,9 @@ class Set(object):
             float(len(self.container) - len(self.blacklist))
         return self._MAE
 
-    def compute_RMSE(self):
-        raise(NotImplementedError)
-
-    def compute_MRE(self, kind):
-        raise(NotImplementedError)
-
-    def compute_all_errors(self):
-        raise(NotImplementedError)
-        self.compute_MAE()
-        self.compute_MRE()
-        self.compute_RMSE()
-
     def get_by_name(self, name):
         """Get an obj by name from the container list.
-        
+
         Args:
             name: (str) this has to be the name of the obj you
                   are looking for. If not present None will be
@@ -812,7 +773,7 @@ class Set(object):
 
     def flush_list(self, filen, list_to_save):
         """Printing system for "Set" objs.
-        
+
         Print a list in a specified file. Usefull for blacklist stuff.
 
         Args:
@@ -833,13 +794,9 @@ class Set(object):
         self.prms.prms = dict_
 
         if error_type == 'MAE':
-            min = self.compute_MAE(kind)
+            minim = self.compute_MAE(kind)
 
-        print('PAR:',params, 'MAD:',min)
-        with open('/scratch/TMP_DATA/x0','w') as f:
-           for s in params:
-              f.write(str(s) + '\n')
-        return min
+        return minim
 
 
 class DataSet(Set):
