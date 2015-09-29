@@ -502,7 +502,7 @@ class System(object):
      #       print('RULE:', i, coef, enrgs[i])
         return enr * 627.5096080305927
 
-    #def full_energy(self):
+    def full_energy(self):
         """Compute the full dft energy for the system.
 
         This method provides the right molecular energies to the _apply_rule
