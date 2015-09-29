@@ -78,7 +78,7 @@ class Run(object):
                    dormi_short=3,
                    timeout_max=10,
                    densities_repo=os.path.join(ram, 'tmp_density_dir'),
-                   gamess_bin=os.path.join(home, 'wb97xddsc/GAMESS/gamess'),
+                   gamess_bin=os.path.join(home, 'wb97xddsc/gamess-all/gamess'),
                    params_dir_small=os.path.join('/scratch/TMP_DATA'),
                    params_dir=os.path.join(home, 'wb97xddsc/TMP_DATA'),
                    sbatch_script_prefix=os.path.join(home, 'wb97xddsc/TMP_DATA'),
@@ -174,7 +174,6 @@ class Run(object):
                     print('Problem with energy in GAMESS',
                           float(find[1].split()[5]))
                     exit()
-                print(find[1],find[2],find[3])
                 return (float(find[1].split()[5]),
                         float(find[2].split()[6]), float(find[3].split()[2]))
 
@@ -245,9 +244,9 @@ class Run(object):
         time.sleep(randint(0,5))
         self._write_input()
         self._write_sbatch()
-        self._run(command)
+#        self._run(command)
         energies = self._readout()
-        self._move_data()
+#        self._move_data()
         return energies
 
     def func(self):
@@ -260,8 +259,6 @@ class Run(object):
                     DDSC_DATA=self._ddsc_saves,
                     WB97X_PARAM=wb97x_param,
                     DDSC_PARAM=ddsc_param)
-        print(command)
         command = shlex.split(command)
         
-        print(self._run(command).split())
         return (float(self._run(command).split()[1]))

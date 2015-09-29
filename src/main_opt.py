@@ -63,7 +63,7 @@ def main():
        bnds=((None,None),(0,1),(None,None),(None,None),(None,None))
 # good for final       bnds=((None,None),(0,1),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None))
        print(trset.optimizer(x0_,'full','MAE'))
-       print(minimize(trset.optimizer,x0_,args=('func','MAE'), method='TNC', bounds=bnds, callback=printer, options={'disp': True,'gtol': 1e-11,'maxiter':1}))
+       # print(minimize(trset.optimizer,x0_,args=('func','MAE'), method='TNC', bounds=bnds, callback=printer, options={'disp': True,'gtol': 1e-11,'maxiter':1}))
 # possible choice       print(minimize(trset.optimizer,x0_,args=('func','MAE'), method='L-BFGS-B', bounds=bnds, callback=printer, options={'disp': True,'gtol': 1e-2,'maxiter':1 }))
 #       shutil.copy('/scratch/TMP_DATA/FUNC_PAR.dat', '/home/afabrizi/wb97xddsc/TMP_DATA/FUNC_PAR.dat')
 #       shutil.copy('/scratch/TMP_DATA/a0b0', '/home/afabrizi/wb97xddsc/TMP_DATA/a0b0')

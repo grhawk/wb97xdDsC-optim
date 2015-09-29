@@ -472,10 +472,13 @@ class System(object):
 
     @needed_mol.getter
     def needed_mol(self):
-        tmp = [0] * len(MolSet.container)
+        tmp1 = []
+        print('NEEDED_MOL: ', self._needed_mol)
         for idx in self._needed_mol:
-            tmp[idx] = 1
-        return list(itertools.compress(MolSet.container, tmp))
+            tmp1.append( MolSet.container[idx])
+        print('TMP:', list(map(str,tmp1)))
+        print('RETURNED :', list(map(str,MolSet.container)))
+        return tmp1
 
     def _apply_rule(self, enrgs):
         """Compute the system energy applying the rule.
@@ -496,6 +499,7 @@ class System(object):
         enr = 0.0
         for i, coef in enumerate(self.rule):
             enr += coef * enrgs[i]
+            print('RULE:', i, coef, enrgs[i])
         return enr * 627.5096080305927
 
     def full_energy(self):
@@ -511,6 +515,7 @@ class System(object):
         if self.blacklisted: self.blacklisted_error()
         enrgs = []
         for mol in self.needed_mol:
+            print('NEEDED_MOL:',list(map(str, self.needed_mol)))
             enrgs.append(mol.full_energy)
         return self._apply_rule(enrgs)
 
@@ -667,6 +672,7 @@ class Set(object):
     def compute_MAE(self, kind):
         self._MAE = 0.0
         for el in self.container:
+            print('MAE_EL:',el, el.compute_MAE(kind))
             self._MAE += abs(el.compute_MAE(kind))
         self._MAE = self._MAE / \
             float(len(self.container) - len(self.blacklist))
