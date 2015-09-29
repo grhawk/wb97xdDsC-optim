@@ -41,6 +41,7 @@ Attributes:
 
 import time
 import shlex
+from random import randint
 import shutil
 import logging as lg
 from make_input import Input
@@ -67,7 +68,7 @@ __status__ = 'development'
 
 
 home = os.path.expanduser("~")
-
+ram  = '/dev/shm/'
 class Run(object):
 
     _inout_id = None
@@ -76,8 +77,9 @@ class Run(object):
     _config = dict(dormi=1,
                    dormi_short=3,
                    timeout_max=10,
-                   densities_repo=os.path.join(home, 'tmp_density_dir'),
-                   gamess_bin=os.path.join(home, 'wb97xddsc/gamess-all/gamess'),
+                   densities_repo=os.path.join(ram, 'tmp_density_dir'),
+                   gamess_bin=os.path.join(home, 'wb97xddsc/GAMESS/gamess'),
+                   params_dir_small=os.path.join('/scratch/TMP_DATA'),
                    params_dir=os.path.join(home, 'wb97xddsc/TMP_DATA'),
                    sbatch_script_prefix=os.path.join(home, 'wb97xddsc/TMP_DATA'),
                    tmp_density_dir=os.path.join(home, 'wb97xddsc/TMP_DATA'),
@@ -85,8 +87,10 @@ class Run(object):
                                           b'FINAL ENERGY INCLUDING dDsC DISPERSION:',
                                           b'DFT EXCHANGE + CORRELATION ENERGY =',
                                           b'Final Energy'],
+#                   command_full='/usr/bin/sbatch',
                    command_full='ssh lcmdlc2 /usr/bin/sbatch',
-                   command_func=os.path.join(home, 'wb97xddsc/gamess-all/mini-gamess/STARTall.x')
+                   command_func=os.path.join(ram, 'STARTall.x')
+#                   command_func=os.path.join(home, 'wb97xddsc/GAMESS/mini-gamess/STARTall.x')
                    )
 
 
@@ -170,7 +174,7 @@ class Run(object):
                     print('Problem with energy in GAMESS',
                           float(find[1].split()[5]))
                     exit()
-                # print(find[1],find[2],find[3])
+                print(find[1],find[2],find[3])
                 return (float(find[1].split()[5]),
                         float(find[2].split()[6]), float(find[3].split()[2]))
 
@@ -238,6 +242,7 @@ class Run(object):
         command = shlex.split('{COMMAND:s} {SBATCH_FILE:s}'
                               .format(COMMAND=__class__._config['command_full'],
                                       SBATCH_FILE=self._sbatch_file))
+        time.sleep(randint(0,5))
         self._write_input()
         self._write_sbatch()
         self._run(command)
@@ -247,16 +252,16 @@ class Run(object):
 
     def func(self):
         wb97x_param = os.path.join(__class__
-                                   ._config['params_dir'], 'FUNC_PAR.dat')
-        ddsc_param = os.path.join(__class__._config['params_dir'], 'a0b0')
+                                   ._config['params_dir_small'], 'FUNC_PAR.dat')
+        ddsc_param = os.path.join(__class__._config['params_dir_small'], 'a0b0')
         command = '{COMMAND:s} {WB97X_DATA:s} {DDSC_DATA:s} {WB97X_PARAM:s} {DDSC_PARAM:s}'\
             .format(COMMAND=__class__._config['command_func'],
                     WB97X_DATA=self._wb97x_saves,
                     DDSC_DATA=self._ddsc_saves,
                     WB97X_PARAM=wb97x_param,
                     DDSC_PARAM=ddsc_param)
-        # print(command)
+        print(command)
         command = shlex.split(command)
         
-        # print(self._run(command).split())
+        print(self._run(command).split())
         return (float(self._run(command).split()[1]))

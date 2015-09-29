@@ -39,8 +39,11 @@ __status__ = 'development'
 
 home = os.path.expanduser("~")
 config = dict(Precision=1E-18,
-              ParamFile=os.path.join(home, 'wb97xddsc/TMP_DATA/FUNC_PAR.dat'),
-	      dDsCParamFile=os.path.join(home, 'wb97xddsc/TMP_DATA/a0b0'))
+             ParamFile=os.path.join('/scratch/TMP_DATA/FUNC_PAR.dat'),
+             dDsCParamFile=os.path.join('/scratch/TMP_DATA/a0b0'))
+
+#              ParamFile=os.path.join(home, 'wb97xddsc/TMP_DATA/FUNC_PAR.dat'),
+#	      dDsCParamFile=os.path.join(home, 'wb97xddsc/TMP_DATA/a0b0'))
 
 
 class Parameters(object):
@@ -76,6 +79,7 @@ class Parameters(object):
         else:
             print('UEG, wrong. ALPHAC will be changed.')
             __class__._parameters['cxhf']=[1.0-cx0]
+            pass
             if not sum_is_one(__class__._parameters['cxhf'][0], __class__._parameters['cx_aa'][0]):
                 msg = 'Hartree Exchange parameters out of boundary!'
                 lg.critical(msg)

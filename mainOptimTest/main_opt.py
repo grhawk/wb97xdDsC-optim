@@ -56,20 +56,19 @@ def main():
     print(prms.optim)
     
     x0_=[13.3, 0.842294, 0.726479, 1.0476, -5.70635, 13.2794]
-    x1_=[13.3, 0.04334172, 2.14371968, 2.0473701, -5.10893517,  13.63496978]
-    x2_=[13.4, 0.05334172, 2.14371968, 2.0473701, -5.10893517,  13.63496978]
+#    x1_=[13.3, 0.04334172, 2.14371968, 2.0473701, -5.10893517,  13.63496978]
+#    x2_=[13.4, 0.05334172, 2.14371968, 2.0473701, -5.10893517,  13.63496978]
 
     def printer(xc):
        print('END of STEP')
        print(xc)
 
-#   bnds=((0,100),(0,100))
-    bnds=None
+    bnds=((None,None),(0,None),(None,None),(None,None),(None,None),(None,None))
     print(trset.optimizer(x0_,'full','MAE'))
-    print(trset.optimizer(x1_,'func','MAE'))
-    print(trset.optimizer(x2_,'func','MAE'))
+#   print(trset.optimizer(x1_,'func','MAE'))
+#   print(trset.optimizer(x2_,'func','MAE'))
 #    print(minimize(trset.optimizer,x0_,args=('func','MAE'),method='L-BFGS-B', callback=printer, bounds=bnds,  options={'disp': True} ))
-#    print(minimize(trset.optimizer,x0_,args=('func','MAE'),method='BFGS', callback=printer, options={'maxiter':1}))
+    print(minimize(trset.optimizer,x0_,args=('func','MAE'), method='TNC', bounds=bnds, callback=printer, options={'disp': True,'ftol': 1e-2 }))
 
 
 def init_logging():

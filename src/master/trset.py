@@ -670,6 +670,8 @@ class Set(object):
             self._MAE += abs(el.compute_MAE(kind))
         self._MAE = self._MAE / \
             float(len(self.container) - len(self.blacklist))
+        print("ALBERTOOOOOO" , len(self.container))
+        print("FABRIZIO", self._MAE)
         return self._MAE
 
     def compute_RMSE(self):
@@ -712,6 +714,9 @@ class Set(object):
             min = self.compute_MAE(kind)
 
         print('PAR:',params, 'MAD:',min)
+        with open('/scratch/TMP_DATA/x0','w') as f:
+           for s in params:
+              f.write(str(s) + '\n')
         return min
 
 
