@@ -24,49 +24,49 @@ config = dict(TraininSetPath='../example/trset-tree-example/',
 
 def main():
     init_logging()
-    # init computation
     prms = Parameters()
 
-    for i in range(0,2):
-       index='DENS-'+str(i)
-       print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ", i)
-       Run(run_name=config['Name'], tset_path=config['TraininSetPath']).index = index
-       trset = TrainingSet(config['TraininSetPath'], config['TraininSetName'])
+    for i in range(0,1):
+       indice='DENS-'+str(i)
+       print("ALBERTOOOOOO", indice)
+#      try:
+#         del(run)
+#      except:
+#         pass
 
+       run=Run(run_name=config['Name'], tset_path=config['TraininSetPath']).index = indice 
+       trset = TrainingSet(config['TraininSetPath'], config['TraininSetName'])
+ 
        prms.prms = dict(tta=[13.300000190734863],
-                       ttb=[1.5299999713897705],
-                       cxhf=[0.157706],
-                       omega=[0.3],
-                       cx_aa=[0.842294, 0.726479, 1.04760, -5.70635, 13.2794],
-                       cc_aa=[1.000000, -4.33879, 18.2308, -31.7430, 17.2901],
-                       cc_ab=[1.000000, 2.37031, -11.3995, 6.58405, -3.78132])
+                        ttb=[1.5299999713897705],
+                        cxhf=[0.157706],
+                        omega=[0.3],
+                        cx_aa=[0.842294, 0.726479, 1.04760, -5.70635, 13.2794],
+                        cc_aa=[1.000000, -4.33879, 18.2308, -31.7430, 17.2901],
+                        cc_ab=[1.000000, 2.37031, -11.3995, 6.58405, -3.78132])
+
+
 
        print(prms._parameters)
 #    prms.prms = {'cx_aa_0': 0.5, 'cc_aa_2':12000, 'tta':100}
 #    print(trset.compute_MAE('full'))
 #    print(prms._parameters)
-
        prms.optim = ['tta', 'cx_aa_0','cx_aa_1','cx_aa_2','cx_aa_3']
+#       prms.optim = ['tta', 'cx_aa_0','cx_aa_1','cx_aa_2','cx_aa_3','cc_aa_1','cc_aa_2','cc_aa_3','cc_ab_1','cc_ab_2','cc_ab_3']
        print(prms.optim)
-    
-       x0_=[13.3, 0.842294, 0.726479, 1.0476, -5.70635]
-#    x1_=[13.3, 0.04334172, 2.14371968, 2.0473701, -5.10893517,  13.63496978]
-#    x2_=[13.4, 0.05334172, 2.14371968, 2.0473701, -5.10893517,  13.63496978]
+       with open('/scratch/TMP_DATA/x0','r') as f1:
+          x0_ = [line.rstrip('\n') for line in f1] 
 
        def printer(xc):
           print('END of STEP')
           print(xc)
-
-       bnds=((None,None),(0,None),(None,None),(None,None),(None,None))
+       bnds=((None,None),(0,1),(None,None),(None,None),(None,None))
+# good for final       bnds=((None,None),(0,1),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None))
        print(trset.optimizer(x0_,'full','MAE'))
-#   print(trset.optimizer(x1_,'func','MAE'))
-#   print(trset.optimizer(x2_,'func','MAE'))
-#   print(minimize(trset.optimizer,x0_,args=('func','MAE'),method='L-BFGS-B', callback=printer, bounds=bnds,  options={'disp': True} ))
-
-       print(minimize(trset.optimizer,x0_,args=('func','MAE'), method='TNC', bounds=bnds, callback=printer, options={'disp': True,'gtol': 1e-11, 'maxiter':2 }))
-#    print(minimize(trset.optimizer,x0_,args=('func','MAE'), method='L-BFGS-B', bounds=bnds, callback=printer, options={'disp': True,'gtol': 1e-2 }))
-       shutil.copy('/scratch/TMP_DATA/FUNC_PAR.dat', os.path.join(home, 'wb97xddsc/TMP_DATA'))
-       shutil.copy('/scratch/TMP_DATA/a0b0', os.path.join(home, 'wb97xddsc/TMP_DATA'))
+       print(minimize(trset.optimizer,x0_,args=('func','MAE'), method='TNC', bounds=bnds, callback=printer, options={'disp': True,'gtol': 1e-11,'maxiter':1}))
+# possible choice       print(minimize(trset.optimizer,x0_,args=('func','MAE'), method='L-BFGS-B', bounds=bnds, callback=printer, options={'disp': True,'gtol': 1e-2,'maxiter':1 }))
+#       shutil.copy('/scratch/TMP_DATA/FUNC_PAR.dat', '/home/afabrizi/wb97xddsc/TMP_DATA/FUNC_PAR.dat')
+#       shutil.copy('/scratch/TMP_DATA/a0b0', '/home/afabrizi/wb97xddsc/TMP_DATA/a0b0')
 
 def init_logging():
     if os.path.isfile(config['logfile']):

@@ -41,6 +41,7 @@ Attributes:
 
 import time
 import shlex
+from random import randint
 import shutil
 import logging as lg
 from make_input import Input
@@ -241,6 +242,7 @@ class Run(object):
         command = shlex.split('{COMMAND:s} {SBATCH_FILE:s}'
                               .format(COMMAND=__class__._config['command_full'],
                                       SBATCH_FILE=self._sbatch_file))
+        time.sleep(randint(0,5))
         self._write_input()
         self._write_sbatch()
         self._run(command)
