@@ -78,7 +78,7 @@ class Run(object):
                    dormi_short=3,
                    timeout_max=10,
                    densities_repo=os.path.join(ram, 'tmp_density_dir'),
-                   gamess_bin=os.path.join(home, 'wb97xddsc/gamess-all/gamess'),
+                   gamess_bin=os.path.join(home, 'wb97xddsc/GAMESS/gamess'),
                    params_dir_small=os.path.join('/scratch/TMP_DATA'),
                    params_dir=os.path.join(home, 'wb97xddsc/TMP_DATA'),
                    sbatch_script_prefix=os.path.join(home, 'wb97xddsc/TMP_DATA'),
@@ -244,9 +244,9 @@ class Run(object):
         time.sleep(randint(0,5))
         self._write_input()
         self._write_sbatch()
-#        self._run(command)
+        self._run(command)
         energies = self._readout()
-#        self._move_data()
+        self._move_data()
         return energies
 
     def func(self):
