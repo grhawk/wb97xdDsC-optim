@@ -668,8 +668,8 @@ class Set(object):
         self._MAE = 0.0
         for el in self.container:
             self._MAE += abs(el.compute_MAE(kind))
-            self._MAE = self._MAE / \
-                float(len(self.container) - len(self.blacklist))
+        self._MAE = self._MAE / \
+            float(len(self.container) - len(self.blacklist))
         return self._MAE
 
     def compute_RMSE(self):

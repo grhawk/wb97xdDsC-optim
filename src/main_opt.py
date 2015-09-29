@@ -25,7 +25,8 @@ def main():
     init_logging()
     # init computation
     prms = Parameters()
-    Run(run_name=config['Name'], tset_path=config['TraininSetPath']).index = 'DENS-0000'
+    run = Run(run_name=config['Name'], tset_path=config['TraininSetPath'])
+    run.index = 'DENS-0000'
     trset = TrainingSet(config['TraininSetPath'], config['TraininSetName'])
     # MolSet.p_call_mol_energy('full')
     # print('NEEDEDMOL:',list(map(lambda x: x.id,trset.container[0].container[0].needed_mol)))
@@ -56,26 +57,26 @@ def main():
 #    print(minimize(trset.optimizer,x0_,args=('func','MAE'),method='BFGS', options={'maxiter':1}))
     # for i in range(10):
     #     trset.optimizer(x0_[:1] + [x0_[1]+float(i)/10.]+ [x0_[2]-float(i)/10.],'func','MAE')
+    run.index = 'DENS-0001'
+    trset.optimizer([13,0.5],'func','MAE')
+    
+    # all_x = []
+    # all_l = []
+    # with open('asd', 'r') as f:
+    #     for l in f:
+    #         if l.find('PAR:') > -1:
+    #             x = l.split()[2:4]
+    #             try:
+    #                 x = [float(x[0]), float(x[1][:-1])]
+    #             except:
+    #                 pass
+    #             all_x.append(x)
+    #             all_l.append(l)    
 
-    all_x = []
-    all_l = []
-    with open('asd', 'r') as f:
-        for l in f:
-            if l.find('PAR:') > -1:
-                x = l.split()[2:4]
-                try:
-                    x = [float(x[0]), float(x[1][:-1])]
-                except:
-                    pass
-                all_x.append(x)
-                all_l.append(l)    
 
-
-    import random
-    for k in range(1,10):
-        i = random.randint(0,len(all_x))
-        trset.optimizer(all_x[i],'func','MAE')
-        print(all_l[i])
+    # i = 1
+    # trset.optimizer([13. ,0.8],'func','MAE')
+    # print(all_l[i])
 
                     
 def printer(xc):
