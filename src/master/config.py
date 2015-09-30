@@ -63,13 +63,16 @@ __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
 
 
+join = os.path.join()  # Just to make shorter lines below
+
+
 class Config(object):
 
-    _config = dict(
+    config = dict(
         home = None,
         root = None,
         training_set_file = None,  # Was TrainingSetPath
-        run_name = None,
+        run_name = None,  # Was Name
         loglevel = None,
         logfile = None,
         processes = None,
@@ -115,11 +118,11 @@ class Config(object):
 
     @staticmethod
     def set(kw, v):
-        __class__._config[kw] = v
+        __class__.config[kw] = v
 
     @staticmethod
     def get(kw):
-        return __class__._config[kw]
+        return __class__.config[kw]
 
     @staticmethod
     def help(kw):
@@ -134,16 +137,48 @@ class Config(object):
     @staticmethod
     def getall():
         msg = ''
-        for k, v in __class__._config.items():
+        for k, v in __class__.config.items():
             msg += k + ' --> ' + str(v) + '\n'
         print(msg)
-        
+
 
 
 class PresetConfig(object):
 
     def __init__(self):
-        pass
+        self.C = Config()
+        self.default_preset()
+
+
+
+    def default_preset(self):
+        self.C.set('home', os.path.expanduser('~'))
+
+    def preset_1(self):
+        home = Config.get('home')
+        root = join(home, 'MyCodes/wb97xdDsC-optim')  # shortening lines below
+        tmp_data = join(root, 'run_example/TMP_DATA')  # shortening lines below
+        prst = dict(root=root,
+                    training_set_file=join(root, 'example/trset-tree-example/'),
+                    run_name=join(root, 'run_example/test'),
+                    logfile=join(root, 'output/logging.log'),
+                    loglevel='DEBUG',
+                    processes=8,
+                    precision=1E-8,
+                    wb97x_param_file=join(root, tmp_data, 'FUNC_PAR.dat'),
+                    ddsc_param_file=join(root, tmp_data, 'a0b0'),
+                    wait_for_gamess_output=1,
+                    wait_to_recheck=3,
+                    maximum_time_to_recheck=10,
+                    temporary_densities_repo=tmp_data,
+                    gamess_bin=None,
+                    func_params_prefix=tmp_data,
+                    full_params_prefix=tmp_data,
+                    sbatch_script_prefix=tmp_data,
+                    densities_repo=join(root, 'run_example/densities_repo'),
+                    command_full='ssh <master> /usr/bin/sbatch',
+                    command_func=join(root, 'bin/minigamess.x'),
+                    )
 
 
 
@@ -172,11 +207,16 @@ def testing_Config():
     print('cfg2', cfg2.get('home'))
     print('cfg3', cfg3.get('home'))
 
-    print('Set home to REHOME on cfg3')
-    cfg2.set('home','REHOME')
+    print('Set home to REHOME on cfg3.config')
+    cfg3.config['home'] = 'REHOME'
     print('cfg1', cfg1.get('home'))
     print('cfg2', cfg2.get('home'))
     print('cfg3', cfg3.get('home'))
+
+    print('The entire dictionary')
+    print(cfg3.config)
+    cfg2.config['root'] = 'ROOOOT'
+    print(cfg3.config)
 
     cfg3.help('all')
     cfg3.help('home')
