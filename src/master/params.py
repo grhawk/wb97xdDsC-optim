@@ -30,7 +30,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-09-07"
+__updated__ = "2015-09-30"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -38,14 +38,11 @@ __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
 
 home = os.path.expanduser("~")
+root = os.path.join(home, 'MyCodes/wb97xdDsC-optim')  # path to wb97xdDsC-optim
 config = dict(Precision=1E-18,
-             # ParamFile=os.path.join('/scratch/TMP_DATA/FUNC_PAR.dat'),
-             # dDsCParamFile=os.path.join('/scratch/TMP_DATA/a0b0'))
-             ParamFile=os.path.join(home,'wb97xddsc/TMP_DATA/FUNC_PAR.dat'),
-             dDsCParamFile=os.path.join(home,'wb97xddsc/TMP_DATA/a0b0'))
+             ParamFile=os.path.join(root,'run_example/TMP_DATA/FUNC_PAR.dat'),
+             dDsCParamFile=os.path.join(root,'run_example/TMP_DATA/a0b0'))
 
-#              ParamFile=os.path.join(home, 'wb97xddsc/TMP_DATA/FUNC_PAR.dat'),
-#	      dDsCParamFile=os.path.join(home, 'wb97xddsc/TMP_DATA/a0b0'))
 
 
 class Parameters(object):
@@ -168,7 +165,7 @@ class Parameters(object):
 #                    print(k,i,v)
                     msg += str(v)+'\n'
             pf2.write(msg)
-            
+
 
     @prms.getter
     def prms(self):
@@ -225,7 +222,7 @@ class Parameters(object):
                 possible_parameters += tmp
 
 #                print(possible_parameters)
-                
+
                 tmp = copy.deepcopy(__class__._parameters)
 
                 for k, v in dict_.items():
@@ -233,7 +230,7 @@ class Parameters(object):
                         msg = 'Parameter {} cannot be used!'.format(k)
                         lg.error(msg)
                         raise TypeError(msg)
-                    
+
 #                    __class__._to_optimize.append(k)
 
                     try:
@@ -243,7 +240,7 @@ class Parameters(object):
                         tmp[k] = [float(v)]
 
                 __class__._parameters = copy.deepcopy(tmp)
-                
+
             else:
                 for k in kvd.keys():
                     if k in prms.keys():

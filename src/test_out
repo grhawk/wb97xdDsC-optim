@@ -1,0 +1,32 @@
+/home/petragli/MyCodes/wb97xdDsC-optim/src/master
+{'cxhf': [0.157706], 'omega': [0.3], 'ttb': [1.5299999713897705], 'tta': [13.300000190734863], 'cc_ab': [1.0, 2.37031, -11.3995, 6.58405, -3.78132], 'cc_aa': [1.0, -4.33879, 18.2308, -31.743, 17.2901], 'cx_aa': [0.842294, 0.726479, 1.0476, -5.70635, 13.2794]}
+['tta', 'cx_aa_0']
+UEG, wrong. ALPHAC will be changed.
+ssh master /usr/bin/sbatch
+ssh master /usr/bin/sbatch
+ssh master /usr/bin/sbatch
+ssh master /usr/bin/sbatch
+ssh master /usr/bin/sbatch
+NEEDED_MOL: ['Molecule-G2-148.146', 'Molecule-G2-148.149', 'Molecule-G2-148.154']
+NEEDED_MOL: ['Molecule-G2-148.146', 'Molecule-G2-148.149', 'Molecule-G2-148.154']
+NEEDED_MOL: ['Molecule-G2-148.146', 'Molecule-G2-148.149', 'Molecule-G2-148.154']
+RULE: 0 -1 -118.411617799563
+RULE: 1 7 -0.500599758842669
+RULE: 2 3 -37.8314101686935
+NEEDED_MOL: ['Molecule-G2-148.129', 'Molecule-G2-148.149', 'Molecule-G2-148.154', 'Molecule-G2-148.156']
+NEEDED_MOL: ['Molecule-G2-148.129', 'Molecule-G2-148.149', 'Molecule-G2-148.154', 'Molecule-G2-148.156']
+NEEDED_MOL: ['Molecule-G2-148.129', 'Molecule-G2-148.149', 'Molecule-G2-148.154', 'Molecule-G2-148.156']
+NEEDED_MOL: ['Molecule-G2-148.129', 'Molecule-G2-148.149', 'Molecule-G2-148.154', 'Molecule-G2-148.156']
+RULE: 0 -1 -194.246661543961
+RULE: 1 8 -0.500599758842669
+RULE: 2 3 -37.8314101686935
+RULE: 3 1 -75.0406595470013
+26.164315651911636
+RULE: 0 -1 -114.29213033071296
+RULE: 1 7 -0.46469317371740204
+RULE: 2 3 -36.98949038889274
+RULE: 0 -1 -187.69687950301864
+RULE: 1 8 -0.46469317371740204
+RULE: 2 3 -36.98949038889274
+RULE: 3 1 -73.56985164030066
+1158.299626441732

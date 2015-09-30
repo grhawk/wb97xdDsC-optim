@@ -59,7 +59,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-09-07"
+__updated__ = "2015-09-30"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -68,7 +68,9 @@ __status__ = 'development'
 
 
 home = os.path.expanduser("~")
-ram  = '/dev/shm/'
+root = os.path.join(home, 'MyCodes/wb97xdDsC-optim')  # path to wb97xdDsC-optim
+
+
 class Run(object):
 
     _inout_id = None
@@ -77,23 +79,19 @@ class Run(object):
     _config = dict(dormi=1,
                    dormi_short=3,
                    timeout_max=10,
-                   densities_repo=os.path.join(home, 'tmp_density_dir'),
-                   gamess_bin=os.path.join(home, 'wb97xddsc/gamess-all/gamess'),
-                   # params_dir_small=os.path.join('/scratch/TMP_DATA'),
-                   params_dir_small=os.path.join('wb97xddsc/TMP_DATA'),
-                   params_dir=os.path.join(home, 'wb97xddsc/TMP_DATA'),
-                   sbatch_script_prefix=os.path.join(home, 'wb97xddsc/TMP_DATA'),
-                   tmp_density_dir=os.path.join(home, 'wb97xddsc/TMP_DATA'),
+                   densities_repo=os.path.join(root, 'run_example/density_repo'),
+                   gamess_bin=None,
+                   params_dir_func=os.path.join(root, 'run_example/TMP_DATA'),
+                   params_dir=os.path.join(root, 'run_example/TMP_DATA'),
+                   sbatch_script_prefix=os.path.join(root, 'run_example/TMP_DATA'),
+                   tmp_density_dir=os.path.join(root, 'run_example/TMP_DATA'),
                    well_finished_strings=[b'exit gracefully',
                                           b'FINAL ENERGY INCLUDING dDsC DISPERSION:',
                                           b'DFT EXCHANGE + CORRELATION ENERGY =',
                                           b'Final Energy'],
-#                   command_full='/usr/bin/sbatch',
-                   command_full='ssh lcmdlc2 /usr/bin/sbatch',
-                   command_func=os.path.join(ram, 'STARTall.x')
-#                   command_func=os.path.join(home, 'wb97xddsc/GAMESS/mini-gamess/STARTall.x')
+                   command_full='ssh master /usr/bin/sbatch',  # to run slurm in the cluster
+                   command_func=os.path.join(root, 'bin/minigamess.x')  # path to reduced games
                    )
-
 
     def __init__(self, molID=None, dset=None, run_name=None, tset_path=None):
 
@@ -222,7 +220,7 @@ class Run(object):
         txt += '{BIN:s}/rungms {INPUT:s} 00 1 &> {OUTPUT:s}\n'.\
             format(INPUT=input_file,
                    OUTPUT=self._inout_out_path,
-                   BIN=__class__._config['gamess_bin'])
+                   BIN=str(__class__._config['gamess_bin']))
         txt += 'joberror=$?\n'
         txt += 'cp -r $SLURM_TMPDIR/PARAM_UNF.dat {DENSITY_DEST}\n'.\
             format(DENSITY_DEST=os.path.join(__class__
@@ -239,21 +237,22 @@ class Run(object):
             f.write(txt)
 
     def full(self):
+        print(__class__._config['command_full'])
         command = shlex.split('{COMMAND:s} {SBATCH_FILE:s}'
                               .format(COMMAND=__class__._config['command_full'],
                                       SBATCH_FILE=self._sbatch_file))
         time.sleep(randint(0,5))
         self._write_input()
         self._write_sbatch()
-#        self._run(command)
+        if __class__._config['gamess_bin']: self._run(command)
         energies = self._readout()
-#        self._move_data()
+        if __class__._config['gamess_bin']: self._move_data()
         return energies
 
     def func(self):
         wb97x_param = os.path.join(__class__
-                                   ._config['params_dir_small'], 'FUNC_PAR.dat')
-        ddsc_param = os.path.join(__class__._config['params_dir_small'], 'a0b0')
+                                   ._config['params_dir_func'], 'FUNC_PAR.dat')
+        ddsc_param = os.path.join(__class__._config['params_dir_func'], 'a0b0')
         command = '{COMMAND:s} {WB97X_DATA:s} {DDSC_DATA:s} {WB97X_PARAM:s} {DDSC_PARAM:s}'\
             .format(COMMAND=__class__._config['command_func'],
                     WB97X_DATA=self._wb97x_saves,
@@ -261,5 +260,5 @@ class Run(object):
                     WB97X_PARAM=wb97x_param,
                     DDSC_PARAM=ddsc_param)
         command = shlex.split(command)
-        
+
         return (float(self._run(command).split()[1]))

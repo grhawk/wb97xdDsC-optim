@@ -9,9 +9,52 @@
 
 """ Implements all the objects regarding the training set.
 
+    The implementation is done following a Matryoshka doll:
+
+    TraininSet > DataSet > System > Molecule.
+
+    You can use only the inner classes for particular application without any
+    problem.
+
+    Around those main classes there is the MolSet class. That class manage all
+    the molecules objs: for example you do not need more than one mol obj for
+    the same molecule. Moreover the MolSet class contains a method to run the
+    energy computations for all the molecules who need an upgraded energy.
+
+    A directory contains all the training set following the three:
+    > TrainingSet
+      - trset_file_1
+      - trset_file_2
+      > DataSet 1
+        - rule.dat
+        > geometry
+            - xyz_1
+            - xyz_2
+            - xyz_3
+            - xyz_4
+      > DataSet 2
+        - rule.dat
+        > geometry
+            - xyz_1
+            - xyz_2
+
+    The xyz files are the normal xyz files but if the system described is
+    charged or as a spin multiplicity different from 1, the comment line of the
+    xyz file should contain two integer: "Charge Multiplicity"
+
+    Look at the System and DataSet docstrings for a description of the rule.dat
+    file.
+
+    Look at the TrainingSet docstring for a description of the trset_file
+
+    The computation module allow to run different optimization staring from the
+    same trainingset tree but with different trset_file.
+
     Depends:
         params
         computation
+
+    Todo: finalize the implementation of the blacklist and the fulldftlist.
 """
 
 import params
@@ -34,7 +77,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-09-29"
+__updated__ = "2015-09-30"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -47,23 +90,28 @@ config = dict(Processes=16)
 class MolSet(object):
     """Container for molecule: we want only one obj for a given xyz.
 
-    Since each molecule has to compute an energy, having more than once the same
-    molecule will waste time computing energy that we already know. This class
+    Since each molecule corresponds to an energy, having more than once the same
+    molecule will waste time computing energies that we already know. This class
     is a container for all the molecule and provide a method to create an obj
-    from a molecule only if that molecule has never been used.
+    from a molecule only if that molecule has never been used. Moreover the
+    container in this class is the only place where the mol objs are upgraded so
+    every mol obj around the program has to be a reference to the objs in this
+    list. The method *call_mol_energy are responsible to compute the energies of
+    all the molecules filtered from the container by the to_compute attributes.
 
     Attributes:
         container (list): container for the loaded molecule obj.
         to_compute (list): filters from container those molecule whose energy
                            needs to be upgraded
         _lock (bool): True if the class is computing energies in parallel
+
+    Todo: Implement the blacklist stuff.
     """
 
     container = []
     to_compute = []
     _lock = False
 
-    # Todo: Implement the blacklist stuff
     @staticmethod
     def addto_compute(mol):
         """Add molecules to the to_compute list
@@ -75,10 +123,9 @@ class MolSet(object):
             mol: (mol_obj) molecule to be added to the to_compute list
 
         """
-        raise NotImplementedError
-        # for idx in mols_cidx:
-        #     if idx not in __class__.to_compute:
-        #         __class__.to_compute.append(idx)
+        for idx in mol:
+            if idx not in __class__.to_compute:
+                __class__.to_compute.append(idx)
 
     @staticmethod
     def remove_compute(mol):
@@ -91,12 +138,12 @@ class MolSet(object):
             mol: (mol_obj) molecule to be removed from the to_compute list
 
         """
-        raise NotImplementedError
+        raise(NotImplementedError)
         for i, el in enumerate(__class__.to_compute):
             if mol.id.strip() == el.id:
                 __class__.to_compute.pop(i)
-                msg = 'Mol: {MOL:s} popped out from the compute list'.format(
-                    MOL=mol.id)
+                msg = 'Mol: {MOL:s} popped out from the compute list'.\
+                    format(MOL=mol.id)
                 lg.debug(msg)
 
     @staticmethod
@@ -130,7 +177,7 @@ class MolSet(object):
             else:
                 msg = 'Critical error in implementation'
                 lg.critical(msg)
-                raise RuntimeError(msg)
+                raise(RuntimeError(msg))
             for p in output:
                 new_mols = [p.get() for p in output]
             __class__.refresh_container(new_mols)
@@ -166,7 +213,7 @@ class MolSet(object):
                 else:
                     msg = 'Critical error in implementation'
                     lg.critical(msg)
-                    raise RuntimeError(msg)
+                    raise(RuntimeError(msg))
             __class__._lock = False
 
     @staticmethod
@@ -213,7 +260,7 @@ class MolSet(object):
         else:
             msg = 'Critical error in implementation'
             lg.critical(msg)
-            raise RuntimeError(msg)
+            raise(RuntimeError(msg))
 
         for el in list_:
             if my_id.strip() == el.id:
@@ -428,7 +475,7 @@ class Molecule(object):
             if not isinstance(self._uni_energy, float):
                 msg = 'UniEnergy is not a float for {MOLID:s}!'\
                       .format(MOLID=self.id)
-                raise RuntimeError(msg)
+                raise(RuntimeError(msg))
             self._func_energy = func_energy + self._uni_energy
         return self
 
@@ -465,9 +512,6 @@ class System(object):
         ref_ener (float): reference energy for the system;
         blacklisted (bool): True if the system is mark as blacklisted;
         fulldftlisted (bool): True if the system need always a fulldft;
-
-    Exceptions:
-
     """
 
     def __init__(self, rule_line, dsetp):
@@ -508,7 +552,7 @@ class System(object):
         if len(needed_molecules_name) != len(self.rule):
             msg = 'Problem applying the rule for {}'.format(self.__str__())
             lg.critical(msg)
-            raise RuleFormatError(msg)
+            raise(TypeError(msg))
 
         lg.debug("""System Information:
          * Dataset: {DATASET:2}
@@ -574,7 +618,7 @@ class System(object):
             msg += 'enrgs: ' + ' '.join(list(map(str, enrgs)))
             msg += 'rule: ' + ' '.join(list(map(str, self.rule)))
             lg.critical(msg)
-            raise RuntimeError(msg)
+            raise(RuntimeError(msg))
         enr = 0.0
         for i, coef in enumerate(self.rule):
             enr += coef * enrgs[i]
@@ -652,7 +696,7 @@ class System(object):
         else:
             msg = 'Critical error in implementation!'
             lg.critical(msg)
-            raise NotImplementedError(msg)
+            raise(NotImplementedError(msg))
 
     def random_noise_result(self):
         """Used in testing!
@@ -703,6 +747,23 @@ class Set(object):
 
     Args:
         path: (str) path to the rule file or the traningset file.
+
+    Attributes:
+        container: (list) contains the object of the under-tree: systems or
+            datasets
+        path: (str) path to the rule file or the training set file
+        name: (str) name of the Set
+        id: (str) unique name to identify the set
+        blacklist: (list) contains the id of the blacklisted systems or datasets
+        fulldftlist: (list) contains the list of the obj who always need a
+            density reoptimization
+        _MAE: (float) contains the Mean Average Error of the Set
+        prms: (obj) instance of the parameter class
+
+    Todo:
+        - the optimizer method must be moved to a new class with all the
+            method concerning the optimzation. Then there will be no need for
+            the prms instance!
 
     """
 
@@ -803,8 +864,16 @@ class Set(object):
 
 
 class DataSet(Set):
-    """Here all the container are called with only a number and is obvious that
-        the number has to be inside the DATASET directory """
+    """Contains all the systems of a given dataset.
+
+    Responsible for reading the rule file given with the dataset and settings
+    all the attributes relative to the dataset.
+
+    Args:
+        path: (str) path to the dataset directory (see System class docstring
+            for a description of the rule file and see the example directory to
+            check how the datasat tree has to be.
+    """
 
     def __init__(self, path):
         lg.debug('Initializing DataSet from {}'.format(path))
@@ -812,6 +881,18 @@ class DataSet(Set):
         self._set_creator()
 
     def _set_creator(self):
+        """Takes care of most of the work to set the attributes.
+
+        Since the creation of the instance needs to take care of many things I
+        created this method even if, actually, all the stuff inside could have
+        been done directly by the init method.
+
+        Attributes:
+            name: (str) the name of the root directory of the dataset
+            id: (str) the same a the name (directory path must be unique!)
+
+        Todo: (eventually) merge this method with the init!
+        """
         self.name = os.path.basename(self.path)
         self.id = self.name
         with open(os.path.join(self.path, 'rule.dat')) as rulef:
@@ -827,12 +908,33 @@ class DataSet(Set):
          """.format(NAME=self.name, ID=self.id, PATH=self.path))
 
     def name_conversion(self, system):
+        """ Convert the name os a system in dataset.system.
+
+            The name of the systems is unique within the dataset. Using this
+            function it becomes unique even outside the dataset.
+
+            Args:
+                system: (obj) system object
+
+            Returns:
+                (str) DataSet_id.System.id
+
+            """
         return self.id + '.' + str(system).split('.')[1]
 
-    def __str__(self, *args, **kwargs):
-        return Set.__str__(self, *args, **kwargs)
-
     def _add_to_list(self, name_list, black_or_fulldft):
+        """ Add system objs to black or fulldft list by sysobj names.
+
+            Specifying the name of the sys objs contained in the self dataset
+            that you want to add to the blacklist of to the fulldft list, this
+            method find the right obj and set it to the proper list.
+
+            Args:
+                name_list: (list) contains the system names as str
+                black_or_fulldft: (str) if black then the systems are added to
+                    the blacklist; if fulldft the systems are added to the
+                    fulldftlist.
+        """
         tmp = []
         for name in name_list:
             obj = self.get_by_name(name)
@@ -849,17 +951,38 @@ class DataSet(Set):
             self.fulldftlist = copy.deepcopy(tmp)
             self.flush_list('fulldftlist.dat', self.fulldftlist)
         else:
-            lg.critical('Critical error in implementation!')
-            sys.exit()
+            msg = 'Critical error in implementation!'
+            lg.critical(msg)
+            raise(RuntimeError(msg))
 
     def add_to_fulldftlist(self, name_list):
+        """ Nicer interface to add systems to the fulldftlist.
+
+        """
         self._add_to_list(name_list, 'fulldft')
 
     def add_to_blacklist(self, name_list):
+        """ Nicer interface to add systems to the blacklist.
+
+        """
         self._add_to_list(name_list, 'black')
 
 
 class TrainingSet(Set):
+    """Take care of all the DataSet of a given TrainingSet.
+
+    Responsible for reading the trset_file given within the trainingset
+    directory and settings all the attributes relative to the dataset.
+
+    The trset_file contains the name of the dataset you want to use in the
+    trainingset. Each specified dataset needs a dataset-directory-tree
+    at the same level of the trset_file.
+
+    See Module and DataSet docstring for further datails about DataSet tree.
+
+    Args:
+        path: (str) path to the trset_file
+    """
 
     def __init__(self, path, file):
         super().__init__(path)
@@ -867,19 +990,25 @@ class TrainingSet(Set):
         self.filep = os.path.join(self.path, file.strip())
         self._set_creator()
 
-    def name_conversion(self, name):
-        """Return a tuple with dataset and system number.
+    def _set_creator(self):
+        """Takes care of most of the work to set the attributes.
+
+        Since the creation of the instance needs to take care of many things I
+        created this method even if, actually, all the stuff inside could have
+        been done directly by the init method.
+
+        Blacklist and fulldftlist files will contains all the id of the systems
+        belonging to the respective list.
+
+        Attributes:
+            id: (str) the same a the name (directory path must be unique!)
+            _blacklistp: (str) path to the blacklist file
+            _fulldftlistp: (str) path to the fulldftlist file
+
+
+        Todo: (eventually) merge this method with the init!
 
         """
-        if len(name.split('.')) == 2:
-            return tuple(name.split('.'))
-        else:
-            msg = """Name {} has a wrong syntax:
-                     Should be DATSET.SYSTEM""".format(name)
-            lg.error(msg)
-            return None
-
-    def _set_creator(self):
         self.id = self.name
         self._blacklistp = os.path.join(self.path, self.name + '-blacklist.dat')
         self._fulldftlistp = os.path.join(self.path,
@@ -901,11 +1030,52 @@ class TrainingSet(Set):
                         readlist.append(line.strip())
         return readlist
 
+    def name_conversion(self, name):
+        """ Return a tuple with dataset and system number.
+
+        Useful to reach attributes of system objs staring from the unique name
+        of the system.
+
+        Args:
+            name: (str) unique name of a given system (dataset.id+'.'+system.id)
+
+        """
+        if len(name.split('.')) == 2:
+            return tuple(name.split('.'))
+        else:
+            msg = """Name {} has a wrong syntax:
+                     Should be DATSET.SYSTEM""".format(name)
+            lg.error(msg)
+            return None
+
     def read_allist(self):
         self.add_to_blacklist(self._read_list(self._blacklistp))
         self.add_to_fulldftlist(self._read_list(self._fulldftlistp))
 
     def _add_to_list(self, name_list, black_or_fulldft):
+        """Add entire dataset and all its systems to black of fulldft list.
+
+        Specifying the name of the dataset objs contained in the self
+        trainingset that you want to add to the blacklist of to the fulldft
+        list, this method find the right obj and set it to the proper list.
+
+        Args:
+            name_list: (list) contains the system names as str
+            black_or_fulldft: (str) if black then the systems are added to
+                the blacklist; if fulldft the systems are added to the
+                fulldftlist.
+
+        Returns:
+            Alwayis None
+
+        Raises:
+            RuntimeError: It means that this method has been used in a wrong
+                way, but since it is private, that means there is some error in
+                the implementation.
+
+        Todo: Eventually merge this method with the same in the dataset.
+
+        """
         tmp = {}
         uncoded_name_list = list(map(self.name_conversion, name_list))
         uncoded_name_list = [x for x in uncoded_name_list if x is not None]
@@ -927,19 +1097,33 @@ class TrainingSet(Set):
                 self.fulldftlist = name_list
                 self.flush_list(self._fulldftlistp, self.fulldftlist)
             else:
-                lg.critical('Critical error in implementation!')
-                sys.exit()
+                msg = 'Critical error in implementation!'
+                lg.critical()
+                raise(RuntimeError(msg))
 
     def add_to_fulldftlist(self, name_list):
+        """Nicer interface to add systems to the fulldftlist.
+        """
         self._add_to_list(name_list, 'fulldft')
 
     def add_to_blacklist(self, name_list):
+        """Nicer interface to add systems to the fulldftlist.
+        """
         self._add_to_list(name_list, 'black')
 
     def compute_MAE(self, kind):
+        """Compute the MAE for the entire trainingset.
+
+        It would be enough to add the "compute_all" line in the Set.compute_MAE
+        method. But this way saves computational time since it avoid to start
+        many useless processes.
+
+        Args:
+            kind: (str) can be "func" or "full". See Molecule class for
+                further details.
+
+        Returns:
+            (float) MAE of the training set.
+        """
         MolSet.p_call_mol_energy(kind)
         return super().compute_MAE(kind)
-
-
-class RuleFormatError(TypeError):
-    pass

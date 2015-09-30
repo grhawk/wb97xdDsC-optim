@@ -1,0 +1,22 @@
+#!/bin/bash
+#SBATCH -J S-022.002
+#SBATCH -o /home/petragli/wb97xddsc/wb97xdDsC-optim/src/test1/S-022/inout/DENS-0/S-022.002.stdout
+#SBATCH -e /home/petragli/wb97xddsc/wb97xdDsC-optim/src/test1/S-022/inout/DENS-0/S-022.002.stderr
+#SBATCH --mem=8000
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --partition=debug
+module load intel/14.0.2
+export EXTBAS=/dev/null
+echo $PWD
+WORKINGDIR=$PWD
+cd $SLURM_TMPDIR
+cp /home/petragli/wb97xddsc/wb97xdDsC-optim/src/test1/S-022/inout/DENS-0/S-022.002.inp $SLURM_TMPDIR
+cp /home/petragli/wb97xddsc/TMP_DATA/a0b0 $SLURM_TMPDIR
+cp /home/petragli/wb97xddsc/TMP_DATA/FUNC_PAR.dat $SLURM_TMPDIR
+/home/petragli/wb97xddsc/gamess-all/gamess/rungms S-022.002.inp 00 1 &> /home/petragli/wb97xddsc/wb97xdDsC-optim/src/test1/S-022/inout/DENS-0/S-022.002.log
+joberror=$?
+cp -r $SLURM_TMPDIR/PARAM_UNF.dat /home/petragli/wb97xddsc/TMP_DATA/S-022.002.wb97x
+cp -r $SLURM_TMPDIR/dDsC_PAR /home/petragli/wb97xddsc/TMP_DATA/S-022.002.ddsc
+cp -ar $SLURM_TMPDIR $WORKINGDIR
+exit
