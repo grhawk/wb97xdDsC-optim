@@ -123,10 +123,9 @@ class MolSet(object):
             mol: (mol_obj) molecule to be added to the to_compute list
 
         """
-        raise(NotImplementedError)
-        # for idx in mols_cidx:
-        #     if idx not in __class__.to_compute:
-        #         __class__.to_compute.append(idx)
+        for idx in mol:
+            if idx not in __class__.to_compute:
+                __class__.to_compute.append(idx)
 
     @staticmethod
     def remove_compute(mol):
@@ -513,9 +512,6 @@ class System(object):
         ref_ener (float): reference energy for the system;
         blacklisted (bool): True if the system is mark as blacklisted;
         fulldftlisted (bool): True if the system need always a fulldft;
-
-    Exceptions:
-
     """
 
     def __init__(self, rule_line, dsetp):

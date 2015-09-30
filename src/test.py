@@ -1,3 +1,12 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+#
+# Project:  wb97xdDsC-optim
+# FileName: main
+# Creation: Jul 15, 2015
+#
+
 '''
 Created on Sep 30, 2015
 
@@ -10,17 +19,19 @@ from scipy.optimize import minimize
 import shutil
 
 # Easier to port
-root = os.getcwd()
+home = os.path.expanduser("~")
+root = os.path.join(home, 'MyCodes/wb97xdDsC-optim') #path to wb97xdDsC-optim
 sys.path.append(os.path.join(root, 'src/master'))
+print(os.path.join(root, 'src/master'))
 
 from trset import TrainingSet, MolSet
 from params import Parameters
 from computation import Run
 
-config = dict(TraininSetPath='../example/trset-tree-example/',
+config = dict(TraininSetPath= os.path.join(root, 'example/trset-tree-example/'),
               TraininSetName='trset-tree-example',
-              Name='test1',
-              logfile='logging.log',
+              Name=os.path.join(root, 'run_example/test'),
+              logfile=os.path.join(root, 'output/logging.log'),
               loglevel='DEBUG',
               )
 
