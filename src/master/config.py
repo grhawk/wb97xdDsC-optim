@@ -7,6 +7,8 @@
 # Creation: Sep 30, 2015
 #
 
+import os
+
 """Contains all the configurable variable (paths, precisions... etc.).
 
 This module contains a config class with all the variables that depends on the
@@ -42,7 +44,6 @@ Attributes:
    http://google-styleguide.googlecode.com/svn/trunk/pyguide.html
 
 """
-import os
 
 # Try determining the version from git:
 try:
@@ -69,51 +70,57 @@ join = os.path.join()  # Just to make shorter lines below
 class Config(object):
 
     config = dict(
-        home = None,
-        root = None,
-        training_set_file = None,  # Was TrainingSetPath
-        run_name = None,  # Was Name
-        loglevel = None,
-        logfile = None,
-        processes = None,
-        precision = None,
-        wb97x_param_file = None,  # Was ParamFile
-        ddsc_param_file = None,  # Was dDsCParamFile
-        wait_for_gamess_output = None,  # Was dormi
-        wait_to_recheck = None,  # Was dormi-short
-        maximum_time_to_recheck = None,  # was timeout_max
-        temporary_densities_repo = None,
-        gamess_bin = None,
-        func_params_prefix = None,  # Was params_dir_func
-        full_params_prefix = None,  # Was params_dir
-        sbatch_script_prefix = None,
-        densities_repo = None,  # Was tmp_density_dir
-        command_full = None,
-        command_func = None,
+        home=None,
+        root=None,
+        training_set_file=None,  # Was TrainingSetPath
+        run_name=None,  # Was Name
+        loglevel=None,
+        logfile=None,
+        processes=None,
+        precision=None,
+        wb97x_param_file=None,  # Was ParamFile
+        ddsc_param_file=None,  # Was dDsCParamFile
+        wait_for_gamess_output=None,  # Was dormi
+        wait_to_recheck=None,  # Was dormi-short
+        maximum_time_to_recheck=None,  # was timeout_max
+        temporary_densities_repo=None,
+        gamess_bin=None,
+        func_params_prefix=None,  # Was params_dir_func
+        full_params_prefix=None,  # Was params_dir
+        sbatch_script_prefix=None,
+        densities_repo=None,  # Was tmp_density_dir
+        command_full=None,
+        command_func=None,
     )
 
     _help = dict(
-        home = 'Absolute path to the home',
-        root = 'Absolute path to the main directory',
-        training_set_file = 'Path to the training_set_file',  # Was TrainingSetPath
-        run_name = 'Name of the present run (path where to save the input and output)',
-        loglevel = 'Level of the log file',
-        logfile = 'Path to the log file',
-        processes = 'Maximum number of parallel processes',
-        precision = 'Maximum precision in comparing float',
-        wb97x_param_file = 'Name of the file containing the wb97x parameters',  # Was ParamFile
-        ddsc_param_file = 'Name of the file containing the ddsc parameters',  # Was dDsCParamFile
-        wait_for_gamess_output = 'Time to wait before starting checking the gamess output',  # Was dormi
-        wait_to_recheck = 'Time to wait if the first cheking fails',  # Was dormi-short
-        maximum_time_to_recheck = 'How many check before a msg in the log is printed to tell which file is missing',  # was timeout_max
-        temporary_densities_repo = 'Repo where densities are saved on the machine',
-        gamess_bin = 'Absolute path to the gamess bin',
-        func_params_prefix = 'Path where the big gamess look for parameters files',  # Was params_dir_func
-        full_params_prefix = 'Path where the mini gamess look for parameters files',  # Was params_dir
-        sbatch_script_prefix = 'Command to queue the big gamess job',
-        densities_repo = 'Path to save all the densities',  # Was tmp_density_dir
-        command_full = 'Command to execute for the full gamess',
-        command_func = 'Command to execute for the mini-gamess',
+        home='Absolute path to the home',
+        root='Absolute path to the main directory',
+        training_set_file='Path to the training_set_file',
+        run_name='Name of the present run (path where to save the'
+                ' input and output)',
+        loglevel='Level of the log file',
+        logfile='Path to the log file',
+        processes='Maximum number of parallel processes',
+        precision='Maximum precision in comparing float',
+        wb97x_param_file='Name of the file containing the wb97x parameters',
+        ddsc_param_file='Name of the file containing the ddsc parameters',
+        wait_for_gamess_output='Time to wait before starting checking the '
+                ' gamess output',
+        wait_to_recheck='Time to wait if the first cheking fails',
+        maximum_time_to_recheck='How many check before a msg in the log is'
+                ' printed to tell which file is missing',
+        temporary_densities_repo='Repo where densities are saved on'
+                ' the machine',
+        gamess_bin='Absolute path to the gamess bin',
+        func_params_prefix='Path where the big gamess look for '
+                'parameters files',
+        full_params_prefix='Path where the mini gamess look for'
+                ' parameters files',
+        sbatch_script_prefix='Command to queue the big gamess job',
+        densities_repo='Path to save all the densities',
+        command_full='Command to execute for the full gamess',
+        command_func='Command to execute for the mini-gamess',
     )
 
     @staticmethod
@@ -128,7 +135,7 @@ class Config(object):
     def help(kw):
         if kw == 'all':
             msg = ''
-            for k,v in __class__._help.items():
+            for k, v in __class__._help.items():
                 msg += k + ' --> ' + str(v) + '\n'
             print(msg)
         else:
@@ -142,19 +149,16 @@ class Config(object):
         print(msg)
 
 
-
 class PresetConfig(object):
 
     def __init__(self):
         self.C = Config()
         self.default_preset()
 
-
-
     def default_preset(self):
         self.C.set('home', os.path.expanduser('~'))
 
-    def preset_1(self):
+    def preset_test(self):
         home = Config.get('home')
         root = join(home, 'MyCodes/wb97xdDsC-optim')  # shortening lines below
         tmp_data = join(root, 'run_example/TMP_DATA')  # shortening lines below
@@ -180,6 +184,8 @@ class PresetConfig(object):
                     command_func=join(root, 'bin/minigamess.x'),
                     )
 
+        for k, v in prst.items():
+            Config.set(k, v)
 
 
 def testing_Config():
@@ -192,12 +198,12 @@ def testing_Config():
     print(cfg2.get('home'))
 
     print('Set home to HOME on cfg1')
-    cfg1.set('home','HOME')
+    cfg1.set('home', 'HOME')
     print('cfg1', cfg1.get('home'))
     print('cfg2', cfg2.get('home'))
 
     print('Set home to ASD on cfg2')
-    cfg2.set('home','ASD')
+    cfg2.set('home', 'ASD')
     print('cfg1', cfg1.get('home'))
     print('cfg2', cfg2.get('home'))
 
