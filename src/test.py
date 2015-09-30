@@ -13,35 +13,31 @@ Created on Sep 30, 2015
 @author: petragli
 '''
 
-import sys, os
+import sys
+import os
 import logging as lg
-from scipy.optimize import minimize
-import shutil
-
 # Easier to port
 home = os.path.expanduser("~")
-root = os.path.join(home, 'MyCodes/wb97xdDsC-optim') #path to wb97xdDsC-optim
+root = os.path.join(home, 'MyCodes/wb97xdDsC-optim')  # path to wb97xdDsC-optim
 sys.path.append(os.path.join(root, 'src/master'))
-print(os.path.join(root, 'src/master'))
 
+from config import Config, Presets
 from trset import TrainingSet, MolSet
 from params import Parameters
 from computation import Run
 
-config = dict(TraininSetPath= os.path.join(root, 'example/trset-tree-example/'),
-              TraininSetName='trset-tree-example',
-              Name=os.path.join(root, 'run_example/test'),
-              logfile=os.path.join(root, 'output/logging.log'),
-              loglevel='DEBUG',
-              )
+Presets().test()
+config = Config().config
 
 
 def main():
     prms = Parameters()
 
-    run = Run(run_name=config['Name'], tset_path=config['TraininSetPath'])
+    run = Run(run_name=config['run_name'],
+              tset_path=config['training_set_path'])
     run.index = 'DENS-0000'
-    trset = TrainingSet(config['TraininSetPath'], config['TraininSetName'])
+    trset = TrainingSet(config['training_set_path'],
+                        config['training_set_file'])
 
     prms.prms = dict(tta=[13.300000190734863],
                      ttb=[1.5299999713897705],

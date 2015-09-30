@@ -47,6 +47,7 @@ import logging as lg
 from make_input import Input
 import os
 from utils import find_in_file, file_exists, create_dir
+from config import Config
 
 # Try determining the version from git:
 try:
@@ -70,34 +71,25 @@ __status__ = 'development'
 home = os.path.expanduser("~")
 root = os.path.join(home, 'MyCodes/wb97xdDsC-optim')  # path to wb97xdDsC-optim
 
+config = Config().config
+config['well_finished_strings'] = [b'exit gracefully',
+                                   b'FINAL ENERGY INCLUDING dDsC DISPERSION:',
+                                   b'DFT EXCHANGE + CORRELATION ENERGY =',
+                                   b'Final Energy']
+
 
 class Run(object):
 
     _inout_id = None
     _run_name = None
     _tset_path = None
-    _config = dict(dormi=1,
-                   dormi_short=3,
-                   timeout_max=10,
-                   densities_repo=os.path.join(root, 'run_example/density_repo'),
-                   gamess_bin=None,
-                   params_dir_func=os.path.join(root, 'run_example/TMP_DATA'),
-                   params_dir=os.path.join(root, 'run_example/TMP_DATA'),
-                   sbatch_script_prefix=os.path.join(root, 'run_example/TMP_DATA'),
-                   tmp_density_dir=os.path.join(root, 'run_example/TMP_DATA'),
-                   well_finished_strings=[b'exit gracefully',
-                                          b'FINAL ENERGY INCLUDING dDsC DISPERSION:',
-                                          b'DFT EXCHANGE + CORRELATION ENERGY =',
-                                          b'Final Energy'],
-                   command_full='ssh master /usr/bin/sbatch',  # to run slurm in the cluster
-                   command_func=os.path.join(root, 'bin/minigamess.x')  # path to reduced games
-                   )
 
     def __init__(self, molID=None, dset=None, run_name=None, tset_path=None):
 
         if molID and dset and not run_name and not tset_path:
             if not __class__._run_name or not __class__._tset_path:
-                msg = 'run_name has to be specified before to instance a useful class!'
+                msg = 'run_name has to be specified before to instance a'\
+                    ' useful class!'
                 lg.critical(msg)
                 raise RuntimeError(msg)
             self._inout_path = os.path.join(__class__._run_name, dset,
@@ -115,20 +107,21 @@ class Run(object):
                                                 molID + '.log')
             self.molID = molID
 
-            create_dir(__class__._config['densities_repo'])
+            create_dir(config['densities_repo'])
 
-            self._wb97x_saves = os.path.join(__class__._config['densities_repo'],
+            self._wb97x_saves = os.path.join(config['densities_repo'],
                                              self.molID + '.wb97x')
-            self._ddsc_saves = os.path.join(__class__._config['densities_repo'],
+            self._ddsc_saves = os.path.join(config['densities_repo'],
                                             self.molID + '.ddsc')
             self._sbatch_file = \
-                os.path.join(__class__._config['sbatch_script_prefix'],
+                os.path.join(config['sbatch_script_prefix'],
                              self.molID)
         elif not molID and not dset and run_name and tset_path:
             __class__._run_name = run_name
             __class__._tset_path = tset_path
         else:
-            msg = 'You cannot specify run_name, dset_path and molID all together in Run'
+            msg = 'You cannot specify run_name, dset_path and molID all'\
+                ' together in Run'
             lg.critical(msg)
             raise AttributeError(msg)
 
@@ -153,16 +146,16 @@ class Run(object):
         not_found = False
         while True:
             timeout += 1
-            time.sleep(__class__._config['dormi'])
-            if timeout % __class__._config['timeout_max'] == 0:
+            time.sleep(config['wait_for_gamess_output'])
+            if timeout % config['maximum_times_to_recheck'] == 0:
                 not_found = True
-                lg.warning('Final energy not found for file {}... Do something!!'
-                           .format(self._inout_out_path))
+                lg.warning('Final energy not found for file {}... '
+                           'Do something!!'.format(self._inout_out_path))
 
             if not os.path.exists(self._inout_out_path): continue
 
             find = find_in_file(self._inout_out_path,
-                                __class__._config['well_finished_strings'],
+                                config['well_finished_strings'],
                                 reverse=True)
 
             if find[1] and find[2] and find[3]:
@@ -177,12 +170,12 @@ class Run(object):
                         float(find[2].split()[6]), float(find[3].split()[2]))
 
     def _move_data(self):
-        dens_orig = os.path.join(__class__._config['tmp_density_dir'],
+        dens_orig = os.path.join(config['temporary_densities_repo'],
                                  self.molID + '.wb97x')
-        ddsc_orig = os.path.join(__class__._config['tmp_density_dir'],
+        ddsc_orig = os.path.join(config['temporary_densities_repo'],
                                  self.molID + '.ddsc')
         while True:
-            time.sleep(__class__._config['dormi_short'])
+            time.sleep(config['wait_to_recheck'])
             allfile = True
             for filep in [dens_orig, ddsc_orig]:
                 try:
@@ -214,21 +207,19 @@ class Run(object):
         txt += 'cp {INPUTFILE:s} $SLURM_TMPDIR\n'\
             .format(INPUTFILE=self._inout_inp_path)
         txt += 'cp {PARAMS_DIR:s}/a0b0 $SLURM_TMPDIR\n'\
-            .format(PARAMS_DIR=__class__._config['params_dir'])
+            .format(PARAMS_DIR=config['full_params_prefix'])
         txt += 'cp {PARAMS_DIR:s}/FUNC_PAR.dat $SLURM_TMPDIR\n'.\
-            format(PARAMS_DIR=__class__._config['params_dir'])
+            format(PARAMS_DIR=config['full_params_prefix'])
         txt += '{BIN:s}/rungms {INPUT:s} 00 1 &> {OUTPUT:s}\n'.\
             format(INPUT=input_file,
                    OUTPUT=self._inout_out_path,
-                   BIN=str(__class__._config['gamess_bin']))
+                   BIN=str(config['gamess_bin']))
         txt += 'joberror=$?\n'
         txt += 'cp -r $SLURM_TMPDIR/PARAM_UNF.dat {DENSITY_DEST}\n'.\
-            format(DENSITY_DEST=os.path.join(__class__
-                                             ._config['tmp_density_dir'],
+            format(DENSITY_DEST=os.path.join(config['temporary_densities_repo'],
                                              self.molID + '.wb97x'))
         txt += 'cp -r $SLURM_TMPDIR/dDsC_PAR {dDSC_DEST}\n'.\
-            format(dDSC_DEST=os.path.join(__class__
-                                          ._config['tmp_density_dir'],
+            format(dDSC_DEST=os.path.join(config['temporary_densities_repo'],
                                           self.molID + '.ddsc'))
         txt += 'cp -ar $SLURM_TMPDIR $WORKINGDIR\n'
         txt += 'exit\n'
@@ -237,24 +228,26 @@ class Run(object):
             f.write(txt)
 
     def full(self):
-        print(__class__._config['command_full'])
+        print(config['command_full'])
         command = shlex.split('{COMMAND:s} {SBATCH_FILE:s}'
-                              .format(COMMAND=__class__._config['command_full'],
+                              .format(COMMAND=config['command_full'],
                                       SBATCH_FILE=self._sbatch_file))
-        time.sleep(randint(0,5))
+        time.sleep(randint(0, 5))
         self._write_input()
         self._write_sbatch()
-        if __class__._config['gamess_bin']: self._run(command)
+        if config['gamess_bin']: self._run(command)
         energies = self._readout()
-        if __class__._config['gamess_bin']: self._move_data()
+        if config['gamess_bin']: self._move_data()
         return energies
 
     def func(self):
-        wb97x_param = os.path.join(__class__
-                                   ._config['params_dir_func'], 'FUNC_PAR.dat')
-        ddsc_param = os.path.join(__class__._config['params_dir_func'], 'a0b0')
-        command = '{COMMAND:s} {WB97X_DATA:s} {DDSC_DATA:s} {WB97X_PARAM:s} {DDSC_PARAM:s}'\
-            .format(COMMAND=__class__._config['command_func'],
+        wb97x_param = os.path.join(config['func_params_prefix'],
+                                   config['wb97x_param_file'])
+        ddsc_param = os.path.join(config['func_params_prefix'],
+                                  config['ddsc_param_file'])
+        command = '{COMMAND:s} {WB97X_DATA:s} {DDSC_DATA:s} '\
+            ' {WB97X_PARAM:s} {DDSC_PARAM:s}'\
+            .format(COMMAND=config['command_func'],
                     WB97X_DATA=self._wb97x_saves,
                     DDSC_DATA=self._ddsc_saves,
                     WB97X_PARAM=wb97x_param,

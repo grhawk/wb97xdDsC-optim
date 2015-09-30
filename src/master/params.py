@@ -18,6 +18,7 @@ import os
 import re
 from utils import sum_is_one
 import sys
+from config import Config
 
 # Try determining the version from git:
 try:
@@ -39,10 +40,11 @@ __status__ = 'development'
 
 home = os.path.expanduser("~")
 root = os.path.join(home, 'MyCodes/wb97xdDsC-optim')  # path to wb97xdDsC-optim
-config = dict(Precision=1E-18,
-             ParamFile=os.path.join(root,'run_example/TMP_DATA/FUNC_PAR.dat'),
-             dDsCParamFile=os.path.join(root,'run_example/TMP_DATA/a0b0'))
+# config = dict(precision=1E-18,
+#              wb97x_param_file=os.path.join(root, 'run_example/TMP_DATA/FUNC_PAR.dat'),
+#              ddsc_param_file=os.path.join(root, 'run_example/TMP_DATA/a0b0'))
 
+config = Config().config
 
 
 class Parameters(object):
@@ -74,10 +76,10 @@ class Parameters(object):
         cx0 = __class__._parameters['cx_aa'][0]
         if sum_is_one(cx, cx0):
             pass
-            #print('UEG, OK')
+            # print('UEG, OK')
         else:
             print('UEG, wrong. ALPHAC will be changed.')
-            __class__._parameters['cxhf']=[1.0-cx0]
+            __class__._parameters['cxhf'] = [1.0 - cx0]
             pass
             if not sum_is_one(__class__._parameters['cxhf'][0], __class__._parameters['cx_aa'][0]):
                 msg = 'Hartree Exchange parameters out of boundary!'
@@ -149,21 +151,21 @@ class Parameters(object):
         # raise un warning. Poi settare i parametri in modo che siano sempre
         # consistenti e scriverli nel giusto file con la giusta formattazione!
         self._constr()
-        msg=''
-        with open(config['ParamFile'], 'w') as pf:
-            list_=['cxhf','cx_aa','omega','cc_aa','cc_ab']
+        msg = ''
+        with open(config['wb97x_param_file'], 'w') as pf:
+            list_ = ['cxhf', 'cx_aa', 'omega', 'cc_aa', 'cc_ab']
             for k in list_:
                 for i, v in enumerate(__class__._parameters[k]):
 #                    print(k,i,v)
-                    msg += str(k)+str(i)+'   '+str(v)+'\n'
+                    msg += str(k) + str(i) + '   ' + str(v) + '\n'
             pf.write(msg)
-        msg=''
-        with open(config['dDsCParamFile'], 'w') as pf2:
-            list_=['tta','ttb']
+        msg = ''
+        with open(config['ddsc_param_file'], 'w') as pf2:
+            list_ = ['tta', 'ttb']
             for k in list_:
                 for i, v in enumerate(__class__._parameters[k]):
 #                    print(k,i,v)
-                    msg += str(v)+'\n'
+                    msg += str(v) + '\n'
             pf2.write(msg)
 
 
@@ -301,7 +303,7 @@ class Parameters(object):
                     tmp = []
                     for i, v in enumerate(vs):
                         tmp.append(v - vh[i])
-                        if abs(v - vh[i]) > config['Precision']:
+                        if abs(v - vh[i]) > config['precision']:
                             compare = False
                     parameters_differences[k] = tmp
                 else:

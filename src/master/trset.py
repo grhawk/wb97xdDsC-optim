@@ -60,11 +60,11 @@
 import params
 import logging as lg
 import os
-import sys
 import copy
 import multiprocessing as mproc
 from computation import Run
 import itertools
+from config import Config
 
 # Try determining the version from git:
 try:
@@ -84,7 +84,7 @@ __maintainer__ = 'Riccardo Petraglia'
 __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
 
-config = dict(Processes=16)
+config = Config().config
 
 
 class MolSet(object):
@@ -165,7 +165,7 @@ class MolSet(object):
             tmp = [0] * len(__class__.container)
             for i in __class__.to_compute:
                 tmp[i] = 1
-            my_pool = mproc.Pool(processes=config['Processes'])
+            my_pool = mproc.Pool(processes=config['processes'])
             if kind == 'full':
                 output = [my_pool.apply_async(mol.full_energy_calc)
                           for mol in itertools.compress(__class__.container,
@@ -986,6 +986,7 @@ class TrainingSet(Set):
 
     def __init__(self, path, file):
         super().__init__(path)
+        print(file)
         self.name = file[:-4]
         self.filep = os.path.join(self.path, file.strip())
         self._set_creator()

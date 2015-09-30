@@ -14,6 +14,9 @@ import os
 This module contains a config class with all the variables that depends on the
 place where you are running. The class allows also to build preset of values so
 that all the program can be easily ported.
+
+Todo: Check if the all the variable related to the params file locations are
+    actually needed.
 """
 
 """Example.
@@ -64,7 +67,7 @@ __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
 
 
-join = os.path.join()  # Just to make shorter lines below
+join = os.path.join  # Just to make shorter lines below
 
 
 class Config(object):
@@ -72,7 +75,8 @@ class Config(object):
     config = dict(
         home=None,
         root=None,
-        training_set_file=None,  # Was TrainingSetPath
+        training_set_path=None,  # Was TrainingSetPath
+        training_set_file=None,  # Was TrainingSetName
         run_name=None,  # Was Name
         loglevel=None,
         logfile=None,
@@ -82,7 +86,7 @@ class Config(object):
         ddsc_param_file=None,  # Was dDsCParamFile
         wait_for_gamess_output=None,  # Was dormi
         wait_to_recheck=None,  # Was dormi-short
-        maximum_time_to_recheck=None,  # was timeout_max
+        maximum_times_to_recheck=None,  # was timeout_max
         temporary_densities_repo=None,
         gamess_bin=None,
         func_params_prefix=None,  # Was params_dir_func
@@ -96,7 +100,8 @@ class Config(object):
     _help = dict(
         home='Absolute path to the home',
         root='Absolute path to the main directory',
-        training_set_file='Path to the training_set_file',
+        training_set_file='Name of the training_set_file',
+        training_set_path='Path to the training set tree',
         run_name='Name of the present run (path where to save the'
                 ' input and output)',
         loglevel='Level of the log file',
@@ -108,7 +113,7 @@ class Config(object):
         wait_for_gamess_output='Time to wait before starting checking the '
                 ' gamess output',
         wait_to_recheck='Time to wait if the first cheking fails',
-        maximum_time_to_recheck='How many check before a msg in the log is'
+        maximum_times_to_recheck='How many check before a msg in the log is'
                 ' printed to tell which file is missing',
         temporary_densities_repo='Repo where densities are saved on'
                 ' the machine',
@@ -149,21 +154,21 @@ class Config(object):
         print(msg)
 
 
-class PresetConfig(object):
+class Presets(object):
 
     def __init__(self):
-        self.C = Config()
-        self.default_preset()
+        self.default()
 
-    def default_preset(self):
-        self.C.set('home', os.path.expanduser('~'))
+    def default(self):
+        Config.set('home', os.path.expanduser('~'))
 
-    def preset_test(self):
+    def test(self):
         home = Config.get('home')
         root = join(home, 'MyCodes/wb97xdDsC-optim')  # shortening lines below
         tmp_data = join(root, 'run_example/TMP_DATA')  # shortening lines below
         prst = dict(root=root,
-                    training_set_file=join(root, 'example/trset-tree-example/'),
+                    training_set_file=join('trset-tree-example'),
+                    training_set_path=join(root, 'example/trset-tree-example/'),
                     run_name=join(root, 'run_example/test'),
                     logfile=join(root, 'output/logging.log'),
                     loglevel='DEBUG',
@@ -173,7 +178,7 @@ class PresetConfig(object):
                     ddsc_param_file=join(root, tmp_data, 'a0b0'),
                     wait_for_gamess_output=1,
                     wait_to_recheck=3,
-                    maximum_time_to_recheck=10,
+                    maximum_times_to_recheck=10,
                     temporary_densities_repo=tmp_data,
                     gamess_bin=None,
                     func_params_prefix=tmp_data,
