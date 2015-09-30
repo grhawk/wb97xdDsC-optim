@@ -1,0 +1,22 @@
+#!/bin/bash
+#SBATCH -J G2-148.149
+#SBATCH -o /home/petragli/MyCodes/wb97xdDsC-optim/run_example/test/G2-148/inout/DENS-0000/G2-148.149.stdout
+#SBATCH -e /home/petragli/MyCodes/wb97xdDsC-optim/run_example/test/G2-148/inout/DENS-0000/G2-148.149.stderr
+#SBATCH --mem=8000
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --partition=debug
+module load intel/14.0.2
+export EXTBAS=/dev/null
+echo $PWD
+WORKINGDIR=$PWD
+cd $SLURM_TMPDIR
+cp /home/petragli/MyCodes/wb97xdDsC-optim/run_example/test/G2-148/inout/DENS-0000/G2-148.149.inp $SLURM_TMPDIR
+cp /home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/a0b0 $SLURM_TMPDIR
+cp /home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/FUNC_PAR.dat $SLURM_TMPDIR
+None/rungms G2-148.149.inp 00 1 &> /home/petragli/MyCodes/wb97xdDsC-optim/run_example/test/G2-148/inout/DENS-0000/G2-148.149.log
+joberror=$?
+cp -r $SLURM_TMPDIR/PARAM_UNF.dat /home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/G2-148.149.wb97x
+cp -r $SLURM_TMPDIR/dDsC_PAR /home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/G2-148.149.ddsc
+cp -ar $SLURM_TMPDIR $WORKINGDIR
+exit
