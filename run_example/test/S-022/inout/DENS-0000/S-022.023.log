@@ -1,0 +1,896 @@
+----- GAMESS execution script 'rungms' -----
+This job is running on host lcmd44.cluster
+under operating system Linux at Wed Sep 30 13:00:23 CEST 2015
+Available scratch disk space (Kbyte units) at beginning of the job is
+Filesystem      1K-blocks  Used  Available Use% Mounted on
+/dev/md1       1714180500 86112 1696677992   1% /scratch
+GAMESS temporary binary files will be written to /scratch/petragli/10172.slurm
+GAMESS supplementary output files will be written to /scratch/petragli/10172.slurm
+Copying input file S-022.023.inp to your run's scratch directory...
+cp S-022.023.inp /scratch/petragli/10172.slurm/S-022.023.F05
+unset echo
+/home/petragli/wb97xddsc/gamess-all/gamess/ddikick.x /home/petragli/wb97xddsc/gamess-all/gamess/gamess.00.x S-022.023 -ddi 1 1 lcmd44.cluster -scr /scratch/petragli/10172.slurm
+
+ Distributed Data Interface kickoff program.
+ Initiating 1 compute processes on 1 nodes to run the following command:
+ /home/petragli/wb97xddsc/gamess-all/gamess/gamess.00.x S-022.023 
+
+          ******************************************************
+          *         GAMESS VERSION =  5 DEC 2014 (R1)          *
+          *             FROM IOWA STATE UNIVERSITY             *
+          * M.W.SCHMIDT, K.K.BALDRIDGE, J.A.BOATZ, S.T.ELBERT, *
+          *   M.S.GORDON, J.H.JENSEN, S.KOSEKI, N.MATSUNAGA,   *
+          *          K.A.NGUYEN, S.J.SU, T.L.WINDUS,           *
+          *       TOGETHER WITH M.DUPUIS, J.A.MONTGOMERY       *
+          *         J.COMPUT.CHEM.  14, 1347-1363(1993)        *
+          **************** 64 BIT INTEL VERSION ****************
+
+  SINCE 1993, STUDENTS AND POSTDOCS WORKING AT IOWA STATE UNIVERSITY
+  AND ALSO IN THEIR VARIOUS JOBS AFTER LEAVING ISU HAVE MADE IMPORTANT
+  CONTRIBUTIONS TO THE CODE:
+     IVANA ADAMOVIC, CHRISTINE AIKENS, YURI ALEXEEV, POOJA ARORA,
+     ANDREY ASADCHEV, ROB BELL, PRADIPTA BANDYOPADHYAY, JONATHAN BENTZ,
+     BRETT BODE, KURT BRORSEN, CALEB CARLIN, GALINA CHABAN, WEI CHEN,
+     CHEOL HO CHOI, PAUL DAY, ALBERT DEFUSCO, NUWAN DESILVA, TIM DUDLEY,
+     DMITRI FEDOROV, GRAHAM FLETCHER, MARK FREITAG, KURT GLAESEMANN,
+     DAN KEMP, GRANT MERRILL, NORIYUKI MINEZAWA, JONATHAN MULLIN,
+     TAKESHI NAGATA, SEAN NEDD, HEATHER NETZLOFF, BOSILJKA NJEGIC, RYAN OLSON,
+     MIKE PAK, SPENCER PRUITT, LUKE ROSKOP, JIM SHOEMAKER, LYUDMILA SLIPCHENKO,
+     TONY SMITH, SAROM SOK, JIE SONG, TETSUYA TAKETSUGU, SIMON WEBB,
+     PENG XU, SOOHAENG YOO, FEDERICO ZAHARIEV
+
+  ADDITIONAL CODE HAS BEEN PROVIDED BY COLLABORATORS IN OTHER GROUPS:
+     IOWA STATE UNIVERSITY:
+          JOE IVANIC, AARON WEST, LAIMUTIS BYTAUTAS, KLAUS RUEDENBERG
+     UNIVERSITY OF TOKYO: KIMIHIKO HIRAO, TAKAHITO NAKAJIMA,
+          TAKAO TSUNEDA, MUNEAKI KAMIYA, SUSUMU YANAGISAWA,
+          KIYOSHI YAGI, MAHITO CHIBA, SEIKEN TOKURA, NAOAKI KAWAKAMI
+     UNIVERSITY OF AARHUS: FRANK JENSEN
+     UNIVERSITY OF IOWA: VISVALDAS KAIRYS, HUI LI
+     NATIONAL INST. OF STANDARDS AND TECHNOLOGY: WALT STEVENS, DAVID GARMER
+     UNIVERSITY OF PISA: BENEDETTA MENNUCCI, JACOPO TOMASI
+     UNIVERSITY OF MEMPHIS: HENRY KURTZ, PRAKASHAN KORAMBATH
+     UNIVERSITY OF ALBERTA: TOBY ZENG, MARIUSZ KLOBUKOWSKI
+     UNIVERSITY OF NEW ENGLAND: MARK SPACKMAN
+     MIE UNIVERSITY: HIROAKI UMEDA
+     NAT. INST. OF ADVANCED INDUSTRIAL SCIENCE AND TECHNOLOGY: KAZUO KITAURA
+     MICHIGAN STATE UNIVERSITY:
+          KAROL KOWALSKI, MARTA WLOCH, JEFFREY GOUR, JESSE LUTZ,
+          WEI LI, PIOTR PIECUCH
+     UNIVERSITY OF SILESIA: MONIKA MUSIAL, STANISLAW KUCHARSKI
+     FACULTES UNIVERSITAIRES NOTRE-DAME DE LA PAIX:
+          OLIVIER QUINET, BENOIT CHAMPAGNE
+     UNIVERSITY OF CALIFORNIA - SANTA BARBARA: BERNARD KIRTMAN
+     INSTITUTE FOR MOLECULAR SCIENCE:
+          KAZUYA ISHIMURA, MICHIO KATOUDA, AND SHIGERU NAGASE
+     UNIVERSITY OF NOTRE DAME: ANNA POMOGAEVA, DAN CHIPMAN
+     KYUSHU UNIVERSITY:
+          HARUYUKI NAKANO,
+          FENG LONG GU, JACEK KORCHOWIEC, MARCIN MAKOWSKI, AND YURIKO AOKI,
+          HIROTOSHI MORI AND EISAKU MIYOSHI
+     PENNSYLVANIA STATE UNIVERSITY:
+          TZVETELIN IORDANOV, CHET SWALINA, JONATHAN SKONE,
+          SHARON HAMMES-SCHIFFER
+     WASEDA UNIVERSITY:
+          MASATO KOBAYASHI, TOMOKO AKAMA, TSUGUKI TOUMA,
+          TAKESHI YOSHIKAWA, YASUHIRO IKABATA, HIROMI NAKAI
+     NANJING UNIVERSITY: SHUHUA LI
+     UNIVERSITY OF NEBRASKA:
+          PEIFENG SU, DEJUN SI, NANDUN THELLAMUREGE, YALI WANG, HUI LI
+     UNIVERSITY OF ZURICH: ROBERTO PEVERATI, KIM BALDRIDGE
+     N. COPERNICUS UNIVERSITY AND JACKSON STATE UNIVERSITY:
+          MARIA BARYSZ
+     UNIVERSITY OF COPENHAGEN: CASPER STEINMANN
+     TOKYO INSTITUTE OF TECHNOLOGY: HIROYA NAKATA
+     NAGOYA UNIVERSITY: YOSHIO NISHIMOTO, STEPHAN IRLE
+
+ EXECUTION OF GAMESS BEGUN Wed Sep 30 13:00:24 2015
+
+            ECHO OF THE FIRST FEW INPUT CARDS -
+ INPUT CARD> $DFT NRAD=24 NLEB=110 DDSC=.t. $END                                            
+ INPUT CARD> $BASIS GBASIS=N31 NGAUSS=6 $END                                                
+ INPUT CARD> $CONTRL MAXIT=200 RUNTYP=ENERGY EXETYP=RUN SCFTYP=ROHF DFTTYP=wB97X            
+ INPUT CARD>ICHARG=0 MULT=1 $END                                                            
+ INPUT CARD> $SCF DIRSCF=.t. $END                                                           
+ INPUT CARD> $SYSTEM MWORDS=8 $END                                                          
+ INPUT CARD> $DATA                                                                          
+ INPUT CARD> Should be setted!                                                              
+ INPUT CARD> C1                                                                             
+ INPUT CARD> N     7.00    -1.578718    -0.046611     0.000000                              
+ INPUT CARD> H     1.00    -2.158621     0.136396    -0.809565                              
+ INPUT CARD> H     1.00    -2.158621     0.136396     0.809565                              
+ INPUT CARD> H     1.00    -0.849471     0.658193     0.000000                              
+ INPUT CARD> $END                                                                           
+    8000000 WORDS OF MEMORY AVAILABLE
+
+     BASIS OPTIONS
+     -------------
+     GBASIS=N31          IGAUSS=       6      POLAR=NONE    
+     NDFUNC=       0     NFFUNC=       0     DIFFSP=       F
+     NPFUNC=       0      DIFFS=       F     BASNAM=        
+
+
+     RUN TITLE
+     ---------
+  Should be setted!                                                              
+
+ THE POINT GROUP OF THE MOLECULE IS C1      
+ THE ORDER OF THE PRINCIPAL AXIS IS     0
+
+ ATOM      ATOMIC                      COORDINATES (BOHR)
+           CHARGE         X                   Y                   Z
+ N           7.0    -2.9833444319       -0.0880820180        0.0000000000
+ H           1.0    -4.0792022013        0.2577510658       -1.5298560193
+ H           1.0    -4.0792022013        0.2577510658        1.5298560193
+ H           1.0    -1.6052674245        1.2438044170        0.0000000000
+
+          INTERNUCLEAR DISTANCES (ANGS.)
+          ------------------------------
+
+                1 N          2 H          3 H          4 H     
+
+   1 N       0.0000000    1.0125090 *  1.0125090 *  1.0141745 *
+   2 H       1.0125090 *  0.0000000    1.6191300 *  1.6252819 *
+   3 H       1.0125090 *  1.6191300 *  0.0000000    1.6252819 *
+   4 H       1.0141745 *  1.6252819 *  1.6252819 *  0.0000000  
+
+  * ... LESS THAN  3.000
+
+
+     ATOMIC BASIS SET
+     ----------------
+ THE CONTRACTED PRIMITIVE FUNCTIONS HAVE BEEN UNNORMALIZED
+ THE CONTRACTED BASIS FUNCTIONS ARE NOW NORMALIZED TO UNITY
+
+  SHELL TYPE  PRIMITIVE        EXPONENT          CONTRACTION COEFFICIENT(S)
+
+ N         
+
+      1   S       1          4173.5114600    0.001834772160
+      1   S       2           627.4579110    0.013994627002
+      1   S       3           142.9020930    0.068586551812
+      1   S       4            40.2343293    0.232240873040
+      1   S       5            12.8202129    0.469069948082
+      1   S       6             4.3904370    0.360455199063
+
+      2   L       7            11.6263619   -0.114961181702    0.067579743878
+      2   L       8             2.7162798   -0.169117478561    0.323907295893
+      2   L       9             0.7722184    1.145851947027    0.740895139755
+
+      3   L      10             0.2120315    1.000000000000    1.000000000000
+
+ H         
+
+      4   S      11            18.7311370    0.033494604338
+      4   S      12             2.8253944    0.234726953484
+      4   S      13             0.6401217    0.813757326146
+
+      5   S      14             0.1612778    1.000000000000
+
+ H         
+
+      6   S      15            18.7311370    0.033494604338
+      6   S      16             2.8253944    0.234726953484
+      6   S      17             0.6401217    0.813757326146
+
+      7   S      18             0.1612778    1.000000000000
+
+ H         
+
+      8   S      19            18.7311370    0.033494604338
+      8   S      20             2.8253944    0.234726953484
+      8   S      21             0.6401217    0.813757326146
+
+      9   S      22             0.1612778    1.000000000000
+
+ TOTAL NUMBER OF BASIS SET SHELLS             =    9
+ NUMBER OF CARTESIAN GAUSSIAN BASIS FUNCTIONS =   15
+ NUMBER OF ELECTRONS                          =   10
+ CHARGE OF MOLECULE                           =    0
+ SPIN MULTIPLICITY                            =    1
+ NUMBER OF OCCUPIED ORBITALS (ALPHA)          =    5
+ NUMBER OF OCCUPIED ORBITALS (BETA )          =    5
+ TOTAL NUMBER OF ATOMS                        =    4
+ THE NUCLEAR REPULSION ENERGY IS       11.9474326417
+
+     LEBEDEV GRID-BASED DFT OPTIONS
+     ------------------------------
+     DFTTYP=WB97X   
+     NRAD  =      24     NLEB  =     110
+     NRAD0 =      24     NLEB0 =     110
+     SWOFF =    5.00E-03 (PURE SCF -> DFT)
+     SWITCH=    3.00E-04 (COARSE -> TIGHT GRID)
+     THRESH=    0.00E+00 GTHRE=    1.00E+00
+
+     LC/CAM PARAMETERS
+     -----------------
+     ALPHAC =.15771  BETAC =.84229  CAMMU = 0.300  CAMVWN =  0.00  CAMLYP =  0.00
+
+ GRIMME'S EMPIRICAL DISPERSION CORRECTION= F
+ TURNING ON dDsC DISPERSION CORRECTION
+
+     $CONTRL OPTIONS
+     ---------------
+ SCFTYP=ROHF         RUNTYP=ENERGY       EXETYP=RUN     
+ MPLEVL=       0     CITYP =NONE         CCTYP =NONE         VBTYP =NONE    
+ DFTTYP=WB97X        TDDFT =NONE    
+ MULT  =       1     ICHARG=       0     NZVAR =       0     COORD =UNIQUE  
+ PP    =NONE         RELWFN=NONE         LOCAL =NONE         NUMGRD=       F
+ ISPHER=      -1     NOSYM =       0     MAXIT =     200     UNITS =ANGS    
+ PLTORB=       F     MOLPLT=       F     AIMPAC=       F     FRIEND=        
+ NPRINT=       7     IREST =       0     GEOM  =INPUT   
+ NORMF =       0     NORMP =       0     ITOL  =      20     ICUT  =       9
+ INTTYP=BEST         GRDTYP=BEST         QMTTOL= 1.0E-06
+
+     $SYSTEM OPTIONS
+     ---------------
+  REPLICATED MEMORY=     8000000 WORDS (ON EVERY NODE).
+ DISTRIBUTED MEMDDI=           0 MILLION WORDS IN AGGREGATE,
+ MEMDDI DISTRIBUTED OVER   1 PROCESSORS IS           0 WORDS/PROCESSOR.
+ TOTAL MEMORY REQUESTED ON EACH PROCESSOR=     8000000 WORDS.
+ TIMLIM=      525600.00 MINUTES, OR     365.0 DAYS.
+ PARALL= F  BALTYP=  DLB     KDIAG=    0  COREFL= F
+ MXSEQ2=     300 MXSEQ3=     150  mem10=         0
+
+          ----------------
+          PROPERTIES INPUT
+          ----------------
+
+     MOMENTS            FIELD           POTENTIAL          DENSITY
+ IEMOM =       1   IEFLD =       0   IEPOT =       0   IEDEN =       0
+ WHERE =COMASS     WHERE =NUCLEI     WHERE =NUCLEI     WHERE =NUCLEI  
+ OUTPUT=BOTH       OUTPUT=BOTH       OUTPUT=BOTH       OUTPUT=BOTH    
+ IEMINT=       0   IEFINT=       0                     IEDINT=       0
+                                                       MORB  =       0
+          EXTRAPOLATION IN EFFECT
+          DIIS IN EFFECT
+ ORBITAL PRINTING OPTION: NPREO=     1    15     2     1
+
+     -------------------------------
+     INTEGRAL TRANSFORMATION OPTIONS
+     -------------------------------
+     NWORD  =            0
+     CUTOFF = 1.0E-09     MPTRAN =       0
+     DIRTRF =       T     AOINTS =DUP     
+
+          ----------------------
+          INTEGRAL INPUT OPTIONS
+          ----------------------
+ NOPK  =       1 NORDER=       0 SCHWRZ=       T
+
+     ------------------------------------------
+     THE POINT GROUP IS C1 , NAXIS= 0, ORDER= 1
+     ------------------------------------------
+
+     DIMENSIONS OF THE SYMMETRY SUBSPACES ARE
+ A   =   15
+
+ ..... DONE SETTING UP THE RUN .....
+ STEP CPU TIME =     0.01 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.0 SECONDS, CPU UTILIZATION IS  50.00%
+ Tang and Toennies damping function for C6
+
+          ********************
+          1 ELECTRON INTEGRALS
+          ********************
+ ...... END OF ONE-ELECTRON INTEGRALS ......
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  16.67%
+
+          -------------
+          GUESS OPTIONS
+          -------------
+          GUESS =HUCKEL            NORB  =       0          NORDER=       0
+          MIX   =       F          PRTMO =       F          PUNMO =       F
+          TOLZ  = 1.0E-08          TOLE  = 1.0E-05
+          SYMDEN=       F          PURIFY=       F
+
+ INITIAL GUESS ORBITALS GENERATED BY HUCKEL   ROUTINE.
+ HUCKEL GUESS REQUIRES      4657 WORDS.
+
+ SYMMETRIES FOR INITIAL GUESS ORBITALS FOLLOW.  ALPHA SET(S).
+     5 ORBITALS ARE OCCUPIED (    1 CORE ORBITALS).
+     2=A        3=A        4=A        5=A        6=A        7=A        8=A   
+     9=A       10=A       11=A       12=A       13=A       14=A       15=A   
+
+ SYMMETRIES FOR INITIAL GUESS ORBITALS FOLLOW.   BETA SET(S).
+     5 ORBITALS ARE OCCUPIED (    1 CORE ORBITALS).
+     2=A        3=A        4=A        5=A        6=A        7=A        8=A   
+     9=A       10=A       11=A       12=A       13=A       14=A       15=A   
+ ...... END OF INITIAL ORBITAL SELECTION ......
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  16.67%
+
+          ***************************************
+          *       dDsC density dependent        *
+          *        DISPERSION CORRECTION        *
+          *    - Stephan Steinmann   and  -     *
+          *    -   Clemence Corminboeuf   -     *
+          ***************************************
+
+
+ =======================================================================
+ dDsC PERFORMS THE FOLLOWING CALCULATIONS:
+ 1. HF/DFT FOR ATOMS
+ 2. SUPERPOSITION OF ATOMIC DENSITIES
+ 3. Energy of the Molecule
+ 4. Classical Hirshfeld dominant analysis
+ 5. Dispersion correction
+ =======================================================================
+
+          -------------------------
+          ATOM  1 WITH OWN BASIS
+          -------------------------
+
+     ------------------------------------------
+     THE POINT GROUP IS C1 , NAXIS= 0, ORDER= 1
+     ------------------------------------------
+
+     DIMENSIONS OF THE SYMMETRY SUBSPACES ARE
+ A   =    9
+ ...... END OF ONE-ELECTRON INTEGRALS ......
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  16.67%
+
+          -------------
+          GUESS OPTIONS
+          -------------
+          GUESS =HUCKEL            NORB  =       0          NORDER=       0
+          MIX   =       F          PRTMO =       F          PUNMO =       F
+          TOLZ  = 1.0E-08          TOLE  = 1.0E-05
+          SYMDEN=       F          PURIFY=       F
+
+ INITIAL GUESS ORBITALS GENERATED BY HUCKEL   ROUTINE.
+ HUCKEL GUESS REQUIRES      1489 WORDS.
+
+ SYMMETRIES FOR INITIAL GUESS ORBITALS FOLLOW.  ALPHA SET(S).
+     5 ORBITALS ARE OCCUPIED (    1 CORE ORBITALS).
+     2=A        3=A        4=A        5=A        6=A        7=A        8=A   
+     9=A   
+
+ SYMMETRIES FOR INITIAL GUESS ORBITALS FOLLOW.   BETA SET(S).
+     2 ORBITALS ARE OCCUPIED (    1 CORE ORBITALS).
+     2=A        3=A        4=A        5=A        6=A        7=A        8=A   
+     9=A   
+ ...... END OF INITIAL ORBITAL SELECTION ......
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  14.29%
+
+                    ----------------------
+                    AO INTEGRAL TECHNOLOGY
+                    ----------------------
+     S,P,L SHELL ROTATED AXIS INTEGRALS, REPROGRAMMED BY
+        KAZUYA ISHIMURA (IMS) AND JOSE SIERRA (SYNSTAR).
+     S,P,D,L SHELL ROTATED AXIS INTEGRALS PROGRAMMED BY
+        KAZUYA ISHIMURA (INSTITUTE FOR MOLECULAR SCIENCE).
+     S,P,D,F,G SHELL TO TOTAL QUARTET ANGULAR MOMENTUM SUM 5,
+        ERIC PROGRAM BY GRAHAM FLETCHER (ELORET AND NASA ADVANCED
+        SUPERCOMPUTING DIVISION, AMES RESEARCH CENTER).
+     S,P,D,F,G,L SHELL GENERAL RYS QUADRATURE PROGRAMMED BY
+        MICHEL DUPUIS (PACIFIC NORTHWEST NATIONAL LABORATORY).
+  ...... END OF TWO-ELECTRON INTEGRALS .....
+ STEP CPU TIME =     0.01 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  28.57%
+  ...... END OF TWO-ELECTRON INTEGRALS .....
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  28.57%
+
+          ---------------------------
+              U-WB97X SCF CALCULATION
+          ---------------------------
+         DENSITY MATRIX CONVERGENCE THRESHOLD=  2.00E-05
+     COARSE -> FINE DFT GRID SWITCH THRESHOLD=  3.00E-04 (SWITCH IN $DFT)
+                   HF -> DFT SWITCH THRESHOLD=  5.00E-03 (SWOFF IN $DFT)
+
+ DIRECT SCF CALCULATION, SCHWRZ=T   FDIFF=T
+
+     EXCHANGE FUNCTIONAL   =WB97X     
+     CORRELATION FUNCTIONAL=WB97X     
+     DFT THRESHOLD         =.379E-06
+ FOR AN EULER-MACLAURIN QUADRATURE USING  24 RADIAL POINTS:
+ SMALLEST GAUSSIAN PRIMITIVE EXPONENT=        0.2120314975 OF TYPE -P-
+ ON ATOM NUMBER   1 HAS RADIAL NORMALIZATION=  1.000155
+  LARGEST GAUSSIAN PRIMITIVE EXPONENT=     4173.5114600000 OF TYPE -S-
+ ON ATOM NUMBER   1 HAS RADIAL NORMALIZATION=  0.997701
+
+          **************************************************
+          *                                                *
+          * WARNING: QUESTIONABLE SELECTION OF RADIAL GRID *
+          *                                                *
+          **************************************************
+
+ THIS RUN HAS REQUESTED NRAD=  24 IN $DFT OR $TDDFT
+ ATOM=    1 HAS LARGE EXPONENT=          4173.511459999999715
+ RECOMMEND NRAD ABOVE  50 FOR ZETA'S ABOVE 1E+4
+ RECOMMEND NRAD ABOVE  75 FOR ZETA'S ABOVE 1E+5
+ RECOMMEND NRAD ABOVE 125 FOR ZETA'S ABOVE 1E+6
+ ATOM=    1 HAS SMALL EXPONENT=             0.212031497501600
+ RECOMMEND NRAD ABOVE  75 FOR ZETA'S BELOW 1E-3
+ RECOMMEND NRAD ABOVE 100 FOR ZETA'S BELOW 1E-4
+ RECOMMEND NRAD ABOVE 125 FOR ZETA'S BELOW 1E-5
+ DFT IS SWITCHED OFF, PERFORMING PURE SCF UNTIL SWOFF THRESHOLD IS REACHED.
+
+                                                                                NONZERO     BLOCKS
+ ITER EX      TOTAL ENERGY        E CHANGE  DENSITY CHANGE    DIIS ERROR      INTEGRALS    SKIPPED
+   1  0      -54.3499757323   -54.3499757323   0.176233408   0.754411566            213          0
+          * * *   INITIATING DIIS PROCEDURE   * * *
+   2  1      -54.3845738160    -0.0345980837   0.012549433   0.024570953            213          0
+   3  2      -54.3849709646    -0.0003971486   0.007747494   0.007236594            213          0
+   4  3      -54.3850023263    -0.0000313617   0.003858789   0.002402511            213          0
+ CONVERGED TO SWOFF, SO DFT CALCULATION IS NOW SWITCHED ON.
+          * * *   INITIATING DIIS PROCEDURE   * * *
+   5  4      -54.5713996788    -0.1863973525   0.032015971   0.085867232            213          0
+   6  5      -54.5719573278    -0.0005576490   0.005034434   0.004245065            213          0
+   7  6      -54.5719782871    -0.0000209593   0.002153327   0.001629119            213          0
+   8  7      -54.5719796627    -0.0000013757   0.000373239   0.000273484            213          0
+   9  8      -54.5719797417    -0.0000000789   0.000041269   0.000028640            213          0
+  10  9      -54.5719797421    -0.0000000004   0.000000348   0.000000230            213          0
+  11 10      -54.5719797421    -0.0000000000   0.000000001   0.000000000            213          0
+
+          -----------------
+          DENSITY CONVERGED
+          -----------------
+     TIME TO FORM FOCK OPERATORS=       1.1 SECONDS (       0.1 SEC/ITER)
+     FOCK TIME ON FIRST ITERATION=       0.0, LAST ITERATION=       0.2
+     TIME TO SOLVE SCF EQUATIONS=       0.0 SECONDS (       0.0 SEC/ITER)
+
+ FINAL U-WB97X ENERGY IS      -54.5719797421 AFTER  11 ITERATIONS
+ DFT EXCHANGE + CORRELATION ENERGY =        -4.8055063962
+ TOTAL ELECTRON NUMBER             =         7.0003635504
+
+          --------------------
+          SPIN SZ   =    1.500
+          S-SQUARED =    3.755
+          --------------------
+ ...... END OF UHF CALCULATION ......
+ STEP CPU TIME =     1.15 TOTAL CPU TIME =        1.2 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        1.3 SECONDS, CPU UTILIZATION IS  91.41%
+
+          -------------------------
+          ATOM  2 WITH OWN BASIS
+          -------------------------
+
+     ------------------------------------------
+     THE POINT GROUP IS C1 , NAXIS= 0, ORDER= 1
+     ------------------------------------------
+
+     DIMENSIONS OF THE SYMMETRY SUBSPACES ARE
+ A   =    2
+ ...... END OF ONE-ELECTRON INTEGRALS ......
+ STEP CPU TIME =     0.01 TOTAL CPU TIME =        1.2 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        1.3 SECONDS, CPU UTILIZATION IS  89.39%
+
+          -------------
+          GUESS OPTIONS
+          -------------
+          GUESS =HUCKEL            NORB  =       0          NORDER=       0
+          MIX   =       F          PRTMO =       F          PUNMO =       F
+          TOLZ  = 1.0E-08          TOLE  = 1.0E-05
+          SYMDEN=       F          PURIFY=       F
+
+ INITIAL GUESS ORBITALS GENERATED BY HUCKEL   ROUTINE.
+ HUCKEL GUESS REQUIRES       689 WORDS.
+
+ SYMMETRIES FOR INITIAL GUESS ORBITALS FOLLOW.  ALPHA SET(S).
+     1 ORBITALS ARE OCCUPIED (    0 CORE ORBITALS).
+     1=A        2=A   
+ ...... END OF INITIAL ORBITAL SELECTION ......
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        1.2 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        1.3 SECONDS, CPU UTILIZATION IS  89.39%
+  ...... END OF TWO-ELECTRON INTEGRALS .....
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        1.2 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        1.3 SECONDS, CPU UTILIZATION IS  89.39%
+  ...... END OF TWO-ELECTRON INTEGRALS .....
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        1.2 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        1.3 SECONDS, CPU UTILIZATION IS  89.39%
+
+          ---------------------------
+              U-WB97X SCF CALCULATION
+          ---------------------------
+         DENSITY MATRIX CONVERGENCE THRESHOLD=  2.00E-05
+     COARSE -> FINE DFT GRID SWITCH THRESHOLD=  3.00E-04 (SWITCH IN $DFT)
+                   HF -> DFT SWITCH THRESHOLD=  5.00E-03 (SWOFF IN $DFT)
+
+ DIRECT SCF CALCULATION, SCHWRZ=T   FDIFF=T
+ DFT IS SWITCHED OFF, PERFORMING PURE SCF UNTIL SWOFF THRESHOLD IS REACHED.
+
+                                                                                NONZERO     BLOCKS
+ ITER EX      TOTAL ENERGY        E CHANGE  DENSITY CHANGE    DIIS ERROR      INTEGRALS    SKIPPED
+          * * *   INITIATING DIIS PROCEDURE   * * *
+   1  0       -0.4641827651    -0.4641827651   0.178441695   0.177483467              6          0
+   2  1       -0.4947088078    -0.0305260427   0.089352122   0.058032615              6          0
+ REDUCING DIIS EQUATION SIZE BY 1 FOR NUMERICAL STABILITY
+   3  2       -0.4982329092    -0.0035241014   0.000000000   0.000000000              6          0
+ CONVERGED TO SWOFF, SO DFT CALCULATION IS NOW SWITCHED ON.
+          * * *   INITIATING DIIS PROCEDURE   * * *
+   4  3                 NaN              NaN   0.000395672           NaN              6          0
+   5  4                 NaN              NaN   1.747760040           NaN              6          0
+   6  5                 NaN              NaN   0.000000000           NaN              6          0
+   7  6                 NaN              NaN   0.000000000           NaN              0          6
+
+          -----------------
+          DENSITY CONVERGED
+          -----------------
+     TIME TO FORM FOCK OPERATORS=       0.7 SECONDS (       0.1 SEC/ITER)
+     FOCK TIME ON FIRST ITERATION=       0.0, LAST ITERATION=       0.2
+     TIME TO SOLVE SCF EQUATIONS=       0.0 SECONDS (       0.0 SEC/ITER)
+
+ FINAL U-WB97X ENERGY IS                 NaN AFTER   7 ITERATIONS
+ DFT EXCHANGE + CORRELATION ENERGY =                  NaN
+ TOTAL ELECTRON NUMBER             =         0.9999065831
+
+          --------------------
+          SPIN SZ   =    0.500
+          S-SQUARED =    0.750
+          --------------------
+ ...... END OF UHF CALCULATION ......
+ STEP CPU TIME =     0.67 TOTAL CPU TIME =        1.8 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        2.0 SECONDS, CPU UTILIZATION IS  92.50%
+
+          -------------------------
+          ATOM  3 WITH OWN BASIS
+          -------------------------
+
+          -------------------------
+          ATOM  4 WITH OWN BASIS
+          -------------------------
+
+     ------------------------------------------
+     THE POINT GROUP IS C1 , NAXIS= 0, ORDER= 1
+     ------------------------------------------
+
+     DIMENSIONS OF THE SYMMETRY SUBSPACES ARE
+ A   =   15
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        1.8 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        2.0 SECONDS, CPU UTILIZATION IS  90.69%
+
+                       **********************
+                       END OF SAD PREPARATION
+                       **********************
+
+
+          ********************
+          1 ELECTRON INTEGRALS
+          ********************
+ ...... END OF ONE-ELECTRON INTEGRALS ......
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        1.8 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        2.0 SECONDS, CPU UTILIZATION IS  90.69%
+
+          -------------
+          GUESS OPTIONS
+          -------------
+          GUESS =HUCKEL            NORB  =       0          NORDER=       0
+          MIX   =       F          PRTMO =       F          PUNMO =       F
+          TOLZ  = 1.0E-08          TOLE  = 1.0E-05
+          SYMDEN=       F          PURIFY=       F
+
+ INITIAL GUESS ORBITALS GENERATED BY HUCKEL   ROUTINE.
+ HUCKEL GUESS REQUIRES      4657 WORDS.
+
+ SYMMETRIES FOR INITIAL GUESS ORBITALS FOLLOW.  ALPHA SET(S).
+     5 ORBITALS ARE OCCUPIED (    1 CORE ORBITALS).
+     2=A        3=A        4=A        5=A        6=A        7=A        8=A   
+     9=A       10=A       11=A       12=A       13=A       14=A       15=A   
+
+ SYMMETRIES FOR INITIAL GUESS ORBITALS FOLLOW.   BETA SET(S).
+     5 ORBITALS ARE OCCUPIED (    1 CORE ORBITALS).
+     2=A        3=A        4=A        5=A        6=A        7=A        8=A   
+     9=A       10=A       11=A       12=A       13=A       14=A       15=A   
+ ...... END OF INITIAL ORBITAL SELECTION ......
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        1.8 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        2.0 SECONDS, CPU UTILIZATION IS  90.69%
+
+          --------------------------------
+          2 ELECTRON LC EXCHANGE INTEGRALS
+          --------------------------------
+
+ DIRECT SCF METHOD SKIPS INTEGRAL STORAGE ON DISK.
+ DIRECT TRANSFORMATION SKIPS AO INTEGRAL STORAGE ON DISK.
+  ...... END OF TWO-ELECTRON INTEGRALS .....
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        1.8 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        2.0 SECONDS, CPU UTILIZATION IS  90.69%
+
+          --------------------
+          2 ELECTRON INTEGRALS
+          --------------------
+
+ DIRECT SCF METHOD SKIPS INTEGRAL STORAGE ON DISK.
+ DIRECT TRANSFORMATION SKIPS AO INTEGRAL STORAGE ON DISK.
+  ...... END OF TWO-ELECTRON INTEGRALS .....
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        1.8 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        2.0 SECONDS, CPU UTILIZATION IS  90.69%
+
+          ---------------------------
+             RO-WB97X SCF CALCULATION
+          ---------------------------
+
+     NUCLEAR ENERGY =        11.9474326417
+     MAXIT =200     NPUNCH=  2     MULT=  1
+     EXTRAP=T  DAMP=F  SHIFT=F  RSTRCT=F  DIIS=T  SOSCF=F
+         DENSITY MATRIX CONVERGENCE THRESHOLD=  2.00E-05
+     COARSE -> FINE DFT GRID SWITCH THRESHOLD=  3.00E-04 (SWITCH IN $DFT)
+                   HF -> DFT SWITCH THRESHOLD=  5.00E-03 (SWOFF IN $DFT)
+     ROHF CANONICALIZATION PARAMETERS
+             C-C     O-O     V-V
+     ALPHA -0.5000  0.5000  1.5000
+     BETA   1.5000  0.5000 -0.5000
+     MEMORY REQUIRED FOR UHF/ROHF ITERS=    121353 WORDS.
+
+ DIRECT SCF CALCULATION, SCHWRZ=T   FDIFF=T
+ SCHWARZ INEQUALITY OVERHEAD:       120 INTEGRALS, T=        0.00
+ DFT IS SWITCHED OFF, PERFORMING PURE SCF UNTIL SWOFF THRESHOLD IS REACHED.
+
+                                                                                NONZERO     BLOCKS
+ ITER EX      TOTAL ENERGY        E CHANGE  DENSITY CHANGE    DIIS ERROR      INTEGRALS    SKIPPED
+   1  0      -56.0102881839   -56.0102881839   0.205535690   0.638154703           5972          0
+          * * *   INITIATING DIIS PROCEDURE   * * *
+   2  1      -56.1498625015    -0.1395743175   0.064340232   0.101850302           5972          0
+   3  2      -56.1594981778    -0.0096356764   0.027065895   0.029532044           5972          0
+   4  3      -56.1607440627    -0.0012458849   0.006798272   0.007589707           5972          0
+   5  4      -56.1607966659    -0.0000526032   0.003006265   0.002246239           5972          0
+ CONVERGED TO SWOFF, SO DFT CALCULATION IS NOW SWITCHED ON.
+          * * *   INITIATING DIIS PROCEDURE   * * *
+   6  5      -56.5092816489    -0.3484849830   0.031239417   0.053547274           5972          0
+   7  6      -56.5103599546    -0.0010783057   0.015514305   0.016246922           5972          0
+   8  7      -56.5105378309    -0.0001778763   0.005674311   0.011867781           5972          0
+   9  8      -56.5106504920    -0.0001126611   0.000459961   0.000348299           5972          0
+  10  9      -56.5106507244    -0.0000002324   0.000085095   0.000031125           5972          0
+  11 10      -56.5106507270    -0.0000000027   0.000039063   0.000009989           5972          0
+  12 11      -56.5106507272    -0.0000000002   0.000000686   0.000000227           5972          0
+  13 12      -56.5106507272     0.0000000000   0.000000028   0.000000018           5969          3
+
+          -----------------
+          DENSITY CONVERGED
+          -----------------
+     TIME TO FORM FOCK OPERATORS=       5.3 SECONDS (       0.4 SEC/ITER)
+     FOCK TIME ON FIRST ITERATION=       0.0, LAST ITERATION=       0.7
+     TIME TO SOLVE SCF EQUATIONS=       0.0 SECONDS (       0.0 SEC/ITER)
+
+ FINAL RO-WB97X ENERGY IS      -56.5106507272 AFTER  13 ITERATIONS
+ DFT EXCHANGE + CORRELATION ENERGY =        -5.4942797466
+ TOTAL ELECTRON NUMBER             =        10.0020051016
+
+          --------------------
+          SPIN SZ   =    0.000
+          S-SQUARED =    0.000
+          --------------------
+
+          ------------
+          EIGENVECTORS
+          ------------
+
+                      1          2          3          4          5
+                  -14.3748    -0.9860    -0.5674    -0.5665    -0.3463
+                     A          A          A          A          A   
+    1  N  1  S    0.995312  -0.197977  -0.000373  -0.000000   0.072882
+    2  N  1  S    0.029949   0.409991   0.000634  -0.000001  -0.171681
+    3  N  1  X   -0.000892  -0.049185   0.447078   0.000013  -0.203482
+    4  N  1  Y    0.002212   0.121236   0.178095   0.000005   0.511318
+    5  N  1  Z   -0.000000   0.000000  -0.000014   0.481580  -0.000000
+    6  N  1  S   -0.017870   0.429956   0.001988   0.000004  -0.256880
+    7  N  1  X    0.001154  -0.024960   0.216879   0.000005  -0.182995
+    8  N  1  Y   -0.002841   0.062090   0.086763   0.000003   0.459819
+    9  N  1  Z    0.000000  -0.000001  -0.000005   0.233967  -0.000001
+   10  H  2  S   -0.000231   0.141630  -0.150421  -0.260208   0.051178
+   11  H  2  S    0.003803   0.011739  -0.095707  -0.166181   0.034912
+   12  H  3  S   -0.000231   0.141631  -0.150436   0.260198   0.051178
+   13  H  3  S    0.003803   0.011741  -0.095719   0.166171   0.034914
+   14  H  4  S   -0.000228   0.140920   0.300263   0.000008   0.051449
+   15  H  4  S    0.003784   0.011724   0.191301   0.000005   0.035239
+
+                      6          7          8          9         10
+                    0.1779     0.2740     0.2742     0.8188     0.8215
+                     A          A          A          A          A   
+    1  N  1  S   -0.119533  -0.000206   0.000001  -0.000000  -0.000147
+    2  N  1  S    0.175759   0.000044  -0.000002   0.000005   0.000323
+    3  N  1  X   -0.069550  -0.378853   0.000001  -0.000006  -0.411427
+    4  N  1  Y    0.177265  -0.150652  -0.000001   0.000013  -0.162470
+    5  N  1  Z   -0.000002  -0.000001  -0.407257  -0.441458   0.000001
+    6  N  1  S    1.715235   0.007473  -0.000004  -0.000012  -0.004438
+    7  N  1  X   -0.159770  -0.958991   0.000000   0.000002   1.281233
+    8  N  1  Y    0.403444  -0.380595  -0.000002  -0.000016   0.509129
+    9  N  1  Z   -0.000005  -0.000000  -1.030604   1.369744   0.000004
+   10  H  2  S   -0.058184  -0.049966  -0.088392   0.714528   0.409688
+   11  H  2  S   -0.900066  -0.833190  -1.438829   0.035122   0.028401
+   12  H  3  S   -0.058181  -0.049964   0.088395  -0.714537   0.409678
+   13  H  3  S   -0.900059  -0.833193   1.438831  -0.035109   0.028405
+   14  H  4  S   -0.059482   0.101559   0.000000   0.000005  -0.829597
+   15  H  4  S   -0.904463   1.655316   0.000004   0.000002  -0.044590
+
+                     11         12         13         14         15
+                    0.8462     1.0572     1.0578     1.0659     1.3849
+                     A          A          A          A          A   
+    1  N  1  S   -0.032199  -0.011803  -0.000005   0.094561  -0.006198
+    2  N  1  S    0.086598   0.086569   0.000034  -0.707570  -1.813478
+    3  N  1  X    0.368179   0.878781  -0.000161   0.188796   0.023418
+    4  N  1  Y   -0.926795   0.377556  -0.000049  -0.152898  -0.059395
+    5  N  1  Z   -0.000007  -0.000159  -0.963685  -0.000077   0.000003
+    6  N  1  S    0.390064  -0.079425  -0.000026   0.665533   3.697005
+    7  N  1  X   -0.431826  -1.131116   0.000196  -0.088757  -0.293406
+    8  N  1  Y    1.085618  -0.434068   0.000086  -0.157946   0.714016
+    9  N  1  Z    0.000020   0.000205   1.220318   0.000103  -0.000002
+   10  H  2  S   -0.046737   0.262348  -0.622277   0.798716  -0.455916
+   11  H  2  S   -0.209466  -0.663706   1.271693  -0.601412  -0.713675
+   12  H  3  S   -0.046755   0.262548   0.622064   0.798807  -0.455924
+   13  H  3  S   -0.209472  -0.664126  -1.271383  -0.601616  -0.713666
+   14  H  4  S   -0.047131  -0.806421   0.000077   0.658522  -0.451748
+   15  H  4  S   -0.209571   1.517555  -0.000226  -0.335589  -0.708572
+ ...... END OF ROHF CALCULATION ......
+ STEP CPU TIME =     5.29 TOTAL CPU TIME =        7.1 (    0.1 MIN)
+ TOTAL WALL CLOCK TIME=        7.4 SECONDS, CPU UTILIZATION IS  96.49%
+DAMPING PARAMETER ATT0:    13.30 AND BTT0     1.53
+ Atom Pop(HCD) VOL(HCD) VOL_Free(HCD)
+  1   4.20440  14.77779  23.71039
+  2   0.26465   0.30019   6.04661
+  3   0.26506   0.30019   6.10214
+  4   0.26689   0.28412   5.66717
+ Accuracy check: SUM of electrons   5.00100169299669     
+ Hirshfeld overlap populations
+   A   B   OVL(A,B)
+   1   1   3.41344
+   1   2   0.15294
+   1   3   0.15294
+   1   4   0.15263
+   2   2   0.18134
+   2   3   0.02121
+   2   4   0.02100
+   3   3   0.18134
+   3   4   0.02100
+   4   4   0.18143
+            I   J         C6ij          C8ij           C10ij         BTT        
+     EDISPTT/(kcal/mol)
+ VDWsCBR    1   2        0.57236        8.16490      121.42076        0.00000        0.00000
+ VDWsCBR    1   3        0.56956        8.15806      121.99080        0.00000        0.00000
+ VDWsCBR    1   4        0.57467        8.50186      134.52237        0.00000        0.00000
+ VDWsCBR    2   3        0.03757        0.32772        4.60687        0.00000       -0.00000
+ VDWsCBR    2   4        0.03777        0.34725        5.19708        0.00000       -0.00000
+ VDWsCBR    3   4        0.03764        0.34826        5.23561        0.00000       -0.00000
+ Final Energy      -0.0000000 Hartree    -0.0000 kcal/mol
+ STEP CPU TIME =     0.02 TOTAL CPU TIME =        7.2 (    0.1 MIN)
+ TOTAL WALL CLOCK TIME=        7.5 SECONDS, CPU UTILIZATION IS  95.72%
+
+                    *****************************
+                    END OF dDsC DISPERSION ENERGY
+                    *****************************
+
+ FINAL ENERGY INCLUDING dDsC DISPERSION:  -56.5106507271798     
+
+     ---------------------------------------------------------------------
+     PROPERTIES FOR THE WB97X    DFT FUNCTIONAL (ROHF TYPE) DENSITY MATRIX
+     ---------------------------------------------------------------------
+
+          -----------------
+          ENERGY COMPONENTS
+          -----------------
+
+         WAVEFUNCTION NORMALIZATION =       1.0000000000
+
+                ONE ELECTRON ENERGY =     -99.6224710403
+                TWO ELECTRON ENERGY =      31.1643876715
+           NUCLEAR REPULSION ENERGY =      11.9474326417
+                                      ------------------
+                       TOTAL ENERGY =     -56.5106507272
+
+ ELECTRON-ELECTRON POTENTIAL ENERGY =      31.1643876715
+  NUCLEUS-ELECTRON POTENTIAL ENERGY =    -155.8296677188
+   NUCLEUS-NUCLEUS POTENTIAL ENERGY =      11.9474326417
+                                      ------------------
+             TOTAL POTENTIAL ENERGY =    -112.7178474057
+               TOTAL KINETIC ENERGY =      56.2071966785
+                 VIRIAL RATIO (V/T) =       2.0053988469
+
+          ---------------------------------------
+          MULLIKEN AND LOWDIN POPULATION ANALYSES
+          ---------------------------------------
+
+     ATOMIC MULLIKEN POPULATION IN EACH MOLECULAR ORBITAL
+
+                      1          2          3          4          5
+
+                  2.000000   2.000000   2.000000   2.000000   2.000000
+
+    1             1.998094   1.555628   1.162081   1.163214   1.961038
+    2             0.000637   0.148573   0.139673   0.418410   0.012934
+    3             0.000637   0.148576   0.139702   0.418376   0.012934
+    4             0.000632   0.147223   0.558544   0.000000   0.013094
+
+     ATOMIC SPIN POPULATION (ALPHA MINUS BETA)
+       ATOM         MULL.POP.                    LOW.POP.
+    1 N             0.000000                     0.000000
+    2 H             0.000000                     0.000000
+    3 H             0.000000                     0.000000
+    4 H             0.000000                     0.000000
+
+               ----- POPULATIONS IN EACH AO -----
+                             MULLIKEN      LOWDIN
+              1  N  1  S      1.99692     1.99201
+              2  N  1  S      0.78390     0.72686
+              3  N  1  X      0.79084     0.72819
+              4  N  1  Y      0.94650     0.91808
+              5  N  1  Z      0.76209     0.69317
+              6  N  1  S      0.90109     0.62128
+              7  N  1  X      0.46287     0.57098
+              8  N  1  Y      0.79472     0.82810
+              9  N  1  Z      0.40112     0.52313
+             10  H  2  S      0.53278     0.50448
+             11  H  2  S      0.18744     0.29515
+             12  H  3  S      0.53278     0.50448
+             13  H  3  S      0.18744     0.29515
+             14  H  4  S      0.53158     0.50335
+             15  H  4  S      0.18791     0.29558
+
+          ----- MULLIKEN ATOMIC OVERLAP POPULATIONS -----
+          (OFF-DIAGONAL ELEMENTS NEED TO BE MULTIPLIED BY 2)
+
+             1           2           3           4
+
+    1    6.8469958
+    2    0.3309364   0.4631703
+    3    0.3309400  -0.0371966   0.4631665
+    4    0.3311828  -0.0366838  -0.0366845   0.4616789
+
+          TOTAL MULLIKEN AND LOWDIN ATOMIC POPULATIONS
+       ATOM         MULL.POP.    CHARGE          LOW.POP.     CHARGE
+    1 N             7.840055   -0.840055         7.601818   -0.601818
+    2 H             0.720226    0.279774         0.799625    0.200375
+    3 H             0.720225    0.279775         0.799625    0.200375
+    4 H             0.719493    0.280507         0.798932    0.201068
+
+          -------------------------------
+          BOND ORDER AND VALENCE ANALYSIS     BOND ORDER THRESHOLD=0.050
+          -------------------------------
+
+                   BOND                       BOND                       BOND
+  ATOM PAIR DIST  ORDER      ATOM PAIR DIST  ORDER      ATOM PAIR DIST  ORDER
+    1   2  1.013  0.887        1   3  1.013  0.887        1   4  1.014  0.887
+
+                       TOTAL       BONDED        FREE
+      ATOM            VALENCE     VALENCE     VALENCE
+    1 N                 2.661       2.661       0.000
+    2 H                 0.879       0.879       0.000
+    3 H                 0.879       0.879      -0.000
+    4 H                 0.879       0.879       0.000
+
+          -----------------------------------------
+          ATOMIC SPIN DENSITY AT THE NUCLEUS (A.U.)
+          -----------------------------------------
+                            SPIN DENS    ALPHA DENS     BETA DENS
+    1  N            7.0     0.0000000      95.73224      95.73224
+    2  H            1.0     0.0000000       0.21451       0.21451
+    3  H            1.0     0.0000000       0.21451       0.21451
+    4  H            1.0     0.0000000       0.21379       0.21379
+
+          ---------------------
+          ELECTROSTATIC MOMENTS
+          ---------------------
+
+ POINT   1           X           Y           Z (BOHR)    CHARGE
+                -3.031505    0.031695    0.000000       -0.00 (A.U.)
+         DX          DY          DZ         /D/  (DEBYE)
+    -0.865967    2.162073    0.000006    2.329047
+ ...... END OF PROPERTY EVALUATION ......
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        7.2 (    0.1 MIN)
+ TOTAL WALL CLOCK TIME=        7.5 SECONDS, CPU UTILIZATION IS  95.72%
+ Deallocating dDsC arrays
+                580000  WORDS OF DYNAMIC MEMORY USED
+ EXECUTION OF GAMESS TERMINATED NORMALLY Wed Sep 30 13:00:31 2015
+ DDI: 263640 bytes (0.3 MB / 0 MWords) used by master data server.
+
+ ----------------------------------------
+ CPU timing information for all processes
+ ========================================
+ 0: 3.928 + 3.242 = 7.170
+ ----------------------------------------
+ ddikick.x: exited gracefully.
+unset echo
+----- accounting info -----
+Files used on the master node lcmd44.cluster were:
+-rw-r--r-- 1 petragli lcmd    7875 Sep 30 13:00 /scratch/petragli/10172.slurm/S-022.023.dat
+-rw-r--r-- 1 petragli lcmd     445 Sep 30 13:00 /scratch/petragli/10172.slurm/S-022.023.F05
+-rw-r--r-- 1 petragli lcmd 2094080 Sep 30 13:00 /scratch/petragli/10172.slurm/S-022.023.F10
+-rw-r--r-- 1 petragli lcmd     445 Sep 30 13:00 /scratch/petragli/10172.slurm/S-022.023.inp
+ls: No match.
+ls: No match.
+ls: No match.
+Wed Sep 30 13:00:34 CEST 2015
+0.106u 0.011s 0:10.94 1.0%	0+0k 8+176io 0pf+0w
