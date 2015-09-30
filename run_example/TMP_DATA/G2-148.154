@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -J G2-148.154
-#SBATCH -o /home/petragli/MyCodes/wb97xdDsC-optim/run_example/test/G2-148/inout/DENS-0000/G2-148.154.stdout
-#SBATCH -e /home/petragli/MyCodes/wb97xdDsC-optim/run_example/test/G2-148/inout/DENS-0000/G2-148.154.stderr
+#SBATCH -o /home/riccardo/MyCodes/wb97xdDsC-optim/run_example/test/G2-148/inout/DENS-0000/G2-148.154.stdout
+#SBATCH -e /home/riccardo/MyCodes/wb97xdDsC-optim/run_example/test/G2-148/inout/DENS-0000/G2-148.154.stderr
 #SBATCH --mem=8000
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
@@ -11,12 +11,12 @@ export EXTBAS=/dev/null
 echo $PWD
 WORKINGDIR=$PWD
 cd $SLURM_TMPDIR
-cp /home/petragli/MyCodes/wb97xdDsC-optim/run_example/test/G2-148/inout/DENS-0000/G2-148.154.inp $SLURM_TMPDIR
-cp /home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/a0b0 $SLURM_TMPDIR
-cp /home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/FUNC_PAR.dat $SLURM_TMPDIR
-None/rungms G2-148.154.inp 00 1 &> /home/petragli/MyCodes/wb97xdDsC-optim/run_example/test/G2-148/inout/DENS-0000/G2-148.154.log
+cp /home/riccardo/MyCodes/wb97xdDsC-optim/run_example/test/G2-148/inout/DENS-0000/G2-148.154.inp $SLURM_TMPDIR
+cp /home/riccardo/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/a0b0 $SLURM_TMPDIR
+cp /home/riccardo/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/FUNC_PAR.dat $SLURM_TMPDIR
+None/rungms G2-148.154.inp 00 1 &> /home/riccardo/MyCodes/wb97xdDsC-optim/run_example/test/G2-148/inout/DENS-0000/G2-148.154.log
 joberror=$?
-cp -r $SLURM_TMPDIR/PARAM_UNF.dat /home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/G2-148.154.wb97x
-cp -r $SLURM_TMPDIR/dDsC_PAR /home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/G2-148.154.ddsc
+cp -r $SLURM_TMPDIR/PARAM_UNF.dat /home/riccardo/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/G2-148.154.wb97x
+cp -r $SLURM_TMPDIR/dDsC_PAR /home/riccardo/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/G2-148.154.ddsc
 cp -ar $SLURM_TMPDIR $WORKINGDIR
 exit
