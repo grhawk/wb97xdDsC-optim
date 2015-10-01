@@ -99,3 +99,11 @@ def create_dir(path):
 
 def sum_is_one(flt1, flt2):
     return abs(1.0 - flt1 - flt2) <= 1E-6
+
+
+def check_list_len(value, n, prm):
+    if not isinstance(value, list) or len(value) != n:
+        msg = '{} needs a list of {} element/s!'.format(prm, n)
+        lg.critical(msg)
+        raise (TypeError(msg))
+    return True

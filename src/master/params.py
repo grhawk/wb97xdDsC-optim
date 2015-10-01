@@ -16,9 +16,10 @@ import logging as lg
 import copy
 import os
 import re
-from utils import sum_is_one
+from utils import sum_is_one, check_list_len
 import sys
 from config import Config
+import numpy as np
 
 # Try determining the version from git:
 try:
@@ -38,13 +39,105 @@ __maintainer__ = 'Riccardo Petraglia'
 __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
 
-home = os.path.expanduser("~")
-root = os.path.join(home, 'MyCodes/wb97xdDsC-optim')  # path to wb97xdDsC-optim
-# config = dict(precision=1E-18,
-#              wb97x_param_file=os.path.join(root, 'run_example/TMP_DATA/FUNC_PAR.dat'),
-#              ddsc_param_file=os.path.join(root, 'run_example/TMP_DATA/a0b0'))
-
 config = Config().config
+
+
+class Params(object):
+
+    def __init__(self, init):
+
+        i = init
+        self._plist = ['tta', 'ttb', 'cxhf', 'omega', 'cx_aa_1', 'cc_aa',
+                       'cc_ab']
+        self._prm = dict()
+        self._long_prms = re.compile(r'(\w{2}\_\w{2})(\_(\d))?')
+
+        for k in self._plist:
+            if self._long_prms.match(k):
+                self._prm[k] = [i + n for n in range(0, 5)]
+                i += 5
+            else:
+                self._prm[k] = [i]
+                i += 1
+
+
+    def __setitem__(self, key, value):
+
+        long_ = self._long_prms.match(key)
+
+        if long_ and long_.group(2):
+            if not isinstance(value, list):
+                value = [value]
+            check_list_len(value, 1, key)
+            self._prm[long_.group(1)][int(long_.group(3))] = list(map(float, value))
+
+        if long_ and not long_.group(2):
+            if check_list_len(value, 5, key):
+                self._prm[key] = list(map(float, value))
+
+        if not long_:
+            if not isinstance(value, list):
+                value = [value]
+            if check_list_len(value, 1, key):
+                self._prm[key] = list(map(float, value))
+
+    def __getitem__(self, key):
+        long_ = self._long_prms.match(key)
+
+        if long_ and long_.group(2):
+            return [self._prm[long_.group(1)][int(long_.group(3))]]
+        else:
+            return self._prm[key]
+
+    def __missing__(self, key):
+        msg = 'Implementation error: requested not existing parameter!'
+        lg.critical(msg)
+        raise(RuntimeError(msg))
+
+    def __len__(self):
+        lenght = 0
+        for k in self._plist:
+            lenght += len(self._prm[k])
+        return lenght
+
+    def __iter__(self):
+        self._itcounter = 0
+        return self
+
+    def __next__(self):
+        if self._itcounter >= len(self):
+            raise StopIteration
+        else:
+            self._itcounter += 1
+            return self.tolist()[self._itcounter - 1]
+
+    def __str__(self):
+        return self._prm.__str__()
+
+    def tolist(self):
+        list_ = []
+        for k in self._plist:
+            list_ += self._prm[k]
+        return list_
+
+    def __sub__(self, other):
+        prm_res = Params(0)
+        for k in self._plist:
+            array_1 = np.array(self._prm[k])
+            array_2 = np.array(other._prm[k])
+            result = array_1 - array_2
+            prm_res._prm[k] = result.tolist()
+        return(prm_res)
+
+    def __eq__(self, other):
+        for k in self._plist:
+            array_1 = np.array(self._prm[k])
+            array_2 = np.array(other._prm[k])
+            if not np.allclose(array_1, array_2, rtol=0.0,
+                               atol=config['precision']):
+                return False
+        return True
+
 
 
 class Parameters(object):
@@ -319,3 +412,74 @@ class Parameters(object):
         Note: Consider to put this method at the end of the check_prms method
         """
         self._sparameters = copy.deepcopy(__class__._parameters)
+
+
+if __name__ == '__main__':
+    from nose.tools import assert_raises
+
+    dict_100 = {'omega': [103],
+                'cx_aa_1': [104, 105, 106, 107, 108],
+                'ttb': [101],
+                'tta': [100],
+                'cxhf': [102],
+                'cc_ab': [114, 115, 116, 117, 118],
+                'cc_aa': [109, 110, 111, 112, 113]}
+    dict_9 = {'cc_aa': [18, 19, 20, 21, 22],
+              'tta': [9],
+              'cx_aa_1': [13, 14, 15, 16, 17],
+              'omega': [12],
+              'ttb': [10],
+              'cxhf': [11],
+              'cc_ab': [23, 24, 25, 26, 27]}
+
+    print('Checking __init__:')
+    assert dict_9 == Params(9)._prm, 'Creation of dictionary not working 1'
+    assert dict_100 == Params(100)._prm, 'Creation of dictionary not working 2'
+    print('...Done\n')
+
+    print('Checking __setitem__:')
+    dict_9['tta'] = [1]
+    dict_9['cc_aa'][0] = [2]
+    dict_9['cx_aa'] = [100, 101, 102, 103, 104]
+    param_9 = Params(9)
+    param_9['tta'] = [1]
+    param_9['cc_aa_0'] = [2]
+    param_9['cx_aa'] = [100, 101, 102, 103, 104]
+    assert dict_9 == param_9._prm, 'Changing dictionary values not working 1'
+    param_9['tta'] = 1
+    param_9['cc_aa_0'] = 2
+    assert dict_9 == param_9._prm, 'Changing dictionary values not working 2'
+
+    def check_wrong_list_elements_number_1():
+        param_9['tta']=[1, 2]
+    def check_wrong_list_elements_number_2():
+        param_9['cc_aa'] = [1, 2]
+    def check_wrong_list_elements_number_3():
+        param_9['cc_aa'] = [1, 2, 3, 4, 5, 6]
+    def check_wrong_list_elements_number_4():
+        param_9['cc_aa'] = 1
+    def check_wrong_list_elements_number_5():
+        param_9['cc_aa_1'] = [1, 2]
+    assert_raises(TypeError, check_wrong_list_elements_number_1)
+    assert_raises(TypeError, check_wrong_list_elements_number_2)
+    assert_raises(TypeError, check_wrong_list_elements_number_3)
+    assert_raises(TypeError, check_wrong_list_elements_number_4)
+    assert_raises(TypeError, check_wrong_list_elements_number_5)
+    print('...Done\n')
+
+    print('Checking __getitem__:')
+    assert param_9['ttb'] == [10], 'Retriving values not working 1'
+    assert param_9['cc_ab'] == [23, 24, 25, 26, 27],\
+        'Retriving values not working 2'
+    assert param_9['cc_ab_4'] == [27], 'Retriving values not working 3'
+    print('...Done\n')
+
+    print('Checking __len__:')
+#     assert
+#     print(prm-prm_1)
+#     prm['tta'] = 1
+#     print(prm)
+#     print(len(prm))
+#     print(prm.tolist())
+#     for i, p in enumerate(prm):
+#         print(i, p)
