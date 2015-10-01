@@ -59,7 +59,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-09-30"
+__updated__ = "2015-10-01"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -159,6 +159,12 @@ class Presets(object):
     def __init__(self):
         self.default()
 
+    def _insert_in_config(self, dict_):
+        for k, v in dict_.items():
+            Config.set(k, v)
+
+
+
     def default(self):
         Config.set('home', os.path.expanduser('~'))
 
@@ -170,7 +176,7 @@ class Presets(object):
                     training_set_file=join('trset-tree-example'),
                     training_set_path=join(root, 'example/trset-tree-example/'),
                     run_name=join(root, 'run_example/test'),
-                    logfile=join(root, 'output/logging.log'),
+                    logfile=join(root, 'output_example/logging.log'),
                     loglevel='DEBUG',
                     processes=8,
                     precision=1E-8,
@@ -189,8 +195,7 @@ class Presets(object):
                     command_func=join(root, 'bin/minigamess.x'),
                     )
 
-        for k, v in prst.items():
-            Config.set(k, v)
+        self._insert_in_config(prst)
 
 
 def testing_Config():

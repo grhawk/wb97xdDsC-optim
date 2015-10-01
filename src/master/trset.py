@@ -77,7 +77,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-09-30"
+__updated__ = "2015-10-01"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -181,8 +181,6 @@ class MolSet(object):
             for p in output:
                 new_mols = [p.get() for p in output]
             __class__.refresh_container(new_mols)
-            # for mol in new_mols:
-            #     print(mol.full_energy, mol.myprm_full.sprms)
             my_pool.terminate()
             __class__._lock = False
 
@@ -460,8 +458,9 @@ class Molecule(object):
         """
 
         if self._uni_energy is None:
-            print('UNIENERGY NOT DEFINED')
-            exit()
+            msg = 'UNIENERGY NOT DEFINED'
+            lg.critical(msg)
+            raise(ValueError(msg))
         lg.debug('Func Energy for {ID:s} started'.format(ID=self.id))
         lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
                  .format(str(self._full_energy),
@@ -622,7 +621,6 @@ class System(object):
         enr = 0.0
         for i, coef in enumerate(self.rule):
             enr += coef * enrgs[i]
-            print('RULE:', i, coef, enrgs[i])
         return enr * 627.5096080305927
 
     def full_energy(self):
@@ -638,7 +636,6 @@ class System(object):
         if self.blacklisted: self.blacklisted_error()
         enrgs = []
         for mol in self.needed_mol:
-            print('NEEDED_MOL:', list(map(str, self.needed_mol)))
             enrgs.append(mol.full_energy)
         return self._apply_rule(enrgs)
 
@@ -986,7 +983,6 @@ class TrainingSet(Set):
 
     def __init__(self, path, file):
         super().__init__(path)
-        print(file)
         self.name = file[:-4]
         self.filep = os.path.join(self.path, file.strip())
         self._set_creator()

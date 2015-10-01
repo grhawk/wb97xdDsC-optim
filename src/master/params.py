@@ -31,7 +31,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-09-30"
+__updated__ = "2015-10-01"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -78,14 +78,14 @@ class Parameters(object):
             pass
             # print('UEG, OK')
         else:
-            print('UEG, wrong. ALPHAC will be changed.')
+            lg.info('UEG adjusted to sum to 1.0')
             __class__._parameters['cxhf'] = [1.0 - cx0]
-            pass
+
             if not sum_is_one(__class__._parameters['cxhf'][0], __class__._parameters['cx_aa'][0]):
                 msg = 'Hartree Exchange parameters out of boundary!'
                 lg.critical(msg)
-                print(msg)
-                sys.exit()
+                raise(ValueError(msg))
+
 
     @property
     def optim(self):
@@ -156,7 +156,6 @@ class Parameters(object):
             list_ = ['cxhf', 'cx_aa', 'omega', 'cc_aa', 'cc_ab']
             for k in list_:
                 for i, v in enumerate(__class__._parameters[k]):
-#                    print(k,i,v)
                     msg += str(k) + str(i) + '   ' + str(v) + '\n'
             pf.write(msg)
         msg = ''
@@ -164,7 +163,6 @@ class Parameters(object):
             list_ = ['tta', 'ttb']
             for k in list_:
                 for i, v in enumerate(__class__._parameters[k]):
-#                    print(k,i,v)
                     msg += str(v) + '\n'
             pf2.write(msg)
 
@@ -206,7 +204,6 @@ class Parameters(object):
             expanded_selection = False
             for k in kvd.keys():
                 if expand_params.match(k):
-                    # print(expand_params.match(k))
                     expanded_selection = True
                     break
 
@@ -222,8 +219,6 @@ class Parameters(object):
                 for p in to_add:
                     possible_parameters.remove(p)
                 possible_parameters += tmp
-
-#                print(possible_parameters)
 
                 tmp = copy.deepcopy(__class__._parameters)
 

@@ -60,7 +60,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-09-30"
+__updated__ = "2015-10-01"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -163,9 +163,11 @@ class Run(object):
                     lg.warning('Final energy for file {} found!!'
                                .format(self._inout_out_path))
                 if abs(float(find[1].split()[5])) < float(b'0.0E-8'):
-                    print('Problem with energy in GAMESS',
-                          float(find[1].split()[5]))
-                    exit()
+                    msg = 'Energy in Gamess is almost zero: {:f}'.\
+                        format(float(find[1].split()[5]))
+                    lg.critical(msg)
+                    raise(RuntimeError(msg))
+
                 return (float(find[1].split()[5]),
                         float(find[2].split()[6]), float(find[3].split()[2]))
 
@@ -228,7 +230,6 @@ class Run(object):
             f.write(txt)
 
     def full(self):
-        print(config['command_full'])
         command = shlex.split('{COMMAND:s} {SBATCH_FILE:s}'
                               .format(COMMAND=config['command_full'],
                                       SBATCH_FILE=self._sbatch_file))
