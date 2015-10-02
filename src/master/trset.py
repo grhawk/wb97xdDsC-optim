@@ -77,7 +77,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-10-01"
+__updated__ = "2015-10-02"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -343,6 +343,8 @@ class Molecule(object):
         self.belonging_dataset = None
         self.myprm_full = params.Parameters()
         self.myprm_func = params.Parameters()
+        self.myprm_full = params.ParamesManager()
+        self.myprm_func = params.ParamesManager()
         self._full_energy = None
         self._uni_energy = None
         self._func_energy = None
@@ -433,6 +435,7 @@ class Molecule(object):
         lg.debug('Check if needed: Energy -> {:s}, CheckPar -> {:s}'
                  .format(str(self._full_energy),
                          str(self.myprm_full.check_prms())))
+
         if not self._full_energy or not self.myprm_full.check_prms():
             full_energy, full_exc, full_disp = self._run.full()
             uni_energy = full_energy - full_exc - full_disp

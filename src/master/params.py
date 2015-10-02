@@ -46,7 +46,7 @@ class Params(object):
 
         self._plist = ['tta', 'ttb', 'cxhf', 'omega', 'cx_aa', 'cc_aa',
                        'cc_ab']
-        self._acceptable_keys = self._plist +\
+        self._acceptable_keys = self._plist + \
             [i + '_' + str(j) for i in self._plist[4:] for j in range(0, 5)]
         self._prm = dict()
         self._long_prms = re.compile(r'(\w{2}\_\w{2})(\_(\d))?')
@@ -87,9 +87,8 @@ class Params(object):
             if check_list_len(value, 1, key):
                 self._prm[key] = list(map(float, value))
 
-        if not self._copy and long_ and long_.group(1) == 'cx_aa': self._constr()
-
-
+        if not self._copy and long_ and \
+            long_.group(1) == 'cx_aa': self._constr()
 
     def _constr(self):
         if not sum_is_one(abs(self._prm['cxhf'][0]),
@@ -101,7 +100,6 @@ class Params(object):
                 msg = 'Hartree Exchange parameters out of boundary!'
                 lg.critical(msg)
                 raise(ValueError(msg))
-
 
     def __getitem__(self, key):
         long_ = self._long_prms.match(key)
@@ -227,16 +225,36 @@ class ParamsManager(object):
         return __class__._old_params
 
     @property
+    def prms_saved(self):
+        return __class__._saved_params
+
+    @property
     def sprms(self):
         return self._instance_params
 
     @sprms.setter
-    def sprms(self, kvd):
-        self.general_setter(kvd, self._sparameters)
+    def sprms(self, dict_):
+        self._general_setter(dict_, self._instance_params)
 
     @sprms.getter
     def sprms(self):
-        return self.convert2list(self._sparameters)
+        return self._instance_params
+
+    def check_prms(self):
+        return __class__._actual_params == self._instance_params
+
+    def check_saved(self):
+        return __class__._saved_params == self._actual_params
+
+    def refresh(self):
+        """Copy the class parameter to the instantiated ones.
+
+        After calling refresh the validity test will be true.
+
+        Note: Consider to put this method at the end of the check_prms method
+        """
+        self._instance_params = copy.deepcopy(__class__._actual_params)
+
 
 
 
@@ -587,7 +605,7 @@ if __name__ == '__main__':
 
     print('Checking __getitem__:')
     assert param_9['ttb'] == [10], 'Retriving values not working 1'
-    assert param_9['cc_ab'] == [23, 24, 25, 26, 27],\
+    assert param_9['cc_ab'] == [23, 24, 25, 26, 27], \
         'Retriving values not working 2'
     assert param_9['cc_ab_4'] == [27], 'Retriving values not working 3'
     print('...Done\n')
@@ -639,4 +657,12 @@ if __name__ == '__main__':
     assert prm_man_1.prms == params_100
     prm_man_1.prms = {'ttb': 1}
     assert prm_man_1.prms['ttb'] == [1.0]
-    print('..Done')
+    print('..Done\n')
+
+    print('Checking sprms property')
+    prm_man_1 = ParamsManager()
+    params_100 = Params(100)
+    assert prm_man_1.prms == params_100
+    prm_man_1.prms = {'ttb': 1}
+    assert prm_man_1.prms['ttb'] == [1.0]
+    print('..Done\n')
