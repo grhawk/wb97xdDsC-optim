@@ -255,6 +255,9 @@ class ParamsManager(object):
         """
         self._instance_params = copy.deepcopy(__class__._actual_params)
 
+    def save(self):
+        __class__._saved_params = copy.deepcopy(__class__._actual_params)
+
 
 
 

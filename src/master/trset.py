@@ -341,10 +341,8 @@ class Molecule(object):
         self.id = None  # If none there is some problem!
         self.xyzp = os.path.abspath(path)
         self.belonging_dataset = None
-        self.myprm_full = params.Parameters()
-        self.myprm_func = params.Parameters()
-        self.myprm_full = params.ParamesManager()
-        self.myprm_func = params.ParamesManager()
+        self.myprm_full = params.ParamsManager()
+        self.myprm_func = params.ParamsManager()
         self._full_energy = None
         self._uni_energy = None
         self._func_energy = None
@@ -446,6 +444,7 @@ class Molecule(object):
             self._full_energy = full_energy
             self._uni_energy = uni_energy
             self.myprm_full.refresh()
+            self.myprm_full.save()
 
         return self
 
