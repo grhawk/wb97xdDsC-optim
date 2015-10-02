@@ -14,6 +14,9 @@
 import os
 import mmap
 import logging as lg
+from config import Config
+
+config = Config().config
 
 # Try determining the version from git:
 try:
@@ -26,7 +29,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-10-01"
+__updated__ = "2015-10-02"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -98,7 +101,7 @@ def create_dir(path):
 
 
 def sum_is_one(flt1, flt2):
-    return abs(1.0 - flt1 - flt2) <= 1E-6
+    return abs(1.0 - flt1 - flt2) <= config['precision']
 
 
 def check_list_len(value, n, prm):
