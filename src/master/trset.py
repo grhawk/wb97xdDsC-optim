@@ -476,7 +476,7 @@ class System(object):
       #  print('NEEDED_MOL: ', self._needed_mol)
         for idx in self._needed_mol:
             tmp1.append( MolSet.container[idx])
-       # print('TMP:', list(map(str,tmp1)))
+      #  print('TMP:', list(map(str,tmp1)))
       #  print('RETURNED :', list(map(str,MolSet.container)))
         return tmp1
 
@@ -499,7 +499,7 @@ class System(object):
         enr = 0.0
         for i, coef in enumerate(self.rule):
             enr += coef * enrgs[i]
-     #       print('RULE:', i, coef, enrgs[i])
+         #   print('RULE:', i, coef, enrgs[i], enr)
         return enr * 627.5096080305927
 
     def full_energy(self):
@@ -716,10 +716,9 @@ class Set(object):
         if error_type == 'MAE':
             min = self.compute_MAE(kind)
 
-        print('PAR:',params, 'MAD:',min)
-        with open('/scratch/TMP_DATA/x0','w') as f:
-           for s in params:
-              f.write(str(s) + '\n')
+        lg.info('PAR: '+" ".join(list(map(str,params))))
+        lg.info('MAE: '+str(min))
+        print('PAR: '+" ".join(list(map(str,params)))+' MAE: '+str(min))
         return min
 
 

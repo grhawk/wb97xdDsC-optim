@@ -74,7 +74,7 @@ class Run(object):
     _inout_id = None
     _run_name = None
     _tset_path = None
-    _config = dict(dormi=1,
+    _config = dict(dormi=30,
                    dormi_short=3,
                    timeout_max=10,
                    densities_repo=os.path.join(ram, 'tmp_density_dir'),
@@ -206,7 +206,7 @@ class Run(object):
         txt += '#SBATCH --mem=8000\n'
         txt += '#SBATCH --nodes=1\n'
         txt += '#SBATCH --ntasks-per-node=1\n'
-        txt += '#SBATCH --partition=debug\n'
+#        txt += '#SBATCH --partition=debug\n'
         txt += 'module load intel/14.0.2\n'
         txt += 'export EXTBAS=/dev/null\n'
         txt += 'echo $PWD\n'
