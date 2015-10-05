@@ -30,7 +30,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-10-02"
+__updated__ = "2015-10-05"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -102,6 +102,12 @@ class Params(object):
                 raise(ValueError(msg))
 
     def __getitem__(self, key):
+
+        if not isinstance(key, str):
+            msg = '{} is not a string type'.format(key)
+            lg.critical(msg)
+            raise(TypeError(msg))
+
         long_ = self._long_prms.match(key)
 
         if long_ and long_.group(2):
@@ -258,6 +264,37 @@ class ParamsManager(object):
     def save(self):
         __class__._saved_params = copy.deepcopy(__class__._actual_params)
 
+
+class Optim(object):
+
+    _to_optimize = []
+
+    def __init__(self):
+        pass
+
+    def __len__(self):
+        return len(__class__._to_optimize)
+
+    def __getitem__(self, key):
+
+        if not isinstance(key, int):
+            msg = '{} is not an integer type'.format(key)
+            lg.critical(msg)
+            raise(TypeError(msg))
+
+        return __class__._to_optimize[key]
+
+    def __setitem__(self, key, value):
+
+        if not isinstance(key, int):
+            msg = '{} is not an integer type'.format(key)
+            lg.critical(msg)
+            raise(TypeError(msg))
+
+        __class__._to_optimize[key] = value
+
+    def __str__(self):
+        return __class__._to_optimize.__str__()
 
 
 
@@ -665,7 +702,14 @@ if __name__ == '__main__':
     print('Checking sprms property')
     prm_man_1 = ParamsManager()
     params_100 = Params(100)
-    assert prm_man_1.prms == params_100
+    #assert prm_man_1.prms == params_100
     prm_man_1.prms = {'ttb': 1}
     assert prm_man_1.prms['ttb'] == [1.0]
     print('..Done\n')
+
+    print('\n Checking Optim Class')
+    print('Check creation\n')
+    Optim[1] = 'tta'
+    Optim[2] = 'ttb'
+    Optim = ['tta', 'ttb']
+    print('...Done')
