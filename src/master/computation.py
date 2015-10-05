@@ -69,7 +69,7 @@ __status__ = 'development'
 
 
 home = os.path.expanduser("~")
-root = os.path.join(home, 'MyCodes/wb97xdDsC-optim')  # path to wb97xdDsC-optim
+root = os.path.join(home, 'wb97xddsc/wb97xdDsC-optim')  # path to wb97xdDsC-optim
 
 config = Config().config
 config['well_finished_strings'] = [b'exit gracefully',
@@ -236,8 +236,8 @@ class Run(object):
         time.sleep(randint(0, 5))
         self._write_input()
         self._write_sbatch()
-        shutil.copy(config['ddsc_param_file'], config['full_param_prefix'])
-        shutil.copy(config['wb97x_param_file'], config['full_param_prefix'])
+        shutil.copy(config['ddsc_param_file'], config['full_params_prefix'])
+        shutil.copy(config['wb97x_param_file'], config['full_params_prefix'])
         if config['gamess_bin']: self._run(command)
         energies = self._readout()
         if config['gamess_bin']: self._move_data()
@@ -255,6 +255,7 @@ class Run(object):
                     DDSC_DATA=self._ddsc_saves,
                     WB97X_PARAM=wb97x_param,
                     DDSC_PARAM=ddsc_param)
+        print("ALBERTOOO",command)
         command = shlex.split(command)
 
         return (float(self._run(command).split()[1]))

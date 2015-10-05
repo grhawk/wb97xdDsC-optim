@@ -174,10 +174,10 @@ class Presets(object):
         tmp_data = join(root, 'TMP_DATA')  # shortening lines below
         ram = '/dev/shm'
         prst = dict(root=root,
-                    training_set_file=join('trset-tree-example'),
-                    training_set_path=join(root, 'example/trset-tree-example/'),
-                    run_name=join(root, 'run_example/test'),
-                    logfile=join(root, 'logging.log'),
+                    training_set_file='trset-tree-example',
+                    training_set_path=join(root, 'wb97xdDsC-optim/example/trset-tree-example/'),
+                    run_name=join(root, 'wb97xdDsC-optim/src/run_example/test'),
+                    logfile=join(root, 'wb97xdDsC-optim/src/logging.log'),
                     loglevel='INFO',
                     processes=16,
                     precision=1E-8,
@@ -204,7 +204,7 @@ class Presets(object):
         tmp_data = join(root, 'run_example/TMP_DATA')  # shortening lines below
         prst = dict(root=root,
                     training_set_file=join('trset-tree-example'),
-                    training_set_path=join(root, 'example/trset-tree-example/'),
+                    training_set_path=join(root, '/example/trset-tree-example/'),
                     run_name=join(root, 'run_example/test'),
                     logfile=join(root, 'output_example/logging.log'),
                     loglevel='DEBUG',

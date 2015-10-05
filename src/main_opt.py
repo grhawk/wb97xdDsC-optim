@@ -17,7 +17,7 @@ from trset import TrainingSet, MolSet
 from params import Parameters
 from computation import Run
 
-Presets().test()
+Presets().Alberto()
 config = Config().config
 
 start_time = time.time()
@@ -34,7 +34,7 @@ def main():
                tset_path=config['training_set_path'])
        run.index = index
        trset = TrainingSet(config['training_set_path'],
-                           config['trainig_set_file'])
+                           config['training_set_file'])
 
        prms.prms = dict(tta=[13.300000190734863],
                         ttb=[1.5299999713897705],

@@ -857,9 +857,12 @@ class Set(object):
         self.prms.prms = dict_
 
         if error_type == 'MAE':
-            minim = self.compute_MAE(kind)
+            min = self.compute_MAE(kind)
 
-        return minim
+        lg.info('PAR: '+" ".join(list(map(str,params))))
+        lg.info('MAE: '+str(min))
+        print('PAR: '+" ".join(list(map(str,params)))+' MAE: '+str(min))
+        return min
 
 
 class DataSet(Set):
