@@ -60,7 +60,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-10-01"
+__updated__ = "2015-10-05"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -236,6 +236,8 @@ class Run(object):
         time.sleep(randint(0, 5))
         self._write_input()
         self._write_sbatch()
+        shutil.copy(config['ddsc_param_file'], config['full_param_prefix'])
+        shutil.copy(config['wb97x_param_file'], config['full_param_prefix'])
         if config['gamess_bin']: self._run(command)
         energies = self._readout()
         if config['gamess_bin']: self._move_data()

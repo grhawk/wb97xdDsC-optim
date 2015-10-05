@@ -59,7 +59,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-10-02"
+__updated__ = "2015-10-05"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -168,6 +168,36 @@ class Presets(object):
     def default(self):
         Config.set('home', os.path.expanduser('~'))
 
+    def Alberto(self):
+        home = Config.get('home')
+        root = join(home, 'wb97xddsc')
+        tmp_data = join(root, 'TMP_DATA')  # shortening lines below
+        ram = '/dev/shm'
+        prst = dict(root=root,
+                    training_set_file=join('trset-tree-example'),
+                    training_set_path=join(root, 'example/trset-tree-example/'),
+                    run_name=join(root, 'run_example/test'),
+                    logfile=join(root, 'logging.log'),
+                    loglevel='INFO',
+                    processes=16,
+                    precision=1E-8,
+                    wb97x_param_file=join('/scratch/TMP_DATA/FUNC_PAR.dat'),
+                    ddsc_param_file=join('/scratch/TMP_DATA/a0b0'),
+                    wait_for_gamess_output=1,
+                    wait_to_recheck=3,
+                    maximum_times_to_recheck=10,
+                    temporary_densities_repo=tmp_data,
+                    gamess_bin=join(root, 'GAMESS/gamess'),
+                    func_params_prefix='/scratch/TMP_DATA',
+                    full_params_prefix=tmp_data,
+                    sbatch_script_prefix=tmp_data,
+                    densities_repo=join(ram, 'tmp_density_dir'),
+                    command_full='ssh lcmdlc2 /usr/bin/sbatch',
+                    command_func=join(ram, 'STARTall.x'),
+                    )
+
+        self._insert_in_config(prst)
+
     def test(self):
         home = Config.get('home')
         root = join(home, 'MyCodes/wb97xdDsC-optim')  # shortening lines below
@@ -182,7 +212,7 @@ class Presets(object):
                     precision=1E-8,
                     wb97x_param_file=join(root, tmp_data, 'FUNC_PAR.dat'),
                     ddsc_param_file=join(root, tmp_data, 'a0b0'),
-                    wait_for_gamess_output=1,
+                    wait_for_gamess_output=30,
                     wait_to_recheck=3,
                     maximum_times_to_recheck=10,
                     temporary_densities_repo=tmp_data,
