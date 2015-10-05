@@ -164,20 +164,19 @@ class Presets(object):
         self.default()
 
     def _insert_in_config(self, dict_):
-        wb97x_params_writing = join(dict_['func_params_prefix'], dict_['wb97x_params_file'])
-        ddsc_params_writing = join(dict_['func_params_prefix'], dict_['ddsc_params_file'])
-        Config.set('wb97x_params_writing', wb97x_params_writing )
-        Config.set('ddsc_params_writing', ddsc_params_writing )
+        wb97x_params_writing = join(dict_['func_params_prefix'],
+                                    dict_['wb97x_params_file'])
+        ddsc_params_writing = join(dict_['func_params_prefix'],
+                                   dict_['ddsc_params_file'])
+        Config.set('wb97x_params_writing', wb97x_params_writing)
+        Config.set('ddsc_params_writing', ddsc_params_writing)
         for k, v in dict_.items():
             Config.set(k, v)
-
-
-
 
     def default(self):
         Config.set('home', os.path.expanduser('~'))
 
-    def Alberto(self):
+    def alberto_lcmd30(self):
         home = Config.get('home')
         root = join(home, 'wb97xddsc')
         tmp_data = join(root, 'TMP_DATA')  # shortening lines below
@@ -208,6 +207,35 @@ class Presets(object):
         self._insert_in_config(prst)
 
     def test(self):
+        home = Config.get('home')
+        root = join(home, 'MyCodes/wb97xdDsC-optim')  # shortening lines below
+        tmp_data = join(root, 'run_example/TMP_DATA')  # shortening lines below
+        prst = dict(root=root,
+                    training_set_file=join('trset-tree-example'),
+                    training_set_path=join(root, 'example/trset-tree-example/'),
+                    run_name=join(root, 'run_example/test'),
+                    logfile=join(root, 'output_example/logging.log'),
+                    loglevel='DEBUG',
+                    processes=8,
+                    precision=1E-8,
+                    wb97x_params_file=join('FUNC_PAR.dat'),
+                    ddsc_params_file=join('a0b0'),
+                    wait_for_gamess_output=30,
+                    wait_to_recheck=3,
+                    maximum_times_to_recheck=10,
+                    temporary_densities_repo=tmp_data,
+                    gamess_bin=None,
+                    func_params_prefix=tmp_data,
+                    full_params_prefix=tmp_data,
+                    sbatch_script_prefix=tmp_data,
+                    densities_repo=join(root, 'run_example/densities_repo'),
+                    command_full='ssh <master> /usr/bin/sbatch',
+                    command_func=join(root, 'bin/minigamess.x'),
+                    )
+
+        self._insert_in_config(prst)
+
+    def riccardo_lcmdlc2(self):
         home = Config.get('home')
         root = join(home, 'MyCodes/wb97xdDsC-optim')  # shortening lines below
         tmp_data = join(root, 'run_example/TMP_DATA')  # shortening lines below
