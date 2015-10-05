@@ -318,8 +318,8 @@ if __name__ == '__main__':
     from nose.tools import assert_raises
 
     Config.set('precision', 1E-6)
-    Config.set('wb97x_param_file', './unittest_param_wb97x')
-    Config.set('ddsc_param_file', './unittest_param_ddsc')
+    Config.set('wb97x_params_writing', 'unittest_param_wb97x')
+    Config.set('ddsc_params_writing', 'unittest_param_ddsc')
 
     dict_100 = {'omega': [103],
                 'cx_aa': [104, 105, 106, 107, 108],
@@ -447,12 +447,27 @@ if __name__ == '__main__':
     assert prm_man_1.sprms['ttb'] == [1.0]
     print('..Done\n')
 
+    print('Checking prms_saved property')
+    assert prm_man_1.prms != prm_man_1.prms_saved
+    prm_man_1.save()
+    assert prm_man_1.prms == prm_man_1.prms_saved
+    prm_man_2 = ParamsManager()
+    assert prm_man_2.prms == prm_man_1.prms_saved
+    print('...Done\n')
+
+    print('Checking prms_saved property')
+    tpar = copy.deepcopy(prm_man_1.prms)
+    prm_man_1.prms['tta'] = 1000
+    assert prm_man_1.prms_old == tpar
+    assert prm_man_1.prms != tpar
+    print('...Done\n')
+
     print('\n Checking Optim Class')
     print('Check creation\n')
     optim = Optim(['tta', 'ttb'])
     assert optim._to_optimize == ['tta', 'ttb']
     optim.set_prms([1, 2])
     prm_man_1 = ParamsManager()
-    assert(prm_man_1._actual_params['tta'] == [1.0])
-    assert(prm_man_1._actual_params['ttb'] == [2.0])
+    assert prm_man_1._actual_params['tta'] == [1.0]
+    assert prm_man_1._actual_params['ttb'] == [2.0]
     print('...Done')

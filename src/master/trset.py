@@ -444,7 +444,6 @@ class Molecule(object):
             self._full_energy = full_energy
             self._uni_energy = uni_energy
             self.myprm_full.refresh()
-            self.myprm_full.save()
 
         return self
 
@@ -1112,5 +1111,9 @@ class TrainingSet(Set):
         Returns:
             (float) MAE of the training set.
         """
+
+        if kind == 'full':
+            params.ParamsManager().save()
+
         MolSet.p_call_mol_energy(kind)
         return super().compute_MAE(kind)
