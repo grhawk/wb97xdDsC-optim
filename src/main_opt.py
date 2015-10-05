@@ -16,7 +16,7 @@ from trset import TrainingSet, MolSet
 from params import ParamsManager, Optim
 from computation import Run
 
-Presets().test()
+Presets().riccardo_lcmdlc2()
 config = Config().config
 
 optim = Optim(['tta', 'cx_aa_0'])
@@ -46,9 +46,7 @@ def main():
 
     sys.exit()
 
-    # bnds=((None,None),(0,1),(None,None),(None,None),(None,None))
     print(compute_error(x0, 'full', 'MAE'))
-    #    print(minimize(trset.optimizer,x0_,args=('func','MAE'), method='L-BFGS-B', bounds=bnds, callback=printer, options={'disp': True,'gtol': 1e-2,'maxiter':1 }))
 
 
 def printer(xc):
