@@ -1,7 +1,8 @@
 #!/home/petragli/Software/anaconda3/bin/python3
 
 
-import sys, os
+import sys
+import os
 import logging as lg
 from scipy.optimize import minimize
 import shutil
@@ -10,24 +11,24 @@ import shutil
 home = os.path.expanduser("~")
 sys.path.append(os.path.join(home, 'wb97xddsc/wb97xdDsC-optim/src/master'))
 
+from config import Config, Presets
 from trset import TrainingSet, MolSet
 from params import Parameters
 from computation import Run
 
-config = dict(TraininSetPath='../example/trset-tree-example/',
-              TraininSetName='trset-tree-example',
-              Name='test1',
-              logfile='logging.log',
-              loglevel='DEBUG',
-              )
+Presets().test()
+config = Config().config
 
 def main():
     init_logging()
     prms = Parameters()
 
-    run=Run(run_name=config['Name'], tset_path=config['TraininSetPath']).index = 'DENS-0000' 
-    trset = TrainingSet(config['TraininSetPath'], config['TraininSetName'])
- 
+    run = Run(run_name=config['run_name'],
+              tset_path=config['training_set_path'])
+    run.index = 'DENS-0000'
+    trset = TrainingSet(config['training_set_path'],
+                        config['training_set_file'])
+
     prms.prms = dict(tta=[13.300000190734863],
                      ttb=[1.5299999713897705],
                      cxhf=[0.157706],
@@ -36,15 +37,13 @@ def main():
                      cc_aa=[1.000000, -4.33879, 18.2308, -31.7430, 17.2901],
                      cc_ab=[1.000000, 2.37031, -11.3995, 6.58405, -3.78132])
 
-    
-    
     print(prms._parameters)
     prms.optim = ['tta', 'cx_aa_0']
     x0 = [13.3, 0.5]
     print(prms.optim)
 
     sys.exit()
-    
+
     bnds=((None,None),(0,1),(None,None),(None,None),(None,None))
     print(trset.optimizer(x0,'full','MAE'))
 #    print(minimize(trset.optimizer,x0_,args=('func','MAE'), method='L-BFGS-B', bounds=bnds, callback=printer, options={'disp': True,'gtol': 1e-2,'maxiter':1 }))
@@ -53,7 +52,7 @@ def main():
 def printer(xc):
     print('END of STEP')
     print(xc)
-    
+
 def init_logging():
     if os.path.isfile(config['logfile']):
         sys.stderr.write('Logging file already existing.\n')
