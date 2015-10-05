@@ -68,9 +68,6 @@ __email__ = 'riccardo.petraglia@gmail.com'
 __status__ = 'development'
 
 
-home = os.path.expanduser("~")
-root = os.path.join(home, 'MyCodes/wb97xdDsC-optim')  # path to wb97xdDsC-optim
-
 config = Config().config
 config['well_finished_strings'] = [b'exit gracefully',
                                    b'FINAL ENERGY INCLUDING dDsC DISPERSION:',
@@ -236,8 +233,10 @@ class Run(object):
         time.sleep(randint(0, 5))
         self._write_input()
         self._write_sbatch()
-        shutil.copy(config['ddsc_param_file'], config['full_param_prefix'])
-        shutil.copy(config['wb97x_param_file'], config['full_param_prefix'])
+        if os.path.dirname(config['ddsc_params_writing']) != config['full_params_prefix']:
+            shutil.copy(config['ddsc_params_writing'], config['full_params_prefix'])
+        if os.path.dirname(config['wb97x_params_writing']) != config['full_params_prefix']:
+            shutil.copy(config['wb97x_params_writing'], config['full_params_prefix'])
         if config['gamess_bin']: self._run(command)
         energies = self._readout()
         if config['gamess_bin']: self._move_data()
@@ -245,9 +244,9 @@ class Run(object):
 
     def func(self):
         wb97x_param = os.path.join(config['func_params_prefix'],
-                                   config['wb97x_param_file'])
+                                   config['wb97x_params_file'])
         ddsc_param = os.path.join(config['func_params_prefix'],
-                                  config['ddsc_param_file'])
+                                  config['ddsc_params_file'])
         command = '{COMMAND:s} {WB97X_DATA:s} {DDSC_DATA:s} '\
             ' {WB97X_PARAM:s} {DDSC_PARAM:s}'\
             .format(COMMAND=config['command_func'],

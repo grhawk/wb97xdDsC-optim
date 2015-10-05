@@ -82,8 +82,8 @@ class Config(object):
         logfile=None,
         processes=None,
         precision=None,
-        wb97x_param_file=None,  # Was ParamFile
-        ddsc_param_file=None,  # Was dDsCParamFile
+        wb97x_params_file=None,  # Was ParamFile
+        ddsc_params_file=None,  # Was dDsCParamFile
         wait_for_gamess_output=None,  # Was dormi
         wait_to_recheck=None,  # Was dormi-short
         maximum_times_to_recheck=None,  # was timeout_max
@@ -95,6 +95,8 @@ class Config(object):
         densities_repo=None,  # Was tmp_density_dir
         command_full=None,
         command_func=None,
+        wb97x_params_writing=None,
+        ddsc_params_writing=None,
     )
 
     _help = dict(
@@ -108,8 +110,8 @@ class Config(object):
         logfile='Path to the log file',
         processes='Maximum number of parallel processes',
         precision='Maximum precision in comparing float',
-        wb97x_param_file='Name of the file containing the wb97x parameters',
-        ddsc_param_file='Name of the file containing the ddsc parameters',
+        wb97x_params_file='Name of the file containing the wb97x parameters',
+        ddsc_params_file='Name of the file containing the ddsc parameters',
         wait_for_gamess_output='Time to wait before starting checking the '
                 ' gamess output',
         wait_to_recheck='Time to wait if the first cheking fails',
@@ -126,6 +128,8 @@ class Config(object):
         densities_repo='Path to save all the densities',
         command_full='Command to execute for the full gamess',
         command_func='Command to execute for the mini-gamess',
+        wb97x_params_writing='Where wb97x params are written by ParamsMangaer',
+        ddsc_params_writing='Where ddsc params are written by ParamsMangaer',
     )
 
     @staticmethod
@@ -160,8 +164,13 @@ class Presets(object):
         self.default()
 
     def _insert_in_config(self, dict_):
+        wb97x_params_writing = join(dict_['func_params_prefix'], dict_['wb97x_params_file'])
+        ddsc_params_writing = join(dict_['func_params_prefix'], dict_['ddsc_params_file'])
+        Config.set('wb97x_params_writing', wb97x_params_writing )
+        Config.set('ddsc_params_writing', ddsc_params_writing )
         for k, v in dict_.items():
             Config.set(k, v)
+
 
 
 
@@ -181,8 +190,8 @@ class Presets(object):
                     loglevel='INFO',
                     processes=16,
                     precision=1E-8,
-                    wb97x_param_file=join('/scratch/TMP_DATA/FUNC_PAR.dat'),
-                    ddsc_param_file=join('/scratch/TMP_DATA/a0b0'),
+                    wb97x_params_file='FUNC_PAR.dat',
+                    ddsc_params_file='a0b0',
                     wait_for_gamess_output=1,
                     wait_to_recheck=3,
                     maximum_times_to_recheck=10,
@@ -210,8 +219,8 @@ class Presets(object):
                     loglevel='DEBUG',
                     processes=8,
                     precision=1E-8,
-                    wb97x_param_file=join(root, tmp_data, 'FUNC_PAR.dat'),
-                    ddsc_param_file=join(root, tmp_data, 'a0b0'),
+                    wb97x_params_file=join('FUNC_PAR.dat'),
+                    ddsc_params_file=join('a0b0'),
                     wait_for_gamess_output=30,
                     wait_to_recheck=3,
                     maximum_times_to_recheck=10,

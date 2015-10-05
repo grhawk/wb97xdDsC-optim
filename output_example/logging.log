@@ -2894,3 +2894,1973 @@
 2015-10-02 23:29:41,501 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -37.8314101686935, CheckPar -> True
 2015-10-02 23:29:41,501 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.156 started
 2015-10-02 23:29:41,502 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -75.0406595470013, CheckPar -> True
+2015-10-05 12:54:54,144 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 12:54:54,144 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 12:55:49,449 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 12:55:49,449 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 12:55:49,449 - DEBUG:trset:__init__ -> Initializing DataSet from /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+2015-10-05 12:55:49,449 - DEBUG:trset:__init__ -> Initializing System from line: 
+     146         146         149         154                                  -1           7           3                                901.022945
+
+
+2015-10-05 12:55:49,449 - WARNING:trset:get_by_id -> Molecule ++G2-148.146++ not found!
+2015-10-05 12:55:49,449 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+
+2015-10-05 12:55:49,450 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 146
+         * ID: G2-148.146
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+        
+2015-10-05 12:55:49,450 - WARNING:trset:get_by_id -> Molecule ++G2-148.149++ not found!
+2015-10-05 12:55:49,450 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+
+2015-10-05 12:55:49,450 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 149
+         * ID: G2-148.149
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+        
+2015-10-05 12:55:49,450 - WARNING:trset:get_by_id -> Molecule ++G2-148.154++ not found!
+2015-10-05 12:55:49,450 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+
+2015-10-05 12:55:49,450 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 154
+         * ID: G2-148.154
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+        
+2015-10-05 12:55:49,452 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 146
+         * Needed Mol: Molecule-G2-148.146 Molecule-G2-148.149 Molecule-G2-148.154
+         * Rule: -1 7 3
+         * Reference Energy: 901.023
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 12:55:49,452 - DEBUG:trset:__init__ -> Initializing System from line: 
+     129         129         149         154         156                      -1           8           3           1                   1109.237572
+
+
+2015-10-05 12:55:49,452 - WARNING:trset:get_by_id -> Molecule ++G2-148.129++ not found!
+2015-10-05 12:55:49,452 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+
+2015-10-05 12:55:49,452 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 129
+         * ID: G2-148.129
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+        
+2015-10-05 12:55:49,452 - DEBUG:trset:load_molecules -> Molecule G2-148.149 already existing
+2015-10-05 12:55:49,452 - DEBUG:trset:load_molecules -> Molecule G2-148.154 already existing
+2015-10-05 12:55:49,452 - WARNING:trset:get_by_id -> Molecule ++G2-148.156++ not found!
+2015-10-05 12:55:49,452 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+
+2015-10-05 12:55:49,452 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 156
+         * ID: G2-148.156
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+        
+2015-10-05 12:55:49,452 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 129
+         * Needed Mol: Molecule-G2-148.129 Molecule-G2-148.149 Molecule-G2-148.154 Molecule-G2-148.156
+         * Rule: -1 8 3 1
+         * Reference Energy: 1109.238
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 12:55:49,452 - DEBUG:trset:_set_creator -> DataSet Information:
+         * Name: G2-148
+         * ID: G2-148
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+         
+2015-10-05 12:55:49,453 - CRITICAL:params:__setitem__ -> cxhf is not a valid parameters key!
+2015-10-05 12:58:30,997 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 12:58:30,997 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 12:58:30,998 - DEBUG:trset:__init__ -> Initializing DataSet from /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+2015-10-05 12:58:30,998 - DEBUG:trset:__init__ -> Initializing System from line: 
+     146         146         149         154                                  -1           7           3                                901.022945
+
+
+2015-10-05 12:58:30,998 - WARNING:trset:get_by_id -> Molecule ++G2-148.146++ not found!
+2015-10-05 12:58:30,998 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+
+2015-10-05 12:58:30,998 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 146
+         * ID: G2-148.146
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+        
+2015-10-05 12:58:30,998 - WARNING:trset:get_by_id -> Molecule ++G2-148.149++ not found!
+2015-10-05 12:58:30,998 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+
+2015-10-05 12:58:30,998 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 149
+         * ID: G2-148.149
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+        
+2015-10-05 12:58:30,999 - WARNING:trset:get_by_id -> Molecule ++G2-148.154++ not found!
+2015-10-05 12:58:30,999 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+
+2015-10-05 12:58:30,999 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 154
+         * ID: G2-148.154
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+        
+2015-10-05 12:58:31,000 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 146
+         * Needed Mol: Molecule-G2-148.146 Molecule-G2-148.149 Molecule-G2-148.154
+         * Rule: -1 7 3
+         * Reference Energy: 901.023
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 12:58:31,000 - DEBUG:trset:__init__ -> Initializing System from line: 
+     129         129         149         154         156                      -1           8           3           1                   1109.237572
+
+
+2015-10-05 12:58:31,000 - WARNING:trset:get_by_id -> Molecule ++G2-148.129++ not found!
+2015-10-05 12:58:31,000 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+
+2015-10-05 12:58:31,000 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 129
+         * ID: G2-148.129
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+        
+2015-10-05 12:58:31,001 - DEBUG:trset:load_molecules -> Molecule G2-148.149 already existing
+2015-10-05 12:58:31,001 - DEBUG:trset:load_molecules -> Molecule G2-148.154 already existing
+2015-10-05 12:58:31,001 - WARNING:trset:get_by_id -> Molecule ++G2-148.156++ not found!
+2015-10-05 12:58:31,001 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+
+2015-10-05 12:58:31,001 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 156
+         * ID: G2-148.156
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+        
+2015-10-05 12:58:31,001 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 129
+         * Needed Mol: Molecule-G2-148.129 Molecule-G2-148.149 Molecule-G2-148.154 Molecule-G2-148.156
+         * Rule: -1 8 3 1
+         * Reference Energy: 1109.238
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 12:58:31,001 - DEBUG:trset:_set_creator -> DataSet Information:
+         * Name: G2-148
+         * ID: G2-148
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+         
+2015-10-05 12:58:31,001 - WARNING:params:__setitem__ -> Warning: You are using cxhf instead of cx_aa_1.
+IGNORE this message if settings default params
+2015-10-05 12:58:59,133 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 12:58:59,134 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 12:58:59,134 - DEBUG:trset:__init__ -> Initializing DataSet from /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+2015-10-05 12:58:59,134 - DEBUG:trset:__init__ -> Initializing System from line: 
+     146         146         149         154                                  -1           7           3                                901.022945
+
+
+2015-10-05 12:58:59,134 - WARNING:trset:get_by_id -> Molecule ++G2-148.146++ not found!
+2015-10-05 12:58:59,134 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+
+2015-10-05 12:58:59,134 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 146
+         * ID: G2-148.146
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+        
+2015-10-05 12:58:59,134 - WARNING:trset:get_by_id -> Molecule ++G2-148.149++ not found!
+2015-10-05 12:58:59,135 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+
+2015-10-05 12:58:59,135 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 149
+         * ID: G2-148.149
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+        
+2015-10-05 12:58:59,135 - WARNING:trset:get_by_id -> Molecule ++G2-148.154++ not found!
+2015-10-05 12:58:59,135 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+
+2015-10-05 12:58:59,135 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 154
+         * ID: G2-148.154
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+        
+2015-10-05 12:58:59,135 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 146
+         * Needed Mol: Molecule-G2-148.146 Molecule-G2-148.149 Molecule-G2-148.154
+         * Rule: -1 7 3
+         * Reference Energy: 901.023
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 12:58:59,136 - DEBUG:trset:__init__ -> Initializing System from line: 
+     129         129         149         154         156                      -1           8           3           1                   1109.237572
+
+
+2015-10-05 12:58:59,136 - WARNING:trset:get_by_id -> Molecule ++G2-148.129++ not found!
+2015-10-05 12:58:59,136 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+
+2015-10-05 12:58:59,136 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 129
+         * ID: G2-148.129
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+        
+2015-10-05 12:58:59,136 - DEBUG:trset:load_molecules -> Molecule G2-148.149 already existing
+2015-10-05 12:58:59,136 - DEBUG:trset:load_molecules -> Molecule G2-148.154 already existing
+2015-10-05 12:58:59,136 - WARNING:trset:get_by_id -> Molecule ++G2-148.156++ not found!
+2015-10-05 12:58:59,136 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+
+2015-10-05 12:58:59,136 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 156
+         * ID: G2-148.156
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+        
+2015-10-05 12:58:59,136 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 129
+         * Needed Mol: Molecule-G2-148.129 Molecule-G2-148.149 Molecule-G2-148.154 Molecule-G2-148.156
+         * Rule: -1 8 3 1
+         * Reference Energy: 1109.238
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 12:58:59,137 - DEBUG:trset:_set_creator -> DataSet Information:
+         * Name: G2-148
+         * ID: G2-148
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+         
+2015-10-05 12:58:59,137 - WARNING:params:__setitem__ -> Warning: You are using cxhf instead of cx_aa_1.
+IGNORE this message if settings default params
+2015-10-05 13:00:42,270 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 13:00:42,271 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 13:00:42,271 - DEBUG:trset:__init__ -> Initializing DataSet from /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+2015-10-05 13:00:42,271 - DEBUG:trset:__init__ -> Initializing System from line: 
+     146         146         149         154                                  -1           7           3                                901.022945
+
+
+2015-10-05 13:00:42,272 - WARNING:trset:get_by_id -> Molecule ++G2-148.146++ not found!
+2015-10-05 13:00:42,272 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+
+2015-10-05 13:00:42,272 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 146
+         * ID: G2-148.146
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+        
+2015-10-05 13:00:42,272 - WARNING:trset:get_by_id -> Molecule ++G2-148.149++ not found!
+2015-10-05 13:00:42,272 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+
+2015-10-05 13:00:42,272 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 149
+         * ID: G2-148.149
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+        
+2015-10-05 13:00:42,272 - WARNING:trset:get_by_id -> Molecule ++G2-148.154++ not found!
+2015-10-05 13:00:42,272 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+
+2015-10-05 13:00:42,273 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 154
+         * ID: G2-148.154
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+        
+2015-10-05 13:00:42,273 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 146
+         * Needed Mol: Molecule-G2-148.146 Molecule-G2-148.149 Molecule-G2-148.154
+         * Rule: -1 7 3
+         * Reference Energy: 901.023
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:00:42,273 - DEBUG:trset:__init__ -> Initializing System from line: 
+     129         129         149         154         156                      -1           8           3           1                   1109.237572
+
+
+2015-10-05 13:00:42,273 - WARNING:trset:get_by_id -> Molecule ++G2-148.129++ not found!
+2015-10-05 13:00:42,273 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+
+2015-10-05 13:00:42,273 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 129
+         * ID: G2-148.129
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+        
+2015-10-05 13:00:42,273 - DEBUG:trset:load_molecules -> Molecule G2-148.149 already existing
+2015-10-05 13:00:42,274 - DEBUG:trset:load_molecules -> Molecule G2-148.154 already existing
+2015-10-05 13:00:42,274 - WARNING:trset:get_by_id -> Molecule ++G2-148.156++ not found!
+2015-10-05 13:00:42,274 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+
+2015-10-05 13:00:42,274 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 156
+         * ID: G2-148.156
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+        
+2015-10-05 13:00:42,274 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 129
+         * Needed Mol: Molecule-G2-148.129 Molecule-G2-148.149 Molecule-G2-148.154 Molecule-G2-148.156
+         * Rule: -1 8 3 1
+         * Reference Energy: 1109.238
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:00:42,274 - DEBUG:trset:_set_creator -> DataSet Information:
+         * Name: G2-148
+         * ID: G2-148
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+         
+2015-10-05 13:00:42,274 - WARNING:params:__setitem__ -> Warning: You are using cxhf instead of cx_aa_1.
+IGNORE this message if settings default params
+2015-10-05 13:00:52,056 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 13:00:52,056 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 13:00:52,056 - DEBUG:trset:__init__ -> Initializing DataSet from /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+2015-10-05 13:00:52,056 - DEBUG:trset:__init__ -> Initializing System from line: 
+     146         146         149         154                                  -1           7           3                                901.022945
+
+
+2015-10-05 13:00:52,057 - WARNING:trset:get_by_id -> Molecule ++G2-148.146++ not found!
+2015-10-05 13:00:52,057 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+
+2015-10-05 13:00:52,057 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 146
+         * ID: G2-148.146
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+        
+2015-10-05 13:00:52,057 - WARNING:trset:get_by_id -> Molecule ++G2-148.149++ not found!
+2015-10-05 13:00:52,057 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+
+2015-10-05 13:00:52,057 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 149
+         * ID: G2-148.149
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+        
+2015-10-05 13:00:52,057 - WARNING:trset:get_by_id -> Molecule ++G2-148.154++ not found!
+2015-10-05 13:00:52,058 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+
+2015-10-05 13:00:52,058 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 154
+         * ID: G2-148.154
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+        
+2015-10-05 13:00:52,058 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 146
+         * Needed Mol: Molecule-G2-148.146 Molecule-G2-148.149 Molecule-G2-148.154
+         * Rule: -1 7 3
+         * Reference Energy: 901.023
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:00:52,058 - DEBUG:trset:__init__ -> Initializing System from line: 
+     129         129         149         154         156                      -1           8           3           1                   1109.237572
+
+
+2015-10-05 13:00:52,058 - WARNING:trset:get_by_id -> Molecule ++G2-148.129++ not found!
+2015-10-05 13:00:52,058 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+
+2015-10-05 13:00:52,058 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 129
+         * ID: G2-148.129
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+        
+2015-10-05 13:00:52,058 - DEBUG:trset:load_molecules -> Molecule G2-148.149 already existing
+2015-10-05 13:00:52,058 - DEBUG:trset:load_molecules -> Molecule G2-148.154 already existing
+2015-10-05 13:00:52,058 - WARNING:trset:get_by_id -> Molecule ++G2-148.156++ not found!
+2015-10-05 13:00:52,058 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+
+2015-10-05 13:00:52,059 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 156
+         * ID: G2-148.156
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+        
+2015-10-05 13:00:52,059 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 129
+         * Needed Mol: Molecule-G2-148.129 Molecule-G2-148.149 Molecule-G2-148.154 Molecule-G2-148.156
+         * Rule: -1 8 3 1
+         * Reference Energy: 1109.238
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:00:52,059 - DEBUG:trset:_set_creator -> DataSet Information:
+         * Name: G2-148
+         * ID: G2-148
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+         
+2015-10-05 13:00:52,059 - WARNING:params:__setitem__ -> Warning: You are using cxhf instead of cx_aa_1.
+IGNORE this message if settings default params
+2015-10-05 13:01:31,942 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 13:01:31,942 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 13:01:31,942 - DEBUG:trset:__init__ -> Initializing DataSet from /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+2015-10-05 13:01:31,942 - DEBUG:trset:__init__ -> Initializing System from line: 
+     146         146         149         154                                  -1           7           3                                901.022945
+
+
+2015-10-05 13:01:31,943 - WARNING:trset:get_by_id -> Molecule ++G2-148.146++ not found!
+2015-10-05 13:01:31,943 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+
+2015-10-05 13:01:31,943 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 146
+         * ID: G2-148.146
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+        
+2015-10-05 13:01:31,943 - WARNING:trset:get_by_id -> Molecule ++G2-148.149++ not found!
+2015-10-05 13:01:31,943 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+
+2015-10-05 13:01:31,943 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 149
+         * ID: G2-148.149
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+        
+2015-10-05 13:01:31,944 - WARNING:trset:get_by_id -> Molecule ++G2-148.154++ not found!
+2015-10-05 13:01:31,944 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+
+2015-10-05 13:01:31,944 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 154
+         * ID: G2-148.154
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+        
+2015-10-05 13:01:31,944 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 146
+         * Needed Mol: Molecule-G2-148.146 Molecule-G2-148.149 Molecule-G2-148.154
+         * Rule: -1 7 3
+         * Reference Energy: 901.023
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:01:31,944 - DEBUG:trset:__init__ -> Initializing System from line: 
+     129         129         149         154         156                      -1           8           3           1                   1109.237572
+
+
+2015-10-05 13:01:31,944 - WARNING:trset:get_by_id -> Molecule ++G2-148.129++ not found!
+2015-10-05 13:01:31,944 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+
+2015-10-05 13:01:31,944 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 129
+         * ID: G2-148.129
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+        
+2015-10-05 13:01:31,944 - DEBUG:trset:load_molecules -> Molecule G2-148.149 already existing
+2015-10-05 13:01:31,944 - DEBUG:trset:load_molecules -> Molecule G2-148.154 already existing
+2015-10-05 13:01:31,945 - WARNING:trset:get_by_id -> Molecule ++G2-148.156++ not found!
+2015-10-05 13:01:31,945 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+
+2015-10-05 13:01:31,945 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 156
+         * ID: G2-148.156
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+        
+2015-10-05 13:01:31,945 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 129
+         * Needed Mol: Molecule-G2-148.129 Molecule-G2-148.149 Molecule-G2-148.154 Molecule-G2-148.156
+         * Rule: -1 8 3 1
+         * Reference Energy: 1109.238
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:01:31,945 - DEBUG:trset:_set_creator -> DataSet Information:
+         * Name: G2-148
+         * ID: G2-148
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+         
+2015-10-05 13:01:31,945 - WARNING:params:__setitem__ -> Warning: You are using cxhf instead of cx_aa_1.
+IGNORE this message if settings default params
+2015-10-05 13:01:32,053 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.129 started
+2015-10-05 13:01:32,053 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 started
+2015-10-05 13:01:32,053 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.146 started
+2015-10-05 13:01:32,053 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 started
+2015-10-05 13:01:32,053 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.156 started
+2015-10-05 13:01:32,054 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:01:32,054 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:01:32,054 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:01:32,054 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:01:32,054 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:01:33,056 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz exists...
+2015-10-05 13:01:33,056 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz found!
+2015-10-05 13:01:34,058 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz exists...
+2015-10-05 13:01:34,058 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz exists...
+2015-10-05 13:01:34,058 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz found!
+2015-10-05 13:01:34,058 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz found!
+2015-10-05 13:02:56,800 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 13:02:56,801 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 13:02:56,801 - DEBUG:trset:__init__ -> Initializing DataSet from /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+2015-10-05 13:02:56,801 - DEBUG:trset:__init__ -> Initializing System from line: 
+     146         146         149         154                                  -1           7           3                                901.022945
+
+
+2015-10-05 13:02:56,801 - WARNING:trset:get_by_id -> Molecule ++G2-148.146++ not found!
+2015-10-05 13:02:56,801 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+
+2015-10-05 13:02:56,801 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 146
+         * ID: G2-148.146
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+        
+2015-10-05 13:02:56,801 - WARNING:trset:get_by_id -> Molecule ++G2-148.149++ not found!
+2015-10-05 13:02:56,801 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+
+2015-10-05 13:02:56,801 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 149
+         * ID: G2-148.149
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+        
+2015-10-05 13:02:56,801 - WARNING:trset:get_by_id -> Molecule ++G2-148.154++ not found!
+2015-10-05 13:02:56,802 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+
+2015-10-05 13:02:56,803 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 154
+         * ID: G2-148.154
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+        
+2015-10-05 13:02:56,803 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 146
+         * Needed Mol: Molecule-G2-148.146 Molecule-G2-148.149 Molecule-G2-148.154
+         * Rule: -1 7 3
+         * Reference Energy: 901.023
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:02:56,803 - DEBUG:trset:__init__ -> Initializing System from line: 
+     129         129         149         154         156                      -1           8           3           1                   1109.237572
+
+
+2015-10-05 13:02:56,803 - WARNING:trset:get_by_id -> Molecule ++G2-148.129++ not found!
+2015-10-05 13:02:56,803 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+
+2015-10-05 13:02:56,803 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 129
+         * ID: G2-148.129
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+        
+2015-10-05 13:02:56,803 - DEBUG:trset:load_molecules -> Molecule G2-148.149 already existing
+2015-10-05 13:02:56,803 - DEBUG:trset:load_molecules -> Molecule G2-148.154 already existing
+2015-10-05 13:02:56,803 - WARNING:trset:get_by_id -> Molecule ++G2-148.156++ not found!
+2015-10-05 13:02:56,803 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+
+2015-10-05 13:02:56,804 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 156
+         * ID: G2-148.156
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+        
+2015-10-05 13:02:56,804 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 129
+         * Needed Mol: Molecule-G2-148.129 Molecule-G2-148.149 Molecule-G2-148.154 Molecule-G2-148.156
+         * Rule: -1 8 3 1
+         * Reference Energy: 1109.238
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:02:56,804 - DEBUG:trset:_set_creator -> DataSet Information:
+         * Name: G2-148
+         * ID: G2-148
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+         
+2015-10-05 13:02:56,804 - WARNING:params:__setitem__ -> Warning: You are using cxhf instead of cx_aa_1.
+IGNORE this message if settings default params
+2015-10-05 13:02:56,819 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.146 started
+2015-10-05 13:02:56,819 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.156 started
+2015-10-05 13:02:56,819 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:02:56,819 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.129 started
+2015-10-05 13:02:56,820 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz exists...
+2015-10-05 13:02:56,820 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz found!
+2015-10-05 13:02:56,819 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 started
+2015-10-05 13:02:56,820 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:02:56,820 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 started
+2015-10-05 13:02:56,820 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:02:56,820 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:02:56,820 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:03:41,796 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 13:03:41,796 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 13:03:41,796 - DEBUG:trset:__init__ -> Initializing DataSet from /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+2015-10-05 13:03:41,797 - DEBUG:trset:__init__ -> Initializing System from line: 
+     146         146         149         154                                  -1           7           3                                901.022945
+
+
+2015-10-05 13:03:41,797 - WARNING:trset:get_by_id -> Molecule ++G2-148.146++ not found!
+2015-10-05 13:03:41,797 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+
+2015-10-05 13:03:41,797 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 146
+         * ID: G2-148.146
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+        
+2015-10-05 13:03:41,797 - WARNING:trset:get_by_id -> Molecule ++G2-148.149++ not found!
+2015-10-05 13:03:41,797 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+
+2015-10-05 13:03:41,798 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 149
+         * ID: G2-148.149
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+        
+2015-10-05 13:03:41,798 - WARNING:trset:get_by_id -> Molecule ++G2-148.154++ not found!
+2015-10-05 13:03:41,798 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+
+2015-10-05 13:03:41,799 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 154
+         * ID: G2-148.154
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+        
+2015-10-05 13:03:41,800 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 146
+         * Needed Mol: Molecule-G2-148.146 Molecule-G2-148.149 Molecule-G2-148.154
+         * Rule: -1 7 3
+         * Reference Energy: 901.023
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:03:41,800 - DEBUG:trset:__init__ -> Initializing System from line: 
+     129         129         149         154         156                      -1           8           3           1                   1109.237572
+
+
+2015-10-05 13:03:41,800 - WARNING:trset:get_by_id -> Molecule ++G2-148.129++ not found!
+2015-10-05 13:03:41,800 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+
+2015-10-05 13:03:41,800 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 129
+         * ID: G2-148.129
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+        
+2015-10-05 13:03:41,800 - DEBUG:trset:load_molecules -> Molecule G2-148.149 already existing
+2015-10-05 13:03:41,800 - DEBUG:trset:load_molecules -> Molecule G2-148.154 already existing
+2015-10-05 13:03:41,800 - WARNING:trset:get_by_id -> Molecule ++G2-148.156++ not found!
+2015-10-05 13:03:41,800 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+
+2015-10-05 13:03:41,800 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 156
+         * ID: G2-148.156
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+        
+2015-10-05 13:03:41,801 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 129
+         * Needed Mol: Molecule-G2-148.129 Molecule-G2-148.149 Molecule-G2-148.154 Molecule-G2-148.156
+         * Rule: -1 8 3 1
+         * Reference Energy: 1109.238
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:03:41,801 - DEBUG:trset:_set_creator -> DataSet Information:
+         * Name: G2-148
+         * ID: G2-148
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+         
+2015-10-05 13:03:41,801 - WARNING:params:__setitem__ -> Warning: You are using cxhf instead of cx_aa_1.
+IGNORE this message if settings default params
+2015-10-05 13:04:09,888 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 13:04:09,888 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 13:04:09,888 - DEBUG:trset:__init__ -> Initializing DataSet from /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+2015-10-05 13:04:09,888 - DEBUG:trset:__init__ -> Initializing System from line: 
+     146         146         149         154                                  -1           7           3                                901.022945
+
+
+2015-10-05 13:04:09,888 - WARNING:trset:get_by_id -> Molecule ++G2-148.146++ not found!
+2015-10-05 13:04:09,888 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+
+2015-10-05 13:04:09,888 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 146
+         * ID: G2-148.146
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+        
+2015-10-05 13:04:09,889 - WARNING:trset:get_by_id -> Molecule ++G2-148.149++ not found!
+2015-10-05 13:04:09,889 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+
+2015-10-05 13:04:09,889 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 149
+         * ID: G2-148.149
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+        
+2015-10-05 13:04:09,889 - WARNING:trset:get_by_id -> Molecule ++G2-148.154++ not found!
+2015-10-05 13:04:09,889 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+
+2015-10-05 13:04:09,890 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 154
+         * ID: G2-148.154
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+        
+2015-10-05 13:04:09,891 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 146
+         * Needed Mol: Molecule-G2-148.146 Molecule-G2-148.149 Molecule-G2-148.154
+         * Rule: -1 7 3
+         * Reference Energy: 901.023
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:04:09,891 - DEBUG:trset:__init__ -> Initializing System from line: 
+     129         129         149         154         156                      -1           8           3           1                   1109.237572
+
+
+2015-10-05 13:04:09,891 - WARNING:trset:get_by_id -> Molecule ++G2-148.129++ not found!
+2015-10-05 13:04:09,891 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+
+2015-10-05 13:04:09,891 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 129
+         * ID: G2-148.129
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+        
+2015-10-05 13:04:09,891 - DEBUG:trset:load_molecules -> Molecule G2-148.149 already existing
+2015-10-05 13:04:09,891 - DEBUG:trset:load_molecules -> Molecule G2-148.154 already existing
+2015-10-05 13:04:09,891 - WARNING:trset:get_by_id -> Molecule ++G2-148.156++ not found!
+2015-10-05 13:04:09,891 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+
+2015-10-05 13:04:09,891 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 156
+         * ID: G2-148.156
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+        
+2015-10-05 13:04:09,891 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 129
+         * Needed Mol: Molecule-G2-148.129 Molecule-G2-148.149 Molecule-G2-148.154 Molecule-G2-148.156
+         * Rule: -1 8 3 1
+         * Reference Energy: 1109.238
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:04:09,892 - DEBUG:trset:_set_creator -> DataSet Information:
+         * Name: G2-148
+         * ID: G2-148
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+         
+2015-10-05 13:04:09,892 - WARNING:params:__setitem__ -> Warning: You are using cxhf instead of cx_aa_1.
+IGNORE this message if settings default params
+2015-10-05 13:04:09,909 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.156 started
+2015-10-05 13:04:09,910 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.129 started
+2015-10-05 13:04:09,910 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 started
+2015-10-05 13:04:09,910 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:04:09,910 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:04:09,910 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.146 started
+2015-10-05 13:04:09,911 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:04:09,910 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 started
+2015-10-05 13:04:09,911 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz exists...
+2015-10-05 13:04:09,911 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz found!
+2015-10-05 13:04:09,911 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:04:09,912 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:04:12,914 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz exists...
+2015-10-05 13:04:12,915 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz found!
+2015-10-05 13:04:13,915 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz exists...
+2015-10-05 13:04:13,915 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz found!
+2015-10-05 13:04:13,916 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz exists...
+2015-10-05 13:04:13,917 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz found!
+2015-10-05 13:04:14,917 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz exists...
+2015-10-05 13:04:14,917 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz found!
+2015-10-05 13:04:42,869 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 13:04:42,869 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 13:04:42,870 - DEBUG:trset:__init__ -> Initializing DataSet from /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+2015-10-05 13:04:42,871 - DEBUG:trset:__init__ -> Initializing System from line: 
+     146         146         149         154                                  -1           7           3                                901.022945
+
+
+2015-10-05 13:04:42,871 - WARNING:trset:get_by_id -> Molecule ++G2-148.146++ not found!
+2015-10-05 13:04:42,871 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+
+2015-10-05 13:04:42,871 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 146
+         * ID: G2-148.146
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+        
+2015-10-05 13:04:42,872 - WARNING:trset:get_by_id -> Molecule ++G2-148.149++ not found!
+2015-10-05 13:04:42,872 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+
+2015-10-05 13:04:42,872 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 149
+         * ID: G2-148.149
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+        
+2015-10-05 13:04:42,872 - WARNING:trset:get_by_id -> Molecule ++G2-148.154++ not found!
+2015-10-05 13:04:42,872 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+
+2015-10-05 13:04:42,873 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 154
+         * ID: G2-148.154
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+        
+2015-10-05 13:04:42,873 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 146
+         * Needed Mol: Molecule-G2-148.146 Molecule-G2-148.149 Molecule-G2-148.154
+         * Rule: -1 7 3
+         * Reference Energy: 901.023
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:04:42,873 - DEBUG:trset:__init__ -> Initializing System from line: 
+     129         129         149         154         156                      -1           8           3           1                   1109.237572
+
+
+2015-10-05 13:04:42,873 - WARNING:trset:get_by_id -> Molecule ++G2-148.129++ not found!
+2015-10-05 13:04:42,873 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+
+2015-10-05 13:04:42,873 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 129
+         * ID: G2-148.129
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+        
+2015-10-05 13:04:42,874 - DEBUG:trset:load_molecules -> Molecule G2-148.149 already existing
+2015-10-05 13:04:42,874 - DEBUG:trset:load_molecules -> Molecule G2-148.154 already existing
+2015-10-05 13:04:42,874 - WARNING:trset:get_by_id -> Molecule ++G2-148.156++ not found!
+2015-10-05 13:04:42,874 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+
+2015-10-05 13:04:42,874 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 156
+         * ID: G2-148.156
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+        
+2015-10-05 13:04:42,874 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 129
+         * Needed Mol: Molecule-G2-148.129 Molecule-G2-148.149 Molecule-G2-148.154 Molecule-G2-148.156
+         * Rule: -1 8 3 1
+         * Reference Energy: 1109.238
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:04:42,874 - DEBUG:trset:_set_creator -> DataSet Information:
+         * Name: G2-148
+         * ID: G2-148
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+         
+2015-10-05 13:04:42,874 - WARNING:params:__setitem__ -> Warning: You are using cxhf instead of cx_aa_1.
+IGNORE this message if settings default params
+2015-10-05 13:04:42,892 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.129 started
+2015-10-05 13:04:42,893 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.146 started
+2015-10-05 13:04:42,893 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:04:42,893 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.156 started
+2015-10-05 13:04:42,893 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 started
+2015-10-05 13:04:42,893 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 started
+2015-10-05 13:04:42,893 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:04:42,894 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:04:42,894 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:04:42,894 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:04:44,897 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz exists...
+2015-10-05 13:04:44,897 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz found!
+2015-10-05 13:04:45,895 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz exists...
+2015-10-05 13:04:45,895 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz found!
+2015-10-05 13:04:45,898 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz exists...
+2015-10-05 13:04:45,898 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz found!
+2015-10-05 13:04:46,895 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz exists...
+2015-10-05 13:04:46,895 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz found!
+2015-10-05 13:05:47,483 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 13:05:47,483 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 13:05:47,484 - DEBUG:trset:__init__ -> Initializing DataSet from /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+2015-10-05 13:05:47,484 - DEBUG:trset:__init__ -> Initializing System from line: 
+     146         146         149         154                                  -1           7           3                                901.022945
+
+
+2015-10-05 13:05:47,484 - WARNING:trset:get_by_id -> Molecule ++G2-148.146++ not found!
+2015-10-05 13:05:47,484 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+
+2015-10-05 13:05:47,485 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 146
+         * ID: G2-148.146
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+        
+2015-10-05 13:05:47,485 - WARNING:trset:get_by_id -> Molecule ++G2-148.149++ not found!
+2015-10-05 13:05:47,485 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+
+2015-10-05 13:05:47,485 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 149
+         * ID: G2-148.149
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+        
+2015-10-05 13:05:47,485 - WARNING:trset:get_by_id -> Molecule ++G2-148.154++ not found!
+2015-10-05 13:05:47,485 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+
+2015-10-05 13:05:47,485 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 154
+         * ID: G2-148.154
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+        
+2015-10-05 13:05:47,485 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 146
+         * Needed Mol: Molecule-G2-148.146 Molecule-G2-148.149 Molecule-G2-148.154
+         * Rule: -1 7 3
+         * Reference Energy: 901.023
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:05:47,485 - DEBUG:trset:__init__ -> Initializing System from line: 
+     129         129         149         154         156                      -1           8           3           1                   1109.237572
+
+
+2015-10-05 13:05:47,485 - WARNING:trset:get_by_id -> Molecule ++G2-148.129++ not found!
+2015-10-05 13:05:47,485 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+
+2015-10-05 13:05:47,486 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 129
+         * ID: G2-148.129
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+        
+2015-10-05 13:05:47,486 - DEBUG:trset:load_molecules -> Molecule G2-148.149 already existing
+2015-10-05 13:05:47,486 - DEBUG:trset:load_molecules -> Molecule G2-148.154 already existing
+2015-10-05 13:05:47,486 - WARNING:trset:get_by_id -> Molecule ++G2-148.156++ not found!
+2015-10-05 13:05:47,486 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+
+2015-10-05 13:05:47,486 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 156
+         * ID: G2-148.156
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+        
+2015-10-05 13:05:47,486 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 129
+         * Needed Mol: Molecule-G2-148.129 Molecule-G2-148.149 Molecule-G2-148.154 Molecule-G2-148.156
+         * Rule: -1 8 3 1
+         * Reference Energy: 1109.238
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:05:47,486 - DEBUG:trset:_set_creator -> DataSet Information:
+         * Name: G2-148
+         * ID: G2-148
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+         
+2015-10-05 13:05:47,486 - WARNING:params:__setitem__ -> Warning: You are using cxhf instead of cx_aa_1.
+IGNORE this message if settings default params
+2015-10-05 13:05:47,502 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.146 started
+2015-10-05 13:05:47,502 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 started
+2015-10-05 13:05:47,502 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 started
+2015-10-05 13:05:47,502 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:05:47,502 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:05:47,502 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:05:47,503 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz exists...
+2015-10-05 13:05:47,503 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz found!
+2015-10-05 13:05:47,503 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz exists...
+2015-10-05 13:05:47,503 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz exists...
+2015-10-05 13:05:47,503 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz found!
+2015-10-05 13:05:47,503 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz found!
+2015-10-05 13:05:47,504 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.129 started
+2015-10-05 13:05:47,504 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.156 started
+2015-10-05 13:05:47,504 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:05:47,504 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:06:47,241 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 13:06:47,241 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 13:06:47,243 - DEBUG:trset:__init__ -> Initializing DataSet from /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+2015-10-05 13:06:47,243 - DEBUG:trset:__init__ -> Initializing System from line: 
+     146         146         149         154                                  -1           7           3                                901.022945
+
+
+2015-10-05 13:06:47,243 - WARNING:trset:get_by_id -> Molecule ++G2-148.146++ not found!
+2015-10-05 13:06:47,243 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+
+2015-10-05 13:06:47,244 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 146
+         * ID: G2-148.146
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+        
+2015-10-05 13:06:47,244 - WARNING:trset:get_by_id -> Molecule ++G2-148.149++ not found!
+2015-10-05 13:06:47,244 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+
+2015-10-05 13:06:47,244 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 149
+         * ID: G2-148.149
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+        
+2015-10-05 13:06:47,244 - WARNING:trset:get_by_id -> Molecule ++G2-148.154++ not found!
+2015-10-05 13:06:47,244 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+
+2015-10-05 13:06:47,244 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 154
+         * ID: G2-148.154
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+        
+2015-10-05 13:06:47,245 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 146
+         * Needed Mol: Molecule-G2-148.146 Molecule-G2-148.149 Molecule-G2-148.154
+         * Rule: -1 7 3
+         * Reference Energy: 901.023
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:06:47,245 - DEBUG:trset:__init__ -> Initializing System from line: 
+     129         129         149         154         156                      -1           8           3           1                   1109.237572
+
+
+2015-10-05 13:06:47,245 - WARNING:trset:get_by_id -> Molecule ++G2-148.129++ not found!
+2015-10-05 13:06:47,245 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+
+2015-10-05 13:06:47,245 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 129
+         * ID: G2-148.129
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+        
+2015-10-05 13:06:47,245 - DEBUG:trset:load_molecules -> Molecule G2-148.149 already existing
+2015-10-05 13:06:47,245 - DEBUG:trset:load_molecules -> Molecule G2-148.154 already existing
+2015-10-05 13:06:47,245 - WARNING:trset:get_by_id -> Molecule ++G2-148.156++ not found!
+2015-10-05 13:06:47,246 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+
+2015-10-05 13:06:47,246 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 156
+         * ID: G2-148.156
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+        
+2015-10-05 13:06:47,246 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 129
+         * Needed Mol: Molecule-G2-148.129 Molecule-G2-148.149 Molecule-G2-148.154 Molecule-G2-148.156
+         * Rule: -1 8 3 1
+         * Reference Energy: 1109.238
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:06:47,246 - DEBUG:trset:_set_creator -> DataSet Information:
+         * Name: G2-148
+         * ID: G2-148
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+         
+2015-10-05 13:06:47,246 - WARNING:params:__setitem__ -> Warning: You are using cxhf instead of cx_aa_1.
+IGNORE this message if settings default params
+2015-10-05 13:06:47,269 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.146 started
+2015-10-05 13:06:47,269 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.129 started
+2015-10-05 13:06:47,269 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.156 started
+2015-10-05 13:06:47,270 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:06:47,270 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:06:47,270 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:06:47,271 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz exists...
+2015-10-05 13:06:47,271 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz found!
+2015-10-05 13:06:47,272 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 started
+2015-10-05 13:06:47,273 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:06:47,269 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 started
+2015-10-05 13:06:47,275 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:06:49,272 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz exists...
+2015-10-05 13:06:49,272 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz found!
+2015-10-05 13:06:49,278 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz exists...
+2015-10-05 13:06:49,278 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz found!
+2015-10-05 13:07:06,387 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 13:07:06,388 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 13:07:06,389 - DEBUG:trset:__init__ -> Initializing DataSet from /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+2015-10-05 13:07:06,389 - DEBUG:trset:__init__ -> Initializing System from line: 
+     146         146         149         154                                  -1           7           3                                901.022945
+
+
+2015-10-05 13:07:06,389 - WARNING:trset:get_by_id -> Molecule ++G2-148.146++ not found!
+2015-10-05 13:07:06,390 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+
+2015-10-05 13:07:06,390 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 146
+         * ID: G2-148.146
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+        
+2015-10-05 13:07:06,390 - WARNING:trset:get_by_id -> Molecule ++G2-148.149++ not found!
+2015-10-05 13:07:06,390 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+
+2015-10-05 13:07:06,390 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 149
+         * ID: G2-148.149
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+        
+2015-10-05 13:07:06,390 - WARNING:trset:get_by_id -> Molecule ++G2-148.154++ not found!
+2015-10-05 13:07:06,390 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+
+2015-10-05 13:07:06,390 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 154
+         * ID: G2-148.154
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+        
+2015-10-05 13:07:06,391 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 146
+         * Needed Mol: Molecule-G2-148.146 Molecule-G2-148.149 Molecule-G2-148.154
+         * Rule: -1 7 3
+         * Reference Energy: 901.023
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:07:06,391 - DEBUG:trset:__init__ -> Initializing System from line: 
+     129         129         149         154         156                      -1           8           3           1                   1109.237572
+
+
+2015-10-05 13:07:06,391 - WARNING:trset:get_by_id -> Molecule ++G2-148.129++ not found!
+2015-10-05 13:07:06,391 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+
+2015-10-05 13:07:06,391 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 129
+         * ID: G2-148.129
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+        
+2015-10-05 13:07:06,391 - DEBUG:trset:load_molecules -> Molecule G2-148.149 already existing
+2015-10-05 13:07:06,391 - DEBUG:trset:load_molecules -> Molecule G2-148.154 already existing
+2015-10-05 13:07:06,391 - WARNING:trset:get_by_id -> Molecule ++G2-148.156++ not found!
+2015-10-05 13:07:06,391 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+
+2015-10-05 13:07:06,391 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 156
+         * ID: G2-148.156
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+        
+2015-10-05 13:07:06,391 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 129
+         * Needed Mol: Molecule-G2-148.129 Molecule-G2-148.149 Molecule-G2-148.154 Molecule-G2-148.156
+         * Rule: -1 8 3 1
+         * Reference Energy: 1109.238
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:07:06,392 - DEBUG:trset:_set_creator -> DataSet Information:
+         * Name: G2-148
+         * ID: G2-148
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+         
+2015-10-05 13:07:06,392 - WARNING:params:__setitem__ -> Warning: You are using cxhf instead of cx_aa_1.
+IGNORE this message if settings default params
+2015-10-05 13:07:06,413 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.146 started
+2015-10-05 13:07:06,413 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.129 started
+2015-10-05 13:07:06,413 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.156 started
+2015-10-05 13:07:06,414 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:07:06,414 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 started
+2015-10-05 13:07:06,414 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 started
+2015-10-05 13:07:06,414 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:07:06,414 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:07:06,414 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz exists...
+2015-10-05 13:07:06,415 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz found!
+2015-10-05 13:07:06,415 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:07:06,415 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:07:06,416 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz exists...
+2015-10-05 13:07:06,416 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz found!
+2015-10-05 13:07:10,418 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz exists...
+2015-10-05 13:07:10,419 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz found!
+2015-10-05 13:09:30,680 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 13:09:30,680 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 13:09:30,681 - DEBUG:trset:__init__ -> Initializing DataSet from /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+2015-10-05 13:09:30,682 - DEBUG:trset:__init__ -> Initializing System from line: 
+     146         146         149         154                                  -1           7           3                                901.022945
+
+
+2015-10-05 13:09:30,682 - WARNING:trset:get_by_id -> Molecule ++G2-148.146++ not found!
+2015-10-05 13:09:30,682 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+
+2015-10-05 13:09:30,682 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 146
+         * ID: G2-148.146
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+        
+2015-10-05 13:09:30,682 - WARNING:trset:get_by_id -> Molecule ++G2-148.149++ not found!
+2015-10-05 13:09:30,682 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+
+2015-10-05 13:09:30,682 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 149
+         * ID: G2-148.149
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+        
+2015-10-05 13:09:30,682 - WARNING:trset:get_by_id -> Molecule ++G2-148.154++ not found!
+2015-10-05 13:09:30,683 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+
+2015-10-05 13:09:30,683 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 154
+         * ID: G2-148.154
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+        
+2015-10-05 13:09:30,683 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 146
+         * Needed Mol: Molecule-G2-148.146 Molecule-G2-148.149 Molecule-G2-148.154
+         * Rule: -1 7 3
+         * Reference Energy: 901.023
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:09:30,683 - DEBUG:trset:__init__ -> Initializing System from line: 
+     129         129         149         154         156                      -1           8           3           1                   1109.237572
+
+
+2015-10-05 13:09:30,683 - WARNING:trset:get_by_id -> Molecule ++G2-148.129++ not found!
+2015-10-05 13:09:30,683 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+
+2015-10-05 13:09:30,683 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 129
+         * ID: G2-148.129
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+        
+2015-10-05 13:09:30,683 - DEBUG:trset:load_molecules -> Molecule G2-148.149 already existing
+2015-10-05 13:09:30,683 - DEBUG:trset:load_molecules -> Molecule G2-148.154 already existing
+2015-10-05 13:09:30,683 - WARNING:trset:get_by_id -> Molecule ++G2-148.156++ not found!
+2015-10-05 13:09:30,684 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+
+2015-10-05 13:09:30,684 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 156
+         * ID: G2-148.156
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+        
+2015-10-05 13:09:30,684 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 129
+         * Needed Mol: Molecule-G2-148.129 Molecule-G2-148.149 Molecule-G2-148.154 Molecule-G2-148.156
+         * Rule: -1 8 3 1
+         * Reference Energy: 1109.238
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:09:30,684 - DEBUG:trset:_set_creator -> DataSet Information:
+         * Name: G2-148
+         * ID: G2-148
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+         
+2015-10-05 13:09:30,684 - WARNING:params:__setitem__ -> Warning: You are using cxhf instead of cx_aa_1.
+IGNORE this message if settings default params
+2015-10-05 13:09:30,715 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 started
+2015-10-05 13:09:30,715 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:09:30,715 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.146 started
+2015-10-05 13:09:30,715 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 started
+2015-10-05 13:09:30,715 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.129 started
+2015-10-05 13:09:30,715 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.156 started
+2015-10-05 13:09:30,716 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:09:30,717 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:09:30,717 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:09:30,717 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:09:31,718 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz exists...
+2015-10-05 13:09:31,719 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz found!
+2015-10-05 13:09:33,719 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz exists...
+2015-10-05 13:09:33,719 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz found!
+2015-10-05 13:09:33,721 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz exists...
+2015-10-05 13:09:33,721 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz found!
+2015-10-05 13:09:34,722 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz exists...
+2015-10-05 13:09:34,722 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz found!
+2015-10-05 13:09:35,719 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz exists...
+2015-10-05 13:09:35,719 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz found!
+2015-10-05 13:11:01,066 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 13:11:01,066 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 13:11:01,067 - DEBUG:trset:__init__ -> Initializing DataSet from /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+2015-10-05 13:11:01,068 - DEBUG:trset:__init__ -> Initializing System from line: 
+     146         146         149         154                                  -1           7           3                                901.022945
+
+
+2015-10-05 13:11:01,068 - WARNING:trset:get_by_id -> Molecule ++G2-148.146++ not found!
+2015-10-05 13:11:01,068 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+
+2015-10-05 13:11:01,068 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 146
+         * ID: G2-148.146
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+        
+2015-10-05 13:11:01,068 - WARNING:trset:get_by_id -> Molecule ++G2-148.149++ not found!
+2015-10-05 13:11:01,068 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+
+2015-10-05 13:11:01,068 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 149
+         * ID: G2-148.149
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+        
+2015-10-05 13:11:01,068 - WARNING:trset:get_by_id -> Molecule ++G2-148.154++ not found!
+2015-10-05 13:11:01,068 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+
+2015-10-05 13:11:01,069 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 154
+         * ID: G2-148.154
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+        
+2015-10-05 13:11:01,069 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 146
+         * Needed Mol: Molecule-G2-148.146 Molecule-G2-148.149 Molecule-G2-148.154
+         * Rule: -1 7 3
+         * Reference Energy: 901.023
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:11:01,069 - DEBUG:trset:__init__ -> Initializing System from line: 
+     129         129         149         154         156                      -1           8           3           1                   1109.237572
+
+
+2015-10-05 13:11:01,069 - WARNING:trset:get_by_id -> Molecule ++G2-148.129++ not found!
+2015-10-05 13:11:01,069 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+
+2015-10-05 13:11:01,069 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 129
+         * ID: G2-148.129
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+        
+2015-10-05 13:11:01,069 - DEBUG:trset:load_molecules -> Molecule G2-148.149 already existing
+2015-10-05 13:11:01,069 - DEBUG:trset:load_molecules -> Molecule G2-148.154 already existing
+2015-10-05 13:11:01,069 - WARNING:trset:get_by_id -> Molecule ++G2-148.156++ not found!
+2015-10-05 13:11:01,070 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+
+2015-10-05 13:11:01,070 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 156
+         * ID: G2-148.156
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+        
+2015-10-05 13:11:01,070 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 129
+         * Needed Mol: Molecule-G2-148.129 Molecule-G2-148.149 Molecule-G2-148.154 Molecule-G2-148.156
+         * Rule: -1 8 3 1
+         * Reference Energy: 1109.238
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:11:01,070 - DEBUG:trset:_set_creator -> DataSet Information:
+         * Name: G2-148
+         * ID: G2-148
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+         
+2015-10-05 13:11:01,070 - WARNING:params:__setitem__ -> Warning: You are using cxhf instead of cx_aa_1.
+IGNORE this message if settings default params
+2015-10-05 13:11:01,099 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.146 started
+2015-10-05 13:11:01,100 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:11:01,100 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.129 started
+2015-10-05 13:11:01,100 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.156 started
+2015-10-05 13:11:01,100 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 started
+2015-10-05 13:11:01,100 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 started
+2015-10-05 13:11:01,101 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:11:01,101 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:11:01,101 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:11:01,101 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:11:02,103 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz exists...
+2015-10-05 13:11:02,103 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz found!
+2015-10-05 13:11:03,104 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz exists...
+2015-10-05 13:11:03,104 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz found!
+2015-10-05 13:11:04,103 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz exists...
+2015-10-05 13:11:04,104 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz found!
+2015-10-05 13:11:04,105 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz exists...
+2015-10-05 13:11:04,105 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz exists...
+2015-10-05 13:11:04,105 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz found!
+2015-10-05 13:11:04,105 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz found!
+2015-10-05 13:11:32,018 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 13:11:32,018 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 13:11:32,019 - DEBUG:trset:__init__ -> Initializing DataSet from /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+2015-10-05 13:11:32,020 - DEBUG:trset:__init__ -> Initializing System from line: 
+     146         146         149         154                                  -1           7           3                                901.022945
+
+
+2015-10-05 13:11:32,020 - WARNING:trset:get_by_id -> Molecule ++G2-148.146++ not found!
+2015-10-05 13:11:32,020 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+
+2015-10-05 13:11:32,020 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 146
+         * ID: G2-148.146
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+        
+2015-10-05 13:11:32,020 - WARNING:trset:get_by_id -> Molecule ++G2-148.149++ not found!
+2015-10-05 13:11:32,020 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+
+2015-10-05 13:11:32,020 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 149
+         * ID: G2-148.149
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+        
+2015-10-05 13:11:32,020 - WARNING:trset:get_by_id -> Molecule ++G2-148.154++ not found!
+2015-10-05 13:11:32,021 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+
+2015-10-05 13:11:32,021 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 154
+         * ID: G2-148.154
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+        
+2015-10-05 13:11:32,021 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 146
+         * Needed Mol: Molecule-G2-148.146 Molecule-G2-148.149 Molecule-G2-148.154
+         * Rule: -1 7 3
+         * Reference Energy: 901.023
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:11:32,021 - DEBUG:trset:__init__ -> Initializing System from line: 
+     129         129         149         154         156                      -1           8           3           1                   1109.237572
+
+
+2015-10-05 13:11:32,021 - WARNING:trset:get_by_id -> Molecule ++G2-148.129++ not found!
+2015-10-05 13:11:32,021 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+
+2015-10-05 13:11:32,021 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 129
+         * ID: G2-148.129
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+        
+2015-10-05 13:11:32,021 - DEBUG:trset:load_molecules -> Molecule G2-148.149 already existing
+2015-10-05 13:11:32,021 - DEBUG:trset:load_molecules -> Molecule G2-148.154 already existing
+2015-10-05 13:11:32,021 - WARNING:trset:get_by_id -> Molecule ++G2-148.156++ not found!
+2015-10-05 13:11:32,021 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+
+2015-10-05 13:11:32,022 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 156
+         * ID: G2-148.156
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+        
+2015-10-05 13:11:32,022 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 129
+         * Needed Mol: Molecule-G2-148.129 Molecule-G2-148.149 Molecule-G2-148.154 Molecule-G2-148.156
+         * Rule: -1 8 3 1
+         * Reference Energy: 1109.238
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:11:32,022 - DEBUG:trset:_set_creator -> DataSet Information:
+         * Name: G2-148
+         * ID: G2-148
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+         
+2015-10-05 13:11:32,022 - WARNING:params:__setitem__ -> Warning: You are using cxhf instead of cx_aa_1.
+IGNORE this message if settings default params
+2015-10-05 13:11:32,040 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.146 started
+2015-10-05 13:11:32,041 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:11:32,041 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.129 started
+2015-10-05 13:11:32,041 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 started
+2015-10-05 13:11:32,041 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 started
+2015-10-05 13:11:32,041 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.156 started
+2015-10-05 13:11:32,042 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:11:32,042 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:11:32,042 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:11:32,042 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:11:33,042 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz exists...
+2015-10-05 13:11:33,042 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz found!
+2015-10-05 13:11:33,043 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz exists...
+2015-10-05 13:11:33,044 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz found!
+2015-10-05 13:11:34,045 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz exists...
+2015-10-05 13:11:34,045 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz found!
+2015-10-05 13:11:36,047 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz exists...
+2015-10-05 13:11:36,047 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz found!
+2015-10-05 13:11:37,047 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz exists...
+2015-10-05 13:11:37,048 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz found!
+2015-10-05 13:12:03,576 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.146 is  -118.411618 and UNIENERGY is -105.684442
+2015-10-05 13:12:03,576 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 is   -37.831410 and UNIENERGY is  -34.188800
+2015-10-05 13:12:04,557 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.156 is   -75.040660 and UNIENERGY is  -68.957889
+2015-10-05 13:12:06,580 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 is    -0.500600 and UNIENERGY is   -0.243667
+2015-10-05 13:12:07,581 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.129 is  -194.246662 and UNIENERGY is -175.090887
+2015-10-05 13:12:07,621 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.146 started
+2015-10-05 13:12:07,622 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -118.411617799563, CheckPar -> True
+2015-10-05 13:12:07,623 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 started
+2015-10-05 13:12:07,624 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -0.500599758842669, CheckPar -> True
+2015-10-05 13:12:07,625 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 started
+2015-10-05 13:12:07,626 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -37.8314101686935, CheckPar -> True
+2015-10-05 13:12:07,626 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.129 started
+2015-10-05 13:12:07,627 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -194.246661543961, CheckPar -> True
+2015-10-05 13:12:07,628 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 started
+2015-10-05 13:12:07,629 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -0.500599758842669, CheckPar -> True
+2015-10-05 13:12:07,629 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 started
+2015-10-05 13:12:07,630 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -37.8314101686935, CheckPar -> True
+2015-10-05 13:12:07,631 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.156 started
+2015-10-05 13:12:07,632 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -75.0406595470013, CheckPar -> True
+2015-10-05 13:12:07,647 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.146 started
+2015-10-05 13:12:07,647 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.149 started
+2015-10-05 13:12:07,647 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.154 started
+2015-10-05 13:12:07,648 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.129 started
+2015-10-05 13:12:07,648 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.156 started
+2015-10-05 13:12:07,648 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -118.411617799563, CheckPar -> False
+2015-10-05 13:12:07,648 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -0.500599758842669, CheckPar -> False
+2015-10-05 13:12:07,649 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -75.0406595470013, CheckPar -> False
+2015-10-05 13:12:07,649 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -37.8314101686935, CheckPar -> False
+2015-10-05 13:12:07,649 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -194.246661543961, CheckPar -> False
+2015-10-05 13:28:55,888 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 13:28:55,888 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 13:28:55,889 - DEBUG:trset:__init__ -> Initializing DataSet from /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+2015-10-05 13:28:55,889 - DEBUG:trset:__init__ -> Initializing System from line: 
+     146         146         149         154                                  -1           7           3                                901.022945
+
+
+2015-10-05 13:28:55,890 - WARNING:trset:get_by_id -> Molecule ++G2-148.146++ not found!
+2015-10-05 13:28:55,890 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+
+2015-10-05 13:28:55,890 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 146
+         * ID: G2-148.146
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+        
+2015-10-05 13:28:55,890 - WARNING:trset:get_by_id -> Molecule ++G2-148.149++ not found!
+2015-10-05 13:28:55,890 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+
+2015-10-05 13:28:55,891 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 149
+         * ID: G2-148.149
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+        
+2015-10-05 13:28:55,891 - WARNING:trset:get_by_id -> Molecule ++G2-148.154++ not found!
+2015-10-05 13:28:55,891 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+
+2015-10-05 13:28:55,891 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 154
+         * ID: G2-148.154
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+        
+2015-10-05 13:28:55,891 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 146
+         * Needed Mol: Molecule-G2-148.146 Molecule-G2-148.149 Molecule-G2-148.154
+         * Rule: -1 7 3
+         * Reference Energy: 901.023
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:28:55,891 - DEBUG:trset:__init__ -> Initializing System from line: 
+     129         129         149         154         156                      -1           8           3           1                   1109.237572
+
+
+2015-10-05 13:28:55,891 - WARNING:trset:get_by_id -> Molecule ++G2-148.129++ not found!
+2015-10-05 13:28:55,891 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+
+2015-10-05 13:28:55,891 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 129
+         * ID: G2-148.129
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+        
+2015-10-05 13:28:55,891 - DEBUG:trset:load_molecules -> Molecule G2-148.149 already existing
+2015-10-05 13:28:55,891 - DEBUG:trset:load_molecules -> Molecule G2-148.154 already existing
+2015-10-05 13:28:55,891 - WARNING:trset:get_by_id -> Molecule ++G2-148.156++ not found!
+2015-10-05 13:28:55,892 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+
+2015-10-05 13:28:55,892 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 156
+         * ID: G2-148.156
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+        
+2015-10-05 13:28:55,892 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 129
+         * Needed Mol: Molecule-G2-148.129 Molecule-G2-148.149 Molecule-G2-148.154 Molecule-G2-148.156
+         * Rule: -1 8 3 1
+         * Reference Energy: 1109.238
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:28:55,892 - DEBUG:trset:_set_creator -> DataSet Information:
+         * Name: G2-148
+         * ID: G2-148
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+         
+2015-10-05 13:28:55,892 - WARNING:params:__setitem__ -> Warning: You are using cxhf instead of cx_aa_1.
+IGNORE this message if settings default params
+2015-10-05 13:28:55,907 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.146 started
+2015-10-05 13:28:55,908 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:28:55,908 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.156 started
+2015-10-05 13:28:55,909 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.129 started
+2015-10-05 13:28:55,909 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 started
+2015-10-05 13:28:55,909 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 started
+2015-10-05 13:28:55,909 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:28:55,910 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:28:55,910 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:28:55,910 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:28:56,909 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz exists...
+2015-10-05 13:28:56,910 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz found!
+2015-10-05 13:28:59,911 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz exists...
+2015-10-05 13:28:59,912 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz found!
+2015-10-05 13:28:59,914 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz exists...
+2015-10-05 13:28:59,914 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz found!
+2015-10-05 13:28:59,915 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz exists...
+2015-10-05 13:28:59,915 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz found!
+2015-10-05 13:29:00,916 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz exists...
+2015-10-05 13:29:00,916 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz found!
+2015-10-05 13:29:27,431 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.146 is  -118.411618 and UNIENERGY is -105.684442
+2015-10-05 13:29:30,426 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.129 is  -194.246662 and UNIENERGY is -175.090887
+2015-10-05 13:29:30,444 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.156 is   -75.040660 and UNIENERGY is  -68.957889
+2015-10-05 13:29:30,448 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 is   -37.831410 and UNIENERGY is  -34.188800
+2015-10-05 13:29:31,448 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 is    -0.500600 and UNIENERGY is   -0.243667
+2015-10-05 13:29:31,489 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.146 started
+2015-10-05 13:29:31,490 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -118.411617799563, CheckPar -> True
+2015-10-05 13:29:31,491 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 started
+2015-10-05 13:29:31,492 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -0.500599758842669, CheckPar -> True
+2015-10-05 13:29:31,493 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 started
+2015-10-05 13:29:31,494 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -37.8314101686935, CheckPar -> True
+2015-10-05 13:29:31,494 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.129 started
+2015-10-05 13:29:31,495 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -194.246661543961, CheckPar -> True
+2015-10-05 13:29:31,496 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 started
+2015-10-05 13:29:31,497 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -0.500599758842669, CheckPar -> True
+2015-10-05 13:29:31,498 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 started
+2015-10-05 13:29:31,498 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -37.8314101686935, CheckPar -> True
+2015-10-05 13:29:31,499 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.156 started
+2015-10-05 13:29:31,500 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -75.0406595470013, CheckPar -> True
+2015-10-05 13:29:31,516 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.146 started
+2015-10-05 13:29:31,516 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.149 started
+2015-10-05 13:29:31,516 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.129 started
+2015-10-05 13:29:31,516 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.154 started
+2015-10-05 13:29:31,517 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -118.411617799563, CheckPar -> False
+2015-10-05 13:29:31,517 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -0.500599758842669, CheckPar -> False
+2015-10-05 13:29:31,517 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.156 started
+2015-10-05 13:29:31,517 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -194.246661543961, CheckPar -> False
+2015-10-05 13:29:31,518 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -37.8314101686935, CheckPar -> False
+2015-10-05 13:29:31,518 - DEBUG:computation:_run -> Should run ['/home/petragli/MyCodes/wb97xdDsC-optim/bin/minigamess.x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.149.wb97x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.149.ddsc', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/FUNC_PAR.dat', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/a0b0']
+2015-10-05 13:29:31,518 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -75.0406595470013, CheckPar -> False
+2015-10-05 13:29:31,518 - DEBUG:computation:_run -> Should run ['/home/petragli/MyCodes/wb97xdDsC-optim/bin/minigamess.x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.146.wb97x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.146.ddsc', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/FUNC_PAR.dat', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/a0b0']
+2015-10-05 13:29:31,519 - DEBUG:computation:_run -> Should run ['/home/petragli/MyCodes/wb97xdDsC-optim/bin/minigamess.x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.129.wb97x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.129.ddsc', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/FUNC_PAR.dat', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/a0b0']
+2015-10-05 13:29:31,520 - DEBUG:computation:_run -> Should run ['/home/petragli/MyCodes/wb97xdDsC-optim/bin/minigamess.x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.154.wb97x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.154.ddsc', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/FUNC_PAR.dat', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/a0b0']
+2015-10-05 13:29:31,520 - DEBUG:computation:_run -> Should run ['/home/petragli/MyCodes/wb97xdDsC-optim/bin/minigamess.x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.156.wb97x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.156.ddsc', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/FUNC_PAR.dat', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/a0b0']
+2015-10-05 13:29:31,643 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.154 is    -2.800690
+2015-10-05 13:29:31,648 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.156 is    -4.611963
+2015-10-05 13:29:31,667 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.149 is    -0.221026
+2015-10-05 13:29:32,111 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.146 is    -8.607688
+2015-10-05 13:29:32,189 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.129 is   -12.605993
+2015-10-05 13:29:32,218 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.146 started
+2015-10-05 13:29:32,219 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -118.411617799563, CheckPar -> True
+2015-10-05 13:29:32,220 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.149 started
+2015-10-05 13:29:32,220 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -0.500599758842669, CheckPar -> True
+2015-10-05 13:29:32,221 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.154 started
+2015-10-05 13:29:32,221 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -37.8314101686935, CheckPar -> True
+2015-10-05 13:29:32,222 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.129 started
+2015-10-05 13:29:32,222 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -194.246661543961, CheckPar -> True
+2015-10-05 13:29:32,223 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.149 started
+2015-10-05 13:29:32,224 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -0.500599758842669, CheckPar -> True
+2015-10-05 13:29:32,224 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.154 started
+2015-10-05 13:29:32,225 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -37.8314101686935, CheckPar -> True
+2015-10-05 13:29:32,225 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.156 started
+2015-10-05 13:29:32,226 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -75.0406595470013, CheckPar -> True
+2015-10-05 13:29:45,227 - DEBUG:test:init_logging -> Logging Initialized
+2015-10-05 13:29:45,227 - DEBUG:computation:index -> Index set to DENS-0000
+2015-10-05 13:29:45,228 - DEBUG:trset:__init__ -> Initializing DataSet from /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+2015-10-05 13:29:45,229 - DEBUG:trset:__init__ -> Initializing System from line: 
+     146         146         149         154                                  -1           7           3                                901.022945
+
+
+2015-10-05 13:29:45,229 - WARNING:trset:get_by_id -> Molecule ++G2-148.146++ not found!
+2015-10-05 13:29:45,229 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+
+2015-10-05 13:29:45,229 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 146
+         * ID: G2-148.146
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz
+        
+2015-10-05 13:29:45,229 - WARNING:trset:get_by_id -> Molecule ++G2-148.149++ not found!
+2015-10-05 13:29:45,229 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+
+2015-10-05 13:29:45,230 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 149
+         * ID: G2-148.149
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz
+        
+2015-10-05 13:29:45,230 - WARNING:trset:get_by_id -> Molecule ++G2-148.154++ not found!
+2015-10-05 13:29:45,230 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+
+2015-10-05 13:29:45,230 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 154
+         * ID: G2-148.154
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz
+        
+2015-10-05 13:29:45,230 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 146
+         * Needed Mol: Molecule-G2-148.146 Molecule-G2-148.149 Molecule-G2-148.154
+         * Rule: -1 7 3
+         * Reference Energy: 901.023
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:29:45,230 - DEBUG:trset:__init__ -> Initializing System from line: 
+     129         129         149         154         156                      -1           8           3           1                   1109.237572
+
+
+2015-10-05 13:29:45,230 - WARNING:trset:get_by_id -> Molecule ++G2-148.129++ not found!
+2015-10-05 13:29:45,230 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+
+2015-10-05 13:29:45,231 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 129
+         * ID: G2-148.129
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz
+        
+2015-10-05 13:29:45,231 - DEBUG:trset:load_molecules -> Molecule G2-148.149 already existing
+2015-10-05 13:29:45,231 - DEBUG:trset:load_molecules -> Molecule G2-148.154 already existing
+2015-10-05 13:29:45,231 - WARNING:trset:get_by_id -> Molecule ++G2-148.156++ not found!
+2015-10-05 13:29:45,231 - DEBUG:trset:__init__ -> Importing Molecule from 
+/home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+
+2015-10-05 13:29:45,231 - DEBUG:trset:_molecule_creator -> Molecule Information:
+         * Dataset: G2-148
+         * Name: 156
+         * ID: G2-148.156
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz
+        
+2015-10-05 13:29:45,231 - DEBUG:trset:_system_creator -> System Information:
+         * Dataset: G2-148
+         * Name: 129
+         * Needed Mol: Molecule-G2-148.129 Molecule-G2-148.149 Molecule-G2-148.154 Molecule-G2-148.156
+         * Rule: -1 8 3 1
+         * Reference Energy: 1109.238
+         * Blacklisted: False
+         * Fulldft: False
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+        
+2015-10-05 13:29:45,231 - DEBUG:trset:_set_creator -> DataSet Information:
+         * Name: G2-148
+         * ID: G2-148
+         * Path: /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148
+         
+2015-10-05 13:29:45,232 - WARNING:params:__setitem__ -> Warning: You are using cxhf instead of cx_aa_1.
+IGNORE this message if settings default params
+2015-10-05 13:29:45,251 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 started
+2015-10-05 13:29:45,251 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 started
+2015-10-05 13:29:45,252 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:29:45,252 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.146 started
+2015-10-05 13:29:45,252 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:29:45,253 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.156 started
+2015-10-05 13:29:45,253 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:29:45,254 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:29:45,255 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.129 started
+2015-10-05 13:29:45,256 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> None, CheckPar -> False
+2015-10-05 13:29:46,254 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz exists...
+2015-10-05 13:29:46,254 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/149.xyz found!
+2015-10-05 13:29:46,255 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz exists...
+2015-10-05 13:29:46,255 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/146.xyz found!
+2015-10-05 13:29:46,258 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz exists...
+2015-10-05 13:29:46,258 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/129.xyz found!
+2015-10-05 13:29:47,256 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz exists...
+2015-10-05 13:29:47,257 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/156.xyz found!
+2015-10-05 13:29:48,255 - DEBUG:utils:file_exists -> Checking if file /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz exists...
+2015-10-05 13:29:48,255 - DEBUG:utils:file_exists -> /home/petragli/MyCodes/wb97xdDsC-optim/example/trset-tree-example/G2-148/geometry/154.xyz found!
+2015-10-05 13:30:16,784 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.146 is  -118.411618 and UNIENERGY is -105.684442
+2015-10-05 13:30:16,787 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 is    -0.500600 and UNIENERGY is   -0.243667
+2015-10-05 13:30:16,791 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.129 is  -194.246662 and UNIENERGY is -175.090887
+2015-10-05 13:30:17,789 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.156 is   -75.040660 and UNIENERGY is  -68.957889
+2015-10-05 13:30:18,765 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 is   -37.831410 and UNIENERGY is  -34.188800
+2015-10-05 13:30:18,828 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.146 started
+2015-10-05 13:30:18,829 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -118.411617799563, CheckPar -> True
+2015-10-05 13:30:18,830 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 started
+2015-10-05 13:30:18,831 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -0.500599758842669, CheckPar -> True
+2015-10-05 13:30:18,831 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 started
+2015-10-05 13:30:18,832 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -37.8314101686935, CheckPar -> True
+2015-10-05 13:30:18,833 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.129 started
+2015-10-05 13:30:18,834 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -194.246661543961, CheckPar -> True
+2015-10-05 13:30:18,835 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.149 started
+2015-10-05 13:30:18,835 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -0.500599758842669, CheckPar -> True
+2015-10-05 13:30:18,836 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.154 started
+2015-10-05 13:30:18,837 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -37.8314101686935, CheckPar -> True
+2015-10-05 13:30:18,838 - DEBUG:trset:full_energy_calc -> Full Energy for G2-148.156 started
+2015-10-05 13:30:18,839 - DEBUG:trset:full_energy_calc -> Check if needed: Energy -> -75.0406595470013, CheckPar -> True
+2015-10-05 13:30:18,854 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.146 started
+2015-10-05 13:30:18,855 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.149 started
+2015-10-05 13:30:18,855 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.154 started
+2015-10-05 13:30:18,855 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.156 started
+2015-10-05 13:30:18,855 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.129 started
+2015-10-05 13:30:18,855 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -0.500599758842669, CheckPar -> False
+2015-10-05 13:30:18,855 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -118.411617799563, CheckPar -> False
+2015-10-05 13:30:18,856 - DEBUG:computation:_run -> Should run ['/home/petragli/MyCodes/wb97xdDsC-optim/bin/minigamess.x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.149.wb97x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.149.ddsc', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/FUNC_PAR.dat', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/a0b0']
+2015-10-05 13:30:18,856 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -75.0406595470013, CheckPar -> False
+2015-10-05 13:30:18,856 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -37.8314101686935, CheckPar -> False
+2015-10-05 13:30:18,856 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -194.246661543961, CheckPar -> False
+2015-10-05 13:30:18,857 - DEBUG:computation:_run -> Should run ['/home/petragli/MyCodes/wb97xdDsC-optim/bin/minigamess.x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.146.wb97x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.146.ddsc', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/FUNC_PAR.dat', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/a0b0']
+2015-10-05 13:30:18,857 - DEBUG:computation:_run -> Should run ['/home/petragli/MyCodes/wb97xdDsC-optim/bin/minigamess.x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.156.wb97x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.156.ddsc', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/FUNC_PAR.dat', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/a0b0']
+2015-10-05 13:30:18,858 - DEBUG:computation:_run -> Should run ['/home/petragli/MyCodes/wb97xdDsC-optim/bin/minigamess.x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.129.wb97x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.129.ddsc', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/FUNC_PAR.dat', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/a0b0']
+2015-10-05 13:30:18,858 - DEBUG:computation:_run -> Should run ['/home/petragli/MyCodes/wb97xdDsC-optim/bin/minigamess.x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.154.wb97x', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/densities_repo/G2-148.154.ddsc', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/FUNC_PAR.dat', '/home/petragli/MyCodes/wb97xdDsC-optim/run_example/TMP_DATA/a0b0']
+2015-10-05 13:30:18,968 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.156 is    -4.611963
+2015-10-05 13:30:19,018 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.154 is    -2.800690
+2015-10-05 13:30:19,021 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.149 is    -0.221026
+2015-10-05 13:30:19,442 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.146 is    -8.607688
+2015-10-05 13:30:19,535 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.129 is   -12.605993
+2015-10-05 13:30:19,557 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.146 started
+2015-10-05 13:30:19,557 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -118.411617799563, CheckPar -> True
+2015-10-05 13:30:19,557 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.149 started
+2015-10-05 13:30:19,558 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -0.500599758842669, CheckPar -> True
+2015-10-05 13:30:19,558 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.154 started
+2015-10-05 13:30:19,558 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -37.8314101686935, CheckPar -> True
+2015-10-05 13:30:19,559 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.129 started
+2015-10-05 13:30:19,559 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -194.246661543961, CheckPar -> True
+2015-10-05 13:30:19,559 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.149 started
+2015-10-05 13:30:19,560 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -0.500599758842669, CheckPar -> True
+2015-10-05 13:30:19,560 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.154 started
+2015-10-05 13:30:19,561 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -37.8314101686935, CheckPar -> True
+2015-10-05 13:30:19,561 - DEBUG:trset:func_energy_calc -> Func Energy for G2-148.156 started
+2015-10-05 13:30:19,562 - DEBUG:trset:func_energy_calc -> Check if needed: Energy -> -75.0406595470013, CheckPar -> True

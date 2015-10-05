@@ -13,15 +13,18 @@ sys.path.append(os.path.join(home, 'wb97xddsc/wb97xdDsC-optim/src/master'))
 
 from config import Config, Presets
 from trset import TrainingSet, MolSet
-from params import Parameters
+from params import ParamsManager, Optim
 from computation import Run
 
 Presets().test()
 config = Config().config
 
+optim = Optim(['tta', 'cx_aa_0'])
+
+
 def main():
     init_logging()
-    prms = Parameters()
+    prms = ParamsManager()
 
     run = Run(run_name=config['run_name'],
               tset_path=config['training_set_path'])
@@ -38,20 +41,29 @@ def main():
                      cc_ab=[1.000000, 2.37031, -11.3995, 6.58405, -3.78132])
 
     print(prms._parameters)
-    prms.optim = ['tta', 'cx_aa_0']
     x0 = [13.3, 0.5]
-    print(prms.optim)
+    print(optim)
 
     sys.exit()
 
-    bnds=((None,None),(0,1),(None,None),(None,None),(None,None))
-    print(trset.optimizer(x0,'full','MAE'))
-#    print(minimize(trset.optimizer,x0_,args=('func','MAE'), method='L-BFGS-B', bounds=bnds, callback=printer, options={'disp': True,'gtol': 1e-2,'maxiter':1 }))
+    # bnds=((None,None),(0,1),(None,None),(None,None),(None,None))
+    print(compute_error(x0, 'full', 'MAE'))
+    #    print(minimize(trset.optimizer,x0_,args=('func','MAE'), method='L-BFGS-B', bounds=bnds, callback=printer, options={'disp': True,'gtol': 1e-2,'maxiter':1 }))
 
 
 def printer(xc):
     print('END of STEP')
     print(xc)
+
+
+def compute_error(params, kind, error_type):
+
+    optim.set_prms(params)
+
+    if error_type == 'MAE':
+        minim = TrainingSet().compute_MAE(kind)
+    return minim
+
 
 def init_logging():
     if os.path.isfile(config['logfile']):

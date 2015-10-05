@@ -77,7 +77,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-10-02"
+__updated__ = "2015-10-05"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -774,7 +774,6 @@ class Set(object):
         self.blacklist = []  # Will contains system object
         self.fulldftlist = []
         self._MAE = None
-        self.prms = params.Parameters()
 
     @property
     def MAE(self):
@@ -849,17 +848,6 @@ class Set(object):
                 listf.write('\n'.join(map(lambda x: x.name, list_to_save)))
             except AttributeError:
                 listf.write('\n'.join(list_to_save))
-
-    def optimizer(self, params, kind, error_type):
-        dict_ = {}
-        for i, p in enumerate(self.prms.optim):
-            dict_[p] = params[i]
-        self.prms.prms = dict_
-
-        if error_type == 'MAE':
-            minim = self.compute_MAE(kind)
-
-        return minim
 
 
 class DataSet(Set):

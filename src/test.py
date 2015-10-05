@@ -23,7 +23,7 @@ sys.path.append(os.path.join(root, 'src/master'))
 
 from config import Config, Presets
 from trset import TrainingSet, MolSet
-from params import Parameters
+from params import ParamsManager, Optim
 from computation import Run
 
 Presets().test()
@@ -31,7 +31,7 @@ config = Config().config
 
 
 def main():
-    prms = Parameters()
+    prms = ParamsManager()
 
     run = Run(run_name=config['run_name'],
               tset_path=config['training_set_path'])
@@ -47,14 +47,22 @@ def main():
                      cc_aa=[1.000000, -4.33879, 18.2308, -31.7430, 17.2901],
                      cc_ab=[1.000000, 2.37031, -11.3995, 6.58405, -3.78132])
 
-    print(prms._parameters)
-    prms.optim = ['tta', 'cx_aa_0']
+    print(prms.prms)
+    optim = Optim(['tta', 'cx_aa_0'])
     x0 = [13.3, 0.5]
-    print(prms.optim)
+    print(optim)
 
-    print(trset.optimizer(x0, 'full', 'MAE'))
-    print(trset.optimizer(x0, 'func', 'MAE'))
+    print(compute_error(trset, optim, x0, 'full', 'MAE'))
+    print(compute_error(trset, optim, x0, 'func', 'MAE'))
 
+
+def compute_error(trset, optim, params, kind, error_type):
+
+    optim.set_prms(params)
+
+    if error_type == 'MAE':
+        minim = trset.compute_MAE(kind)
+    return minim
 
 def init_logging():
     if os.path.isfile(config['logfile']):

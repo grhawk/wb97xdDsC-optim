@@ -66,7 +66,12 @@ class Params(object):
         long_ = self._long_prms.match(key)
 
         if not self._copy:
-            if key not in self._acceptable_keys or key == 'cxhf':
+            if key == 'cxhf':
+                msg = 'Warning: You are using cxhf instead of cx_aa_1.\n'\
+                    'IGNORE this message if settings default params'
+                lg.warning(msg)
+
+            if key not in self._acceptable_keys:
                 msg = '{} is not a valid parameters key!'.format(key)
                 lg.critical(msg)
                 raise(KeyError(msg))
@@ -208,14 +213,14 @@ class ParamsManager(object):
             __class__._saved_params = copy.deepcopy(__class__._actual_params)
 
         msg = ''
-        with open(config['wb97x_param_file'], 'w') as pf:
+        with open(config['wb97x_params_writing'], 'w') as pf:
             list_ = ['cxhf', 'cx_aa', 'omega', 'cc_aa', 'cc_ab']
             for k in list_:
                 for i, v in enumerate(__class__._actual_params[k]):
                     msg += str(k) + str(i) + '   ' + str(v) + '\n'
             pf.write(msg)
         msg = ''
-        with open(config['ddsc_param_file'], 'w') as pf2:
+        with open(config['ddsc_params_writing'], 'w') as pf2:
             list_ = ['tta', 'ttb']
             for k in list_:
                 for i, v in enumerate(__class__._actual_params[k]):
@@ -269,8 +274,8 @@ class Optim(object):
 
     _to_optimize = []
 
-    def __init__(self):
-        pass
+    def __init__(self, list_):
+        __class__._to_optimize = list_
 
     def __len__(self):
         return len(__class__._to_optimize)
@@ -285,6 +290,7 @@ class Optim(object):
         return __class__._to_optimize[key]
 
     def __setitem__(self, key, value):
+        raise(NotImplementedError)
 
         if not isinstance(key, int):
             msg = '{} is not an integer type'.format(key)
@@ -296,280 +302,16 @@ class Optim(object):
     def __str__(self):
         return __class__._to_optimize.__str__()
 
+    def set_prms(self, params):
+        dict_ = {}
+        if len(params) != len(self):
+            msg = 'Parameters number do not corresponds'
+            lg.critical(msg)
+            raise(RuntimeError(msg))
 
-
-class Parameters(object):
-
-    _parameters = dict(tta=[100],
-                       ttb=[101],
-                       cxhf=[102],
-                       omega=[103],
-                       cx_aa=[104, 105, 106, 107, 108],
-                       cc_aa=[109, 111, 112, 113, 114],
-                       cc_ab=[115, 116, 117, 118, 119])
-
-    _parameters_old = dict(tta=[100],
-                           ttb=[101],
-                           cxhf=[102],
-                           omega=[103],
-                           cx_aa=[104, 105, 106, 107, 108],
-                           cc_aa=[109, 111, 112, 113, 114],
-                           cc_ab=[115, 116, 117, 118, 119])
-
-    _to_optimize = []
-
-    def __init__(self):
-        self._sparameters = copy.deepcopy(__class__._parameters)
-        self.sprms = {'tta' : [1]}
-
-    def _constr(self):
-        cx = __class__._parameters['cxhf'][0]
-        cx0 = __class__._parameters['cx_aa'][0]
-        if sum_is_one(cx, cx0):
-            pass
-            # print('UEG, OK')
-        else:
-            lg.info('UEG adjusted to sum to 1.0')
-            __class__._parameters['cxhf'] = [1.0 - cx0]
-
-            if not sum_is_one(__class__._parameters['cxhf'][0], __class__._parameters['cx_aa'][0]):
-                msg = 'Hartree Exchange parameters out of boundary!'
-                lg.critical(msg)
-                raise(ValueError(msg))
-
-
-    @property
-    def optim(self):
-        return __class__._to_optimize
-
-    @optim.setter
-    def optim(self, list_):
-        # possible_parameters = list(__class__._parameters.keys())
-        # to_add = ['cx_aa', 'cc_aa', 'cc_ab']
-        # tmp = []
-        # for p in possible_parameters:
-        #     if p in to_add:
-        #         for i in range(0, 5):
-        #             tmp.append('{}_{:1d}'.format(p, int(i)))
-        # for p in to_add:
-        #     possible_parameters.remove(p)
-        # possible_parameters += tmp
-
-        # tmp = copy.deepcopy(__class__._parameters)
-
-        # for k, v in dict_.items():
-        #     if k not in possible_parameters:
-        #         msg = 'Parameter {} cannot be used!'.format(k)
-        #         lg.error(msg)
-        #         raise TypeError(msg)
-        #     __class__._to_optimize.append(k)
-
-        #     try:
-        #         if int(k[-1]) < 5 and int(k[-1]) > -1:
-        #             tmp[k[:-2]][int(k[-1])] = float(v)
-        #     except ValueError:
-        #         pass
-
-        #     tmp[k] = [float(v)]
-        __class__._to_optimize = list_
-
-        # self.prms = copy.deepcopy(tmp)
-
-    @optim.getter
-    def optim(self):
-        return __class__._to_optimize
-
-    @property
-    def prms(self):
-        return __class__._parameters
-
-    @prms.setter
-    def prms(self, kvd):
-        """Sets all the class parameters and write them on the right file.
-
-        Sets the parameters taking care of the constraints.
-
-        Args:
-            kvd (list or dict): can be a dictionary with parameters: value or a
-                list with all the parameters
-
-        """
-        __class__._parameters_old = copy.deepcopy(__class__._parameters)
-        self.general_setter(kvd, __class__._parameters)
-        # Decidere quali dei parametri "legati" vogliamo poter cambiare
-        # e cambiare l'altro di conseguenza. Se viene cambiato l'altro (ovvero
-        # il valore passato per l'altro parametro e' diverso da None) allora
-        # raise un warning. Poi settare i parametri in modo che siano sempre
-        # consistenti e scriverli nel giusto file con la giusta formattazione!
-        self._constr()
-        msg = ''
-        with open(config['wb97x_param_file'], 'w') as pf:
-            list_ = ['cxhf', 'cx_aa', 'omega', 'cc_aa', 'cc_ab']
-            for k in list_:
-                for i, v in enumerate(__class__._parameters[k]):
-                    msg += str(k) + str(i) + '   ' + str(v) + '\n'
-            pf.write(msg)
-        msg = ''
-        with open(config['ddsc_param_file'], 'w') as pf2:
-            list_ = ['tta', 'ttb']
-            for k in list_:
-                for i, v in enumerate(__class__._parameters[k]):
-                    msg += str(v) + '\n'
-            pf2.write(msg)
-
-
-    @prms.getter
-    def prms(self):
-        return self.convert2list(__class__._parameters)
-
-    @property
-    def prms_old(self):
-        return __class__._parameters_old
-
-    @prms_old.getter
-    def prms_old(self):
-        return self.convert2list(__class__._parameters_old)
-
-    @property
-    def sprms(self):
-        return self._sparameters
-
-    @sprms.setter
-    def sprms(self, kvd):
-        self.general_setter(kvd, self._sparameters)
-
-    @sprms.getter
-    def sprms(self):
-        return self.convert2list(self._sparameters)
-
-    def general_setter(self, kvd, prms):
-        if isinstance(kvd, list):
-            if len(kvd) != 19:
-                msg = 'The list must contains 19 elements!'
-                lg.critical(msg)
-                raise IndexError(msg)
-            self.convert2dict(kvd, prms)
-
-        if isinstance(kvd, dict):
-            expand_params = re.compile(r'\w{2}\_\w{2}\_\d')
-            expanded_selection = False
-            for k in kvd.keys():
-                if expand_params.match(k):
-                    expanded_selection = True
-                    break
-
-            if expanded_selection:
-                dict_ = kvd
-                possible_parameters = list(__class__._parameters.keys())
-                to_add = ['cx_aa', 'cc_aa', 'cc_ab']
-                tmp = []
-                for p in possible_parameters:
-                    if p in to_add:
-                        for i in range(0, 5):
-                            tmp.append('{}_{:1d}'.format(p, int(i)))
-                for p in to_add:
-                    possible_parameters.remove(p)
-                possible_parameters += tmp
-
-                tmp = copy.deepcopy(__class__._parameters)
-
-                for k, v in dict_.items():
-                    if k not in possible_parameters:
-                        msg = 'Parameter {} cannot be used!'.format(k)
-                        lg.error(msg)
-                        raise TypeError(msg)
-
-#                    __class__._to_optimize.append(k)
-
-                    try:
-                        if int(k[-1]) < 5 and int(k[-1]) > -1:
-                            tmp[k[:-2]][int(k[-1])] = float(v)
-                    except ValueError:
-                        tmp[k] = [float(v)]
-
-                __class__._parameters = copy.deepcopy(tmp)
-
-            else:
-                for k in kvd.keys():
-                    if k in prms.keys():
-                        if len(kvd[k]) == len(prms[k]):
-                            prms[k] = kvd[k]
-                        else:
-                            msg = 'The number of parameters specified does not\
-                            match the expected number'
-                            lg.error(msg)
-                    else:
-                        msg = 'The dict contains keys not present in the parameters\
-                        dict. Those will be ignored.'
-                        lg.error(msg)
-
-    def convert2dict(self, list_, to_dict):
-        keys = sorted(list(to_dict.keys()))
-        l = 0
-        for i, k in enumerate(keys):
-            i += l
-            if k[2] == '_':
-                to_dict[k] = list_[i:i + 5]
-                l += 4
-            else:
-                to_dict[k] = [list_[i]]
-
-    def convert2list(self, dict_):
-        list_ = []
-        for k, v in sorted(dict_.items()):
-            list_ += v
-        del(k)
-        return list_
-
-    def get(self):
-        """Return a dictionary with parameter: value.
-
-        """
-        pass
-
-    def check_prms(self):
-        return self._compare(__class__._parameters, self._sparameters)[0]
-
-    def check_old(self):
-        return self._compare(__class__._parameters, __class__._parameters_old)
-
-    def _compare(self, prm1, prm2):
-        """Check if the instantiated parameters are the same as the class one.
-
-        This method should be used to check if a new computation is actually
-        needed.
-
-        """
-        compare = True
-        parameters_differences = {}
-        for k, vh in prm1.items():
-            if k in prm2:
-                vs = prm2[k]
-                if len(vs) == len(vh):
-                    tmp = []
-                    for i, v in enumerate(vs):
-                        tmp.append(v - vh[i])
-                        if abs(v - vh[i]) > config['precision']:
-                            compare = False
-                    parameters_differences[k] = tmp
-                else:
-                    msg = 'Implementation error!'
-                    lg.critical(msg)
-                    raise RuntimeError(msg)
-            else:
-                    msg = 'Implementation error!'
-                    lg.critical(msg)
-                    raise RuntimeError(msg)
-        return (compare, parameters_differences)
-
-    def refresh(self):
-        """Copy the class parameter to the instantiated ones.
-
-        After calling refresh the validity test will be true.
-
-        Note: Consider to put this method at the end of the check_prms method
-        """
-        self._sparameters = copy.deepcopy(__class__._parameters)
+        for i, p in enumerate(__class__._to_optimize):
+            dict_[p] = params[i]
+        ParamsManager().prms = dict_
 
 
 if __name__ == '__main__':
@@ -578,8 +320,6 @@ if __name__ == '__main__':
     Config.set('precision', 1E-6)
     Config.set('wb97x_param_file', './unittest_param_wb97x')
     Config.set('ddsc_param_file', './unittest_param_ddsc')
-
-
 
     dict_100 = {'omega': [103],
                 'cx_aa': [104, 105, 106, 107, 108],
@@ -701,15 +441,18 @@ if __name__ == '__main__':
 
     print('Checking sprms property')
     prm_man_1 = ParamsManager()
-    params_100 = Params(100)
-    #assert prm_man_1.prms == params_100
-    prm_man_1.prms = {'ttb': 1}
-    assert prm_man_1.prms['ttb'] == [1.0]
+    params_0 = Params(0)
+    assert prm_man_1.sprms == params_0
+    prm_man_1.sprms = {'ttb': 1}
+    assert prm_man_1.sprms['ttb'] == [1.0]
     print('..Done\n')
 
     print('\n Checking Optim Class')
     print('Check creation\n')
-    Optim[1] = 'tta'
-    Optim[2] = 'ttb'
-    Optim = ['tta', 'ttb']
+    optim = Optim(['tta', 'ttb'])
+    assert optim._to_optimize == ['tta', 'ttb']
+    optim.set_prms([1, 2])
+    prm_man_1 = ParamsManager()
+    assert(prm_man_1._actual_params['tta'] == [1.0])
+    assert(prm_man_1._actual_params['ttb'] == [2.0])
     print('...Done')
