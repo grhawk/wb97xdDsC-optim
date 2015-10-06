@@ -17,6 +17,7 @@ from params import ParamsManager, Optim
 from computation import Run
 
 Presets().riccardo_lcmdlc2()
+Presets().riccardo_lcmd30()
 config = Config().config
 
 def main():

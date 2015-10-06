@@ -264,6 +264,36 @@ class Presets(object):
 
         self._insert_in_config(prst)
 
+    def riccardo_lcmd30(self):
+        home = Config.get('home')
+        root = join(home, 'wb97xddsc/wb97xdDsC-optim')  # shortening lines below
+        tmp_data = join(home, 'TMP_DATA')  # shortening lines below
+        ram = '/dev/shm/petragli'
+        prst = dict(root=root,
+                    training_set_file=join('trset-tree-example'),
+                    training_set_path=join(root, 'example/trset-tree-example/'),
+                    run_name=join('test1'),
+                    logfile=join(root, 'output_example/logging.log'),
+                    loglevel='DEBUG',
+                    processes=8,
+                    precision=1E-8,
+                    wb97x_params_file=join('FUNC_PAR.dat'),
+                    ddsc_params_file=join('a0b0'),
+                    wait_for_gamess_output=1,
+                    wait_to_recheck=3,
+                    maximum_times_to_recheck=10,
+                    temporary_densities_repo=tmp_data,
+                    densities_repo=join(ram, 'tmp_density_dir'),
+                    gamess_bin=join(home, 'wb97xddsc/gamess-all/gamess'),
+                    func_params_prefix=join(ram, 'TMP_DATA'),
+                    full_params_prefix=join(home, 'TMP_DATA'),
+                    sbatch_script_prefix=join(home, 'TMP_DATA'),
+                    command_full='ssh lcmdlc2 /usr/bin/sbatch',
+                    command_func=join(home, 'wb97xddsc/gamess-all/mini-gamess/STARTall.x'),
+                    )
+
+        self._insert_in_config(prst)
+
 
 def testing_Config():
     print('Testing the Config Class')
