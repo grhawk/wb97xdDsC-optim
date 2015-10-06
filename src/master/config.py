@@ -242,7 +242,7 @@ class Presets(object):
         prst = dict(root=root,
                     training_set_file=join('trset-tree-example'),
                     training_set_path=join(root, 'example/trset-tree-example/'),
-                    run_name=join(root, 'run_example/test'),
+                    run_name=join('test1'),
                     logfile=join(root, 'output_example/logging.log'),
                     loglevel='DEBUG',
                     processes=8,
@@ -257,9 +257,9 @@ class Presets(object):
                     func_params_prefix=tmp_data,
                     full_params_prefix=tmp_data,
                     sbatch_script_prefix=tmp_data,
-                    densities_repo=join(root, 'run_example/densities_repo'),
-                    command_full='ssh lcmdlc2 /usr/bin/sbatch',
-                    command_func=join(root, 'bin/minigamess.x'),
+                    densities_repo=join(home, 'tmp_density_dir'),
+                    command_full='/usr/bin/sbatch',
+                    command_func=join(home, 'wb97xddsc/gamess-all/mini-gamess/STARTall.x'),
                     )
 
         self._insert_in_config(prst)
