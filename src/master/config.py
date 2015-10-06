@@ -12,40 +12,8 @@ import os
 """Contains all the configurable variable (paths, precisions... etc.).
 
 This module contains a config class with all the variables that depends on the
-place where you are running. The class allows also to build preset of values so
-that all the program can be easily ported.
-
-Todo: Check if the all the variable related to the params file locations are
-    actually needed.
-"""
-
-"""Example.
-This module demonstrates documentation as specified by the `Google Python
-Style Guide`_. Docstrings may extend over multiple lines. Sections are created
-with a section header and a colon followed by a block of indented text.
-
-Example:
-  Examples can be given using either the ``Example`` or ``Examples``
-  sections. Sections support any reStructuredText formatting, including
-  literal blocks::
-
-      $ python example_google.py
-
-Section breaks are created by simply resuming unindented text. Section breaks
-are also implicitly created anytime a new section starts.
-
-Attributes:
-  module_level_variable (int): Module level variables may be documented in
-    either the ``Attributes`` section of the module docstring, or in an
-    inline docstring immediately following the variable.
-
-    Either form is acceptable, but the two should not be mixed. Choose
-    one convention to document module level variables and be consistent
-    with it.
-
-.. _Google Python Style Guide:
-   http://google-styleguide.googlecode.com/svn/trunk/pyguide.html
-
+machine where you are running. The Presets class allows to build preset of values so
+that all the program can be easily ported changing a simple line in the main file.
 """
 
 # Try determining the version from git:
