@@ -44,7 +44,7 @@ def main():
                         cc_ab=[1.000000, 2.37031, -11.3995, 6.58405, -3.78132])
 
  
-       prms.optim = ['tta', 'cx_aa_0','cx_aa_1','cx_aa_2','cx_aa_3','cc_aa_1','cc_aa_2','cc_aa_3','cc_ab_1','cc_ab_2','cc_ab_3','ttb']
+       prms.optim = ['tta', 'cx_aa_0','cx_aa_1','cx_aa_2','cx_aa_3','cc_aa_1','cc_aa_2','cc_aa_3','cc_ab_1','cc_ab_2','cc_ab_3']
        print(prms.optim)
 
        with open('/home/afabrizi/wb97xddsc/TMP_DATA/FUNC_PAR.dat','r') as f2:
@@ -61,7 +61,7 @@ def main():
                 f.write(str(s) + '\n')
           print(xc)
 
-       bnds=((None,None),(0,1),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None))
+       bnds=((None,None),(0,1),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None),(None,None))
        print(trset.optimizer(x0_,'full','MAE'))
 #TNC GOOD       print(minimize(trset.optimizer,x0_,args=('func','MAE'), method='TNC', bounds=bnds, callback=printer, options={'disp': True,'gtol': 1e-2, 'maxiter':10000}))
        i+=1
