@@ -1,15 +1,15 @@
 ----- GAMESS execution script 'rungms' -----
 This job is running on host lcmd44.cluster
-under operating system Linux at Wed Sep 30 13:00:20 CEST 2015
+under operating system Linux at Mon Oct 5 16:35:26 CEST 2015
 Available scratch disk space (Kbyte units) at beginning of the job is
 Filesystem      1K-blocks  Used  Available Use% Mounted on
-/dev/md1       1714180500 72516 1696691588   1% /scratch
-GAMESS temporary binary files will be written to /scratch/petragli/10165.slurm
-GAMESS supplementary output files will be written to /scratch/petragli/10165.slurm
+/dev/md1       1714180500 69992 1696694112   1% /scratch
+GAMESS temporary binary files will be written to /scratch/petragli/12425.slurm
+GAMESS supplementary output files will be written to /scratch/petragli/12425.slurm
 Copying input file G2-148.154.inp to your run's scratch directory...
-cp G2-148.154.inp /scratch/petragli/10165.slurm/G2-148.154.F05
+cp G2-148.154.inp /scratch/petragli/12425.slurm/G2-148.154.F05
 unset echo
-/home/petragli/wb97xddsc/gamess-all/gamess/ddikick.x /home/petragli/wb97xddsc/gamess-all/gamess/gamess.00.x G2-148.154 -ddi 1 1 lcmd44.cluster -scr /scratch/petragli/10165.slurm
+/home/petragli/wb97xddsc/gamess-all/gamess/ddikick.x /home/petragli/wb97xddsc/gamess-all/gamess/gamess.00.x G2-148.154 -ddi 1 1 lcmd44.cluster -scr /scratch/petragli/12425.slurm
 
  Distributed Data Interface kickoff program.
  Initiating 1 compute processes on 1 nodes to run the following command:
@@ -84,20 +84,20 @@ unset echo
      TOKYO INSTITUTE OF TECHNOLOGY: HIROYA NAKATA
      NAGOYA UNIVERSITY: YOSHIO NISHIMOTO, STEPHAN IRLE
 
- EXECUTION OF GAMESS BEGUN Wed Sep 30 13:00:21 2015
+ EXECUTION OF GAMESS BEGUN Mon Oct  5 16:35:26 2015
 
             ECHO OF THE FIRST FEW INPUT CARDS -
- INPUT CARD> $DFT NRAD=24 NLEB=110 DDSC=.t. $END                                            
- INPUT CARD> $BASIS GBASIS=N31 NGAUSS=6 $END                                                
- INPUT CARD> $CONTRL MAXIT=200 RUNTYP=ENERGY EXETYP=RUN SCFTYP=UHF DFTTYP=wB97X             
- INPUT CARD>ICHARG=0 MULT=3 $END                                                            
- INPUT CARD> $SCF DIRSCF=.t. $END                                                           
- INPUT CARD> $SYSTEM MWORDS=8 $END                                                          
  INPUT CARD> $DATA                                                                          
  INPUT CARD> Should be setted!                                                              
  INPUT CARD> C1                                                                             
  INPUT CARD> C     6.00     0.000000     0.000000     0.000000                              
  INPUT CARD> $END                                                                           
+ INPUT CARD> $DFT NRAD=24 NLEB=110 DDSC=.t. $END                                            
+ INPUT CARD> $SCF DIRSCF=.t. $END                                                           
+ INPUT CARD> $BASIS NGAUSS=6 GBASIS=N31 $END                                                
+ INPUT CARD> $CONTRL DFTTYP=wB97X ICHARG=0 EXETYP=RUN MULT=3 MAXIT=200 SCFTYP=UHF           
+ INPUT CARD>RUNTYP=ENERGY $END                                                              
+ INPUT CARD> $SYSTEM MWORDS=8 $END                                                          
     8000000 WORDS OF MEMORY AVAILABLE
 
      BASIS OPTIONS
@@ -174,7 +174,7 @@ unset echo
 
      LC/CAM PARAMETERS
      -----------------
-     ALPHAC =.15771  BETAC =.84229  CAMMU = 0.300  CAMVWN =  0.00  CAMLYP =  0.00
+     ALPHAC =.50000  BETAC =.50000  CAMMU = 0.300  CAMVWN =  0.00  CAMLYP =  0.00
 
  GRIMME'S EMPIRICAL DISPERSION CORRECTION= F
  TURNING ON dDsC DISPERSION CORRECTION
@@ -236,16 +236,16 @@ unset echo
  A   =    9
 
  ..... DONE SETTING UP THE RUN .....
- STEP CPU TIME =     0.01 TOTAL CPU TIME =        0.0 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.0 SECONDS, CPU UTILIZATION IS  50.00%
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.0 SECONDS, CPU UTILIZATION IS   0.00%
  Tang and Toennies damping function for C6
 
           ********************
           1 ELECTRON INTEGRALS
           ********************
  ...... END OF ONE-ELECTRON INTEGRALS ......
- STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  16.67%
+ STEP CPU TIME =     0.01 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.0 SECONDS, CPU UTILIZATION IS  20.00%
 
           -------------
           GUESS OPTIONS
@@ -269,7 +269,7 @@ unset echo
      9=A   
  ...... END OF INITIAL ORBITAL SELECTION ......
  STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  14.29%
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  16.67%
 
           ***************************************
           *       dDsC density dependent        *
@@ -300,7 +300,7 @@ unset echo
  A   =    9
  ...... END OF ONE-ELECTRON INTEGRALS ......
  STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  14.29%
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  16.67%
 
           -------------
           GUESS OPTIONS
@@ -324,7 +324,7 @@ unset echo
      9=A   
  ...... END OF INITIAL ORBITAL SELECTION ......
  STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  14.29%
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  16.67%
 
                     ----------------------
                     AO INTEGRAL TECHNOLOGY
@@ -340,10 +340,10 @@ unset echo
         MICHEL DUPUIS (PACIFIC NORTHWEST NATIONAL LABORATORY).
   ...... END OF TWO-ELECTRON INTEGRALS .....
  STEP CPU TIME =     0.01 TOTAL CPU TIME =        0.0 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  25.00%
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  28.57%
   ...... END OF TWO-ELECTRON INTEGRALS .....
  STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  25.00%
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  28.57%
 
           ---------------------------
               U-WB97X SCF CALCULATION
@@ -386,30 +386,31 @@ unset echo
    2  1      -37.6777870129    -0.0336350084   0.009335336   0.000000000            213          0
    3  2      -37.6778282687    -0.0000412557   0.004074414   0.000000000            213          0
  CONVERGED TO SWOFF, SO DFT CALCULATION IS NOW SWITCHED ON.
-   4  3      -37.8308592524    -0.1530309837   0.028690436   0.000000000            213          0
-   5  4      -37.8313802498    -0.0005209975   0.008818581   0.000000000            213          0
-   6  5      -37.8314072214    -0.0000269716   0.002901957   0.000000000            213          0
-   7  6      -37.8314098707    -0.0000026493   0.000918300   0.000000000            213          0
-   8  7      -37.8314101383    -0.0000002675   0.000294565   0.000000000            213          0
-   9  8      -37.8314101656    -0.0000000273   0.000094068   0.000000000            213          0
-  10  9      -37.8314101684    -0.0000000028   0.000030110   0.000000000            213          0
-  11 10      -37.8314101687    -0.0000000003   0.000009635   0.000000000            213          0
-  12 11      -37.8314101687    -0.0000000000   0.000003085   0.000000000            213          0
+   4  3      -38.0028692095    -0.3250409408   0.024919474   0.000000000            213          0
+   5  4      -38.0031539240    -0.0002847145   0.009791111   0.000000000            213          0
+   6  5      -38.0031871826    -0.0000332587   0.003523704   0.000000000            213          0
+   7  6      -38.0031915008    -0.0000043182   0.001272539   0.000000000            213          0
+   8  7      -38.0031920625    -0.0000005617   0.000458720   0.000000000            213          0
+   9  8      -38.0031921356    -0.0000000732   0.000165345   0.000000000            213          0
+  10  9      -38.0031921452    -0.0000000096   0.000059597   0.000000000            213          0
+  11 10      -38.0031921465    -0.0000000013   0.000021482   0.000000000            213          0
+  12 11      -38.0031921466    -0.0000000002   0.000007744   0.000000000            213          0
+  13 12      -38.0031921467    -0.0000000000   0.000002791   0.000000000            213          0
 
           -----------------
           DENSITY CONVERGED
           -----------------
-     TIME TO FORM FOCK OPERATORS=       1.5 SECONDS (       0.1 SEC/ITER)
-     FOCK TIME ON FIRST ITERATION=       0.0, LAST ITERATION=       0.2
+     TIME TO FORM FOCK OPERATORS=       1.3 SECONDS (       0.1 SEC/ITER)
+     FOCK TIME ON FIRST ITERATION=       0.0, LAST ITERATION=       0.1
      TIME TO SOLVE SCF EQUATIONS=       0.0 SECONDS (       0.0 SEC/ITER)
 
- FINAL U-WB97X ENERGY IS      -37.8314101687 AFTER  12 ITERATIONS
- DFT EXCHANGE + CORRELATION ENERGY =        -3.6426099231
- TOTAL ELECTRON NUMBER             =         6.0002039740
+ FINAL U-WB97X ENERGY IS      -38.0031921467 AFTER  13 ITERATIONS
+ DFT EXCHANGE + CORRELATION ENERGY =        -2.4004598371
+ TOTAL ELECTRON NUMBER             =         6.0002033340
 
           --------------------
           SPIN SZ   =    1.000
-          S-SQUARED =    2.003
+          S-SQUARED =    2.004
           --------------------
 
  LZ VALUE ANALYSIS FOR THE MOS
@@ -432,12 +433,12 @@ unset echo
  MO     4 (    4) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
  MO     5 (    4) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
  MO     6 (    5) HAS LZ(WEIGHT)= 0.00(100.0%) 
- MO     7 (    6) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
- MO     8 (    6) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
- MO     9 (    7) HAS LZ(WEIGHT)= 0.00(100.0%) 
+ MO     7 (    6) HAS LZ(WEIGHT)= 0.00(100.0%) 
+ MO     8 (    7) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
+ MO     9 (    7) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
  ...... END OF UHF CALCULATION ......
- STEP CPU TIME =     1.50 TOTAL CPU TIME =        1.5 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        1.6 SECONDS, CPU UTILIZATION IS  92.68%
+ STEP CPU TIME =     1.33 TOTAL CPU TIME =        1.4 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        1.4 SECONDS, CPU UTILIZATION IS  95.07%
 
      ------------------------------------------
      THE POINT GROUP IS C1 , NAXIS= 0, ORDER= 1
@@ -445,8 +446,8 @@ unset echo
 
      DIMENSIONS OF THE SYMMETRY SUBSPACES ARE
  A   =    9
- STEP CPU TIME =     0.00 TOTAL CPU TIME =        1.5 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        1.7 SECONDS, CPU UTILIZATION IS  91.02%
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        1.4 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        1.4 SECONDS, CPU UTILIZATION IS  93.10%
 
                        **********************
                        END OF SAD PREPARATION
@@ -457,8 +458,8 @@ unset echo
           1 ELECTRON INTEGRALS
           ********************
  ...... END OF ONE-ELECTRON INTEGRALS ......
- STEP CPU TIME =     0.00 TOTAL CPU TIME =        1.5 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        1.7 SECONDS, CPU UTILIZATION IS  91.02%
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        1.4 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        1.4 SECONDS, CPU UTILIZATION IS  93.10%
 
           -------------
           GUESS OPTIONS
@@ -481,8 +482,8 @@ unset echo
      2=A        3=A        4=A        5=A        6=A        7=A        8=A   
      9=A   
  ...... END OF INITIAL ORBITAL SELECTION ......
- STEP CPU TIME =     0.01 TOTAL CPU TIME =        1.5 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        1.7 SECONDS, CPU UTILIZATION IS  91.62%
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        1.4 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        1.5 SECONDS, CPU UTILIZATION IS  92.47%
 
           --------------------------------
           2 ELECTRON LC EXCHANGE INTEGRALS
@@ -491,8 +492,8 @@ unset echo
  DIRECT SCF METHOD SKIPS INTEGRAL STORAGE ON DISK.
  DIRECT TRANSFORMATION SKIPS AO INTEGRAL STORAGE ON DISK.
   ...... END OF TWO-ELECTRON INTEGRALS .....
- STEP CPU TIME =     0.00 TOTAL CPU TIME =        1.5 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        1.7 SECONDS, CPU UTILIZATION IS  91.62%
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        1.4 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        1.5 SECONDS, CPU UTILIZATION IS  92.47%
 
           --------------------
           2 ELECTRON INTEGRALS
@@ -501,8 +502,8 @@ unset echo
  DIRECT SCF METHOD SKIPS INTEGRAL STORAGE ON DISK.
  DIRECT TRANSFORMATION SKIPS AO INTEGRAL STORAGE ON DISK.
   ...... END OF TWO-ELECTRON INTEGRALS .....
- STEP CPU TIME =     0.00 TOTAL CPU TIME =        1.5 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        1.7 SECONDS, CPU UTILIZATION IS  91.62%
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        1.4 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        1.5 SECONDS, CPU UTILIZATION IS  92.47%
 
           ---------------------------
               U-WB97X SCF CALCULATION
@@ -526,30 +527,31 @@ unset echo
    2  1      -37.6777870129    -0.0336350084   0.009335336   0.000000000            213          0
    3  2      -37.6778282687    -0.0000412557   0.004074414   0.000000000            213          0
  CONVERGED TO SWOFF, SO DFT CALCULATION IS NOW SWITCHED ON.
-   4  3      -37.8308592524    -0.1530309837   0.028690436   0.000000000            213          0
-   5  4      -37.8313802498    -0.0005209975   0.008818581   0.000000000            213          0
-   6  5      -37.8314072214    -0.0000269716   0.002901957   0.000000000            213          0
-   7  6      -37.8314098707    -0.0000026493   0.000918300   0.000000000            213          0
-   8  7      -37.8314101383    -0.0000002675   0.000294565   0.000000000            213          0
-   9  8      -37.8314101656    -0.0000000273   0.000094068   0.000000000            213          0
-  10  9      -37.8314101684    -0.0000000028   0.000030110   0.000000000            213          0
-  11 10      -37.8314101687    -0.0000000003   0.000009635   0.000000000            213          0
-  12 11      -37.8314101687    -0.0000000000   0.000003085   0.000000000            213          0
+   4  3      -38.0028692095    -0.3250409408   0.024919474   0.000000000            213          0
+   5  4      -38.0031539240    -0.0002847145   0.009791111   0.000000000            213          0
+   6  5      -38.0031871826    -0.0000332587   0.003523704   0.000000000            213          0
+   7  6      -38.0031915008    -0.0000043182   0.001272539   0.000000000            213          0
+   8  7      -38.0031920625    -0.0000005617   0.000458720   0.000000000            213          0
+   9  8      -38.0031921356    -0.0000000732   0.000165345   0.000000000            213          0
+  10  9      -38.0031921452    -0.0000000096   0.000059597   0.000000000            213          0
+  11 10      -38.0031921465    -0.0000000013   0.000021482   0.000000000            213          0
+  12 11      -38.0031921466    -0.0000000002   0.000007744   0.000000000            213          0
+  13 12      -38.0031921467    -0.0000000000   0.000002791   0.000000000            213          0
 
           -----------------
           DENSITY CONVERGED
           -----------------
-     TIME TO FORM FOCK OPERATORS=       1.5 SECONDS (       0.1 SEC/ITER)
-     FOCK TIME ON FIRST ITERATION=       0.0, LAST ITERATION=       0.2
+     TIME TO FORM FOCK OPERATORS=       1.3 SECONDS (       0.1 SEC/ITER)
+     FOCK TIME ON FIRST ITERATION=       0.0, LAST ITERATION=       0.1
      TIME TO SOLVE SCF EQUATIONS=       0.0 SECONDS (       0.0 SEC/ITER)
 
- FINAL U-WB97X ENERGY IS      -37.8314101687 AFTER  12 ITERATIONS
- DFT EXCHANGE + CORRELATION ENERGY =        -3.6426099231
- TOTAL ELECTRON NUMBER             =         6.0002039740
+ FINAL U-WB97X ENERGY IS      -38.0031921467 AFTER  13 ITERATIONS
+ DFT EXCHANGE + CORRELATION ENERGY =        -2.4004598371
+ TOTAL ELECTRON NUMBER             =         6.0002033340
 
           --------------------
           SPIN SZ   =    1.000
-          S-SQUARED =    2.003
+          S-SQUARED =    2.004
           --------------------
 
  LZ VALUE ANALYSIS FOR THE MOS
@@ -571,30 +573,30 @@ unset echo
           ------------
 
                       1          2          3          4          5
-                  -10.3858    -0.6986    -0.3588    -0.3588    -0.0345
+                  -10.8398    -0.7599    -0.3954    -0.3954    -0.0023
                      A          A          A          A          A   
-    1  C  1  S    0.995075  -0.233242   0.000000   0.000000   0.000000
-    2  C  1  S    0.029374   0.496557   0.000000   0.000000   0.000000
-    3  C  1  X    0.000000   0.000000   0.000000   0.663910   0.000000
-    4  C  1  Y    0.000000   0.000000   0.663910   0.000000   0.000000
-    5  C  1  Z    0.000000   0.000000   0.000000   0.000000   0.591299
-    6  C  1  S   -0.009492   0.577524   0.000000   0.000000   0.000000
-    7  C  1  X    0.000000   0.000000   0.000000   0.459773   0.000000
-    8  C  1  Y    0.000000   0.000000   0.459773   0.000000   0.000000
-    9  C  1  Z    0.000000   0.000000   0.000000   0.000000   0.537098
+    1  C  1  S    0.995855  -0.231213   0.000000   0.000000   0.000000
+    2  C  1  S    0.023961   0.507775   0.000000   0.000000   0.000000
+    3  C  1  X    0.000000   0.000000  -0.000000   0.665690   0.000000
+    4  C  1  Y    0.000000   0.000000   0.665690   0.000000   0.000000
+    5  C  1  Z    0.000000   0.000000   0.000000   0.000000   0.543397
+    6  C  1  S   -0.006906   0.566597   0.000000   0.000000   0.000000
+    7  C  1  X    0.000000   0.000000  -0.000000   0.457804   0.000000
+    8  C  1  Y    0.000000   0.000000   0.457804   0.000000   0.000000
+    9  C  1  Z    0.000000   0.000000   0.000000   0.000000   0.585145
 
                       6          7          8          9
-                    0.6293     0.6293     0.6514     0.6903
+                    0.6602     0.6602     0.7062     0.7150
                      A          A          A          A   
-    1  C  1  S    0.000000   0.000000   0.000000  -0.077193
-    2  C  1  S    0.000000   0.000000   0.000000   1.653968
-    3  C  1  X    0.000000  -1.019741   0.000000   0.000000
-    4  C  1  Y   -1.019741   0.000000   0.000000   0.000000
-    5  C  1  Z    0.000000   0.000000  -1.063491   0.000000
-    6  C  1  S    0.000000   0.000000   0.000000  -1.614336
-    7  C  1  X    0.000000   1.126613   0.000000   0.000000
-    8  C  1  Y    1.126613   0.000000   0.000000   0.000000
-    9  C  1  Z    0.000000   0.000000   1.091867   0.000000
+    1  C  1  S    0.000000   0.000000   0.000000  -0.073136
+    2  C  1  S    0.000000   0.000000   0.000000   1.650646
+    3  C  1  X   -0.000000  -1.018580   0.000000   0.000000
+    4  C  1  Y   -1.018579   0.000000   0.000000   0.000000
+    5  C  1  Z    0.000000   0.000000   1.088746   0.000000
+    6  C  1  S    0.000000   0.000000   0.000000  -1.618217
+    7  C  1  X    0.000000   1.127414   0.000000   0.000000
+    8  C  1  Y    1.127414  -0.000000   0.000000   0.000000
+    9  C  1  Z    0.000000   0.000000  -1.066889   0.000000
 
  LZ VALUE ANALYSIS FOR THE MOS
  ----------------------------------------
@@ -604,9 +606,9 @@ unset echo
  MO     4 (    4) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
  MO     5 (    4) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
  MO     6 (    5) HAS LZ(WEIGHT)= 0.00(100.0%) 
- MO     7 (    6) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
- MO     8 (    6) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
- MO     9 (    7) HAS LZ(WEIGHT)= 0.00(100.0%) 
+ MO     7 (    6) HAS LZ(WEIGHT)= 0.00(100.0%) 
+ MO     8 (    7) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
+ MO     9 (    7) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
 
   ----- BETA SET ----- 
 
@@ -615,51 +617,51 @@ unset echo
           ------------
 
                       1          2          3          4          5
-                  -10.3675    -0.5641     0.0116     0.0488     0.0488
+                  -10.8184    -0.5887     0.0362     0.0716     0.0716
                      A          A          A          A          A   
-    1  C  1  S    0.995984  -0.225610   0.000000   0.000000   0.000000
-    2  C  1  S    0.024104   0.405218   0.000000   0.000000   0.000000
-    3  C  1  X    0.000000   0.000000   0.000000   0.480216  -0.000000
-    4  C  1  Y    0.000000   0.000000   0.000000   0.000000   0.480216
-    5  C  1  Z    0.000000   0.000000   0.516265   0.000000   0.000000
-    6  C  1  S   -0.007736   0.665131   0.000000   0.000000   0.000000
-    7  C  1  X    0.000000   0.000000   0.000000   0.645227  -0.000000
-    8  C  1  Y    0.000000   0.000000   0.000000   0.000000   0.645227
-    9  C  1  Z    0.000000   0.000000   0.611389   0.000000   0.000000
+    1  C  1  S    0.996941  -0.222601   0.000000   0.000000   0.000000
+    2  C  1  S    0.018014   0.408362   0.000000   0.000000   0.000000
+    3  C  1  X    0.000000   0.000000   0.000000   0.436630   0.000000
+    4  C  1  Y    0.000000   0.000000   0.000000  -0.000000   0.436630
+    5  C  1  Z    0.000000   0.000000   0.473088   0.000000   0.000000
+    6  C  1  S   -0.005327   0.662212   0.000000   0.000000   0.000000
+    7  C  1  X    0.000000   0.000000   0.000000   0.684631   0.000000
+    8  C  1  Y    0.000000   0.000000   0.000000  -0.000000   0.684632
+    9  C  1  Z    0.000000   0.000000   0.651782   0.000000   0.000000
 
                       6          7          8          9
-                    0.6915     0.7120     0.7120     0.7360
+                    0.7415     0.7570     0.7637     0.7637
                      A          A          A          A   
-    1  C  1  S    0.000000   0.000000   0.000000  -0.087474
-    2  C  1  S    0.000000   0.000000   0.000000   1.678767
-    3  C  1  X    0.000000   1.118052  -0.000000   0.000000
-    4  C  1  Y    0.000000   0.000000   1.118052   0.000000
-    5  C  1  Z    1.101870   0.000000   0.000000   0.000000
-    6  C  1  S    0.000000   0.000000   0.000000  -1.580268
-    7  C  1  X    0.000000  -1.031664   0.000000   0.000000
-    8  C  1  Y    0.000000  -0.000000  -1.031664   0.000000
-    9  C  1  Z   -1.052070   0.000000   0.000000   0.000000
+    1  C  1  S    0.000000  -0.084216   0.000000   0.000000
+    2  C  1  S    0.000000   1.678082   0.000000   0.000000
+    3  C  1  X    0.000000   0.000000   1.135783   0.000000
+    4  C  1  Y    0.000000   0.000000  -0.000000   1.135783
+    5  C  1  Z    1.121087   0.000000   0.000000   0.000000
+    6  C  1  S    0.000000  -1.581503   0.000000   0.000000
+    7  C  1  X    0.000000   0.000000  -1.005946  -0.000000
+    8  C  1  Y    0.000000   0.000000   0.000000  -1.005946
+    9  C  1  Z   -1.027535   0.000000   0.000000   0.000000
  ...... END OF UHF CALCULATION ......
- STEP CPU TIME =     1.47 TOTAL CPU TIME =        3.0 (    0.1 MIN)
- TOTAL WALL CLOCK TIME=        3.2 SECONDS, CPU UTILIZATION IS  94.04%
+ STEP CPU TIME =     1.34 TOTAL CPU TIME =        2.7 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        2.8 SECONDS, CPU UTILIZATION IS  95.73%
 DAMPING PARAMETER ATT0:    13.30 AND BTT0     1.53
  Atom Pop(HCD) VOL(HCD) VOL_Free(HCD)
-  1   6.00020  22.53664  22.53664
- Accuracy check: SUM of electrons   6.00020408915703     
+  1   6.00020  22.41251  22.41251
+ Accuracy check: SUM of electrons   6.00020344907612     
  Hirshfeld overlap populations
    A   B   OVL(A,B)
    1   1   6.00020
             I   J         C6ij          C8ij           C10ij         BTT        
      EDISPTT/(kcal/mol)
  Final Energy       0.0000000 Hartree     0.0000 kcal/mol
- STEP CPU TIME =     0.00 TOTAL CPU TIME =        3.0 (    0.1 MIN)
- TOTAL WALL CLOCK TIME=        3.2 SECONDS, CPU UTILIZATION IS  92.59%
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        2.7 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        2.8 SECONDS, CPU UTILIZATION IS  94.39%
 
                     *****************************
                     END OF dDsC DISPERSION ENERGY
                     *****************************
 
- FINAL ENERGY INCLUDING dDsC DISPERSION:  -37.8314101686935     
+ FINAL ENERGY INCLUDING dDsC DISPERSION:  -38.0031921466640     
 
      ---------------------------------------------------------------------
      PROPERTIES FOR THE WB97X    DFT FUNCTIONAL (UHF  TYPE) DENSITY MATRIX
@@ -671,19 +673,19 @@ DAMPING PARAMETER ATT0:    13.30 AND BTT0     1.53
 
          WAVEFUNCTION NORMALIZATION =       1.0000000000
 
-                ONE ELECTRON ENERGY =     -50.4782899467
-                TWO ELECTRON ENERGY =      12.6468797780
+                ONE ELECTRON ENERGY =     -50.5054302343
+                TWO ELECTRON ENERGY =      12.5022380876
            NUCLEAR REPULSION ENERGY =       0.0000000000
                                       ------------------
-                       TOTAL ENERGY =     -37.8314101687
+                       TOTAL ENERGY =     -38.0031921467
 
- ELECTRON-ELECTRON POTENTIAL ENERGY =      12.6468797780
-  NUCLEUS-ELECTRON POTENTIAL ENERGY =     -88.1210980845
+ ELECTRON-ELECTRON POTENTIAL ENERGY =      12.5022380876
+  NUCLEUS-ELECTRON POTENTIAL ENERGY =     -88.2178803781
    NUCLEUS-NUCLEUS POTENTIAL ENERGY =       0.0000000000
                                       ------------------
-             TOTAL POTENTIAL ENERGY =     -75.4742183065
-               TOTAL KINETIC ENERGY =      37.6428081378
-                 VIRIAL RATIO (V/T) =       2.0050103072
+             TOTAL POTENTIAL ENERGY =     -75.7156422904
+               TOTAL KINETIC ENERGY =      37.7124501438
+                 VIRIAL RATIO (V/T) =       2.0077094435
 
           ---------------------------------------
           MULLIKEN AND LOWDIN POPULATION ANALYSES
@@ -716,14 +718,14 @@ DAMPING PARAMETER ATT0:    13.30 AND BTT0     1.53
 
                ----- POPULATIONS IN EACH AO -----
                              MULLIKEN      LOWDIN
-              1  C  1  S      1.99809     1.99744
-              2  C  1  S      0.82997     0.89632
-              3  C  1  X      0.61469     0.59426
-              4  C  1  Y      0.61469     0.59426
+              1  C  1  S      1.99861     1.99788
+              2  C  1  S      0.84216     0.90383
+              3  C  1  X      0.61678     0.59597
+              4  C  1  Y      0.61678     0.59597
               5  C  1  Z      0.00000     0.00000
-              6  C  1  S      1.17194     1.10623
-              7  C  1  X      0.38531     0.40574
-              8  C  1  Y      0.38531     0.40574
+              6  C  1  S      1.15923     1.09829
+              7  C  1  X      0.38322     0.40403
+              8  C  1  Y      0.38322     0.40403
               9  C  1  Z      0.00000     0.00000
 
           ----- MULLIKEN ATOMIC OVERLAP POPULATIONS -----
@@ -735,7 +737,7 @@ DAMPING PARAMETER ATT0:    13.30 AND BTT0     1.53
 
           TOTAL MULLIKEN AND LOWDIN ATOMIC POPULATIONS
        ATOM         MULL.POP.    CHARGE          LOW.POP.     CHARGE
-    1 C             6.000000    0.000000         6.000000    0.000000
+    1 C             6.000000   -0.000000         6.000000    0.000000
 
           -------------------------------
           BOND ORDER AND VALENCE ANALYSIS     BOND ORDER THRESHOLD=0.050
@@ -746,45 +748,45 @@ DAMPING PARAMETER ATT0:    13.30 AND BTT0     1.53
 
                        TOTAL       BONDED        FREE
       ATOM            VALENCE     VALENCE     VALENCE
-    1 C                 2.006       0.000       2.006
+    1 C                 2.007       0.000       2.007
 
           -----------------------------------------
           ATOMIC SPIN DENSITY AT THE NUCLEUS (A.U.)
           -----------------------------------------
                             SPIN DENS    ALPHA DENS     BETA DENS
-    1  C            6.0     0.1519841      59.84417      59.69219
+    1  C            6.0     0.1595588      59.90383      59.74427
 
           ---------------------
           ELECTROSTATIC MOMENTS
           ---------------------
 
  POINT   1           X           Y           Z (BOHR)    CHARGE
-                 0.000000    0.000000    0.000000        0.00 (A.U.)
+                 0.000000    0.000000    0.000000       -0.00 (A.U.)
          DX          DY          DZ         /D/  (DEBYE)
      0.000000    0.000000    0.000000    0.000000
  ...... END OF PROPERTY EVALUATION ......
- STEP CPU TIME =     0.00 TOTAL CPU TIME =        3.0 (    0.1 MIN)
- TOTAL WALL CLOCK TIME=        3.2 SECONDS, CPU UTILIZATION IS  92.59%
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        2.7 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        2.8 SECONDS, CPU UTILIZATION IS  94.39%
  Deallocating dDsC arrays
                 580000  WORDS OF DYNAMIC MEMORY USED
- EXECUTION OF GAMESS TERMINATED NORMALLY Wed Sep 30 13:00:24 2015
+ EXECUTION OF GAMESS TERMINATED NORMALLY Mon Oct  5 16:35:29 2015
  DDI: 263640 bytes (0.3 MB / 0 MWords) used by master data server.
 
  ----------------------------------------
  CPU timing information for all processes
  ========================================
- 0: 1.457 + 1.559 = 3.17
+ 0: 1.718 + 0.986 = 2.705
  ----------------------------------------
  ddikick.x: exited gracefully.
 unset echo
 ----- accounting info -----
 Files used on the master node lcmd44.cluster were:
--rw-r--r-- 1 petragli lcmd    6140 Sep 30 13:00 /scratch/petragli/10165.slurm/G2-148.154.dat
--rw-r--r-- 1 petragli lcmd     291 Sep 30 13:00 /scratch/petragli/10165.slurm/G2-148.154.F05
--rw-r--r-- 1 petragli lcmd 2126800 Sep 30 13:00 /scratch/petragli/10165.slurm/G2-148.154.F10
--rw-r--r-- 1 petragli lcmd     291 Sep 30 13:00 /scratch/petragli/10165.slurm/G2-148.154.inp
+-rw-r--r-- 1 petragli lcmd    6140 Oct  5 16:35 /scratch/petragli/12425.slurm/G2-148.154.dat
+-rw-r--r-- 1 petragli lcmd     291 Oct  5 16:35 /scratch/petragli/12425.slurm/G2-148.154.F05
+-rw-r--r-- 1 petragli lcmd 2126800 Oct  5 16:35 /scratch/petragli/12425.slurm/G2-148.154.F10
+-rw-r--r-- 1 petragli lcmd     291 Oct  5 16:35 /scratch/petragli/12425.slurm/G2-148.154.inp
 ls: No match.
 ls: No match.
 ls: No match.
-Wed Sep 30 13:00:27 CEST 2015
-0.110u 0.014s 0:06.45 1.8%	0+0k 8+176io 0pf+0w
+Mon Oct  5 16:35:32 CEST 2015
+0.091u 0.023s 0:06.06 1.8%	0+0k 8+176io 0pf+0w

@@ -198,7 +198,8 @@ class Run(object):
         txt += '#SBATCH --nodes=1\n'
         txt += '#SBATCH --ntasks-per-node=1\n'
         txt += '#SBATCH --partition=debug\n'
-        txt += 'module load intel/14.0.2\n'
+        txt += '\n'
+#        txt += 'module load intel/14.0.2\n'
         txt += 'export EXTBAS=/dev/null\n'
         txt += 'echo $PWD\n'
         txt += 'WORKINGDIR=$PWD\n'
@@ -220,7 +221,7 @@ class Run(object):
         txt += 'cp -r $SLURM_TMPDIR/dDsC_PAR {dDSC_DEST}\n'.\
             format(dDSC_DEST=os.path.join(config['temporary_densities_repo'],
                                           self.molID + '.ddsc'))
-        txt += 'cp -ar $SLURM_TMPDIR $WORKINGDIR\n'
+#        txt += 'cp -ar $SLURM_TMPDIR $WORKINGDIR\n'
         txt += 'exit\n'
 
         with open(self._sbatch_file, 'w') as f:

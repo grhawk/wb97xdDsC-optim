@@ -1,15 +1,15 @@
 ----- GAMESS execution script 'rungms' -----
 This job is running on host lcmd44.cluster
-under operating system Linux at Wed Sep 30 13:00:20 CEST 2015
+under operating system Linux at Mon Oct 5 16:35:29 CEST 2015
 Available scratch disk space (Kbyte units) at beginning of the job is
 Filesystem      1K-blocks  Used  Available Use% Mounted on
-/dev/md1       1714180500 72616 1696691488   1% /scratch
-GAMESS temporary binary files will be written to /scratch/petragli/10167.slurm
-GAMESS supplementary output files will be written to /scratch/petragli/10167.slurm
+/dev/md1       1714180500 72536 1696691568   1% /scratch
+GAMESS temporary binary files will be written to /scratch/petragli/12428.slurm
+GAMESS supplementary output files will be written to /scratch/petragli/12428.slurm
 Copying input file G2-148.149.inp to your run's scratch directory...
-cp G2-148.149.inp /scratch/petragli/10167.slurm/G2-148.149.F05
+cp G2-148.149.inp /scratch/petragli/12428.slurm/G2-148.149.F05
 unset echo
-/home/petragli/wb97xddsc/gamess-all/gamess/ddikick.x /home/petragli/wb97xddsc/gamess-all/gamess/gamess.00.x G2-148.149 -ddi 1 1 lcmd44.cluster -scr /scratch/petragli/10167.slurm
+/home/petragli/wb97xddsc/gamess-all/gamess/ddikick.x /home/petragli/wb97xddsc/gamess-all/gamess/gamess.00.x G2-148.149 -ddi 1 1 lcmd44.cluster -scr /scratch/petragli/12428.slurm
 
  Distributed Data Interface kickoff program.
  Initiating 1 compute processes on 1 nodes to run the following command:
@@ -84,20 +84,20 @@ unset echo
      TOKYO INSTITUTE OF TECHNOLOGY: HIROYA NAKATA
      NAGOYA UNIVERSITY: YOSHIO NISHIMOTO, STEPHAN IRLE
 
- EXECUTION OF GAMESS BEGUN Wed Sep 30 13:00:21 2015
+ EXECUTION OF GAMESS BEGUN Mon Oct  5 16:35:29 2015
 
             ECHO OF THE FIRST FEW INPUT CARDS -
- INPUT CARD> $DFT NRAD=24 NLEB=110 DDSC=.t. $END                                            
- INPUT CARD> $BASIS GBASIS=N31 NGAUSS=6 $END                                                
- INPUT CARD> $CONTRL MAXIT=200 RUNTYP=ENERGY EXETYP=RUN SCFTYP=UHF DFTTYP=B97               
- INPUT CARD>ICHARG=0 MULT=2 $END                                                            
- INPUT CARD> $SCF DIRSCF=.t. $END                                                           
- INPUT CARD> $SYSTEM MWORDS=8 $END                                                          
  INPUT CARD> $DATA                                                                          
  INPUT CARD> Should be setted!                                                              
  INPUT CARD> C1                                                                             
  INPUT CARD> H     1.00     0.000000     0.000000     0.000000                              
  INPUT CARD> $END                                                                           
+ INPUT CARD> $DFT NRAD=24 NLEB=110 DDSC=.t. $END                                            
+ INPUT CARD> $SCF DIRSCF=.t. $END                                                           
+ INPUT CARD> $BASIS NGAUSS=6 GBASIS=N31 $END                                                
+ INPUT CARD> $CONTRL DFTTYP=B97 ICHARG=0 EXETYP=RUN MULT=2 MAXIT=200 SCFTYP=UHF             
+ INPUT CARD>RUNTYP=ENERGY $END                                                              
+ INPUT CARD> $SYSTEM MWORDS=8 $END                                                          
     8000000 WORDS OF MEMORY AVAILABLE
 
      BASIS OPTIONS
@@ -225,8 +225,8 @@ unset echo
  A   =    2
 
  ..... DONE SETTING UP THE RUN .....
- STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.0 SECONDS, CPU UTILIZATION IS   0.00%
+ STEP CPU TIME =     0.01 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.0 SECONDS, CPU UTILIZATION IS  33.33%
  Tang and Toennies damping function for C6
 
           ********************
@@ -234,7 +234,7 @@ unset echo
           ********************
  ...... END OF ONE-ELECTRON INTEGRALS ......
  STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS   0.00%
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  16.67%
 
           -------------
           GUESS OPTIONS
@@ -251,8 +251,8 @@ unset echo
      1 ORBITALS ARE OCCUPIED (    0 CORE ORBITALS).
      1=A        2=A   
  ...... END OF INITIAL ORBITAL SELECTION ......
- STEP CPU TIME =     0.01 TOTAL CPU TIME =        0.0 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  12.50%
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  16.67%
 
           ***************************************
           *       dDsC density dependent        *
@@ -283,7 +283,7 @@ unset echo
  A   =    2
  ...... END OF ONE-ELECTRON INTEGRALS ......
  STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  12.50%
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  16.67%
 
           -------------
           GUESS OPTIONS
@@ -301,7 +301,7 @@ unset echo
      1=A        2=A   
  ...... END OF INITIAL ORBITAL SELECTION ......
  STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  11.11%
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  16.67%
 
                     ----------------------
                     AO INTEGRAL TECHNOLOGY
@@ -317,7 +317,7 @@ unset echo
         MICHEL DUPUIS (PACIFIC NORTHWEST NATIONAL LABORATORY).
   ...... END OF TWO-ELECTRON INTEGRALS .....
  STEP CPU TIME =     0.01 TOTAL CPU TIME =        0.0 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  20.00%
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  28.57%
 
           ---------------------------
                 U-B97 SCF CALCULATION
@@ -385,8 +385,8 @@ unset echo
  MO     1 (    1) HAS LZ(WEIGHT)= 0.00(100.0%) 
  MO     2 (    2) HAS LZ(WEIGHT)= 0.00(100.0%) 
  ...... END OF UHF CALCULATION ......
- STEP CPU TIME =     0.19 TOTAL CPU TIME =        0.2 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.3 SECONDS, CPU UTILIZATION IS  70.00%
+ STEP CPU TIME =     0.17 TOTAL CPU TIME =        0.2 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.2 SECONDS, CPU UTILIZATION IS  76.00%
 
      ------------------------------------------
      THE POINT GROUP IS C1 , NAXIS= 0, ORDER= 1
@@ -395,7 +395,7 @@ unset echo
      DIMENSIONS OF THE SYMMETRY SUBSPACES ARE
  A   =    2
  STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.2 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.3 SECONDS, CPU UTILIZATION IS  65.63%
+ TOTAL WALL CLOCK TIME=        0.3 SECONDS, CPU UTILIZATION IS  67.86%
 
                        **********************
                        END OF SAD PREPARATION
@@ -407,7 +407,7 @@ unset echo
           ********************
  ...... END OF ONE-ELECTRON INTEGRALS ......
  STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.2 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.3 SECONDS, CPU UTILIZATION IS  65.63%
+ TOTAL WALL CLOCK TIME=        0.3 SECONDS, CPU UTILIZATION IS  67.86%
 
           -------------
           GUESS OPTIONS
@@ -425,7 +425,7 @@ unset echo
      1=A        2=A   
  ...... END OF INITIAL ORBITAL SELECTION ......
  STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.2 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.3 SECONDS, CPU UTILIZATION IS  65.63%
+ TOTAL WALL CLOCK TIME=        0.3 SECONDS, CPU UTILIZATION IS  67.86%
 
           --------------------
           2 ELECTRON INTEGRALS
@@ -435,7 +435,7 @@ unset echo
  DIRECT TRANSFORMATION SKIPS AO INTEGRAL STORAGE ON DISK.
   ...... END OF TWO-ELECTRON INTEGRALS .....
  STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.2 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.3 SECONDS, CPU UTILIZATION IS  65.63%
+ TOTAL WALL CLOCK TIME=        0.3 SECONDS, CPU UTILIZATION IS  67.86%
 
           ---------------------------
                 U-B97 SCF CALCULATION
@@ -500,8 +500,8 @@ unset echo
     1  H  1  S    0.432742   1.255981
     2  H  1  S    0.660585  -1.152554
  ...... END OF UHF CALCULATION ......
- STEP CPU TIME =     0.19 TOTAL CPU TIME =        0.4 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.5 SECONDS, CPU UTILIZATION IS  76.92%
+ STEP CPU TIME =     0.16 TOTAL CPU TIME =        0.4 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.5 SECONDS, CPU UTILIZATION IS  77.78%
 DAMPING PARAMETER ATT0:    13.30 AND BTT0     1.53
  Atom Pop(HCD) VOL(HCD) VOL_Free(HCD)
   1   0.99999   3.31341   3.31341
@@ -513,7 +513,7 @@ DAMPING PARAMETER ATT0:    13.30 AND BTT0     1.53
      EDISPTT/(kcal/mol)
  Final Energy       0.0000000 Hartree     0.0000 kcal/mol
  STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.4 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.5 SECONDS, CPU UTILIZATION IS  74.07%
+ TOTAL WALL CLOCK TIME=        0.5 SECONDS, CPU UTILIZATION IS  72.92%
 
                     *****************************
                     END OF dDsC DISPERSION ENERGY
@@ -617,27 +617,27 @@ DAMPING PARAMETER ATT0:    13.30 AND BTT0     1.53
      0.000000    0.000000    0.000000    0.000000
  ...... END OF PROPERTY EVALUATION ......
  STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.4 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.5 SECONDS, CPU UTILIZATION IS  72.73%
+ TOTAL WALL CLOCK TIME=        0.5 SECONDS, CPU UTILIZATION IS  72.92%
  Deallocating dDsC arrays
                 580000  WORDS OF DYNAMIC MEMORY USED
- EXECUTION OF GAMESS TERMINATED NORMALLY Wed Sep 30 13:00:21 2015
+ EXECUTION OF GAMESS TERMINATED NORMALLY Mon Oct  5 16:35:30 2015
  DDI: 263640 bytes (0.3 MB / 0 MWords) used by master data server.
 
  ----------------------------------------
  CPU timing information for all processes
  ========================================
- 0: 0.188 + 0.225 = 0.414
+ 0: 0.152 + 0.202 = 0.355
  ----------------------------------------
  ddikick.x: exited gracefully.
 unset echo
 ----- accounting info -----
 Files used on the master node lcmd44.cluster were:
--rw-r--r-- 1 petragli lcmd     988 Sep 30 13:00 /scratch/petragli/10167.slurm/G2-148.149.dat
--rw-r--r-- 1 petragli lcmd     289 Sep 30 13:00 /scratch/petragli/10167.slurm/G2-148.149.F05
--rw-r--r-- 1 petragli lcmd 2126800 Sep 30 13:00 /scratch/petragli/10167.slurm/G2-148.149.F10
--rw-r--r-- 1 petragli lcmd     289 Sep 30 13:00 /scratch/petragli/10167.slurm/G2-148.149.inp
+-rw-r--r-- 1 petragli lcmd     988 Oct  5 16:35 /scratch/petragli/12428.slurm/G2-148.149.dat
+-rw-r--r-- 1 petragli lcmd     289 Oct  5 16:35 /scratch/petragli/12428.slurm/G2-148.149.F05
+-rw-r--r-- 1 petragli lcmd 2126800 Oct  5 16:35 /scratch/petragli/12428.slurm/G2-148.149.F10
+-rw-r--r-- 1 petragli lcmd     289 Oct  5 16:35 /scratch/petragli/12428.slurm/G2-148.149.inp
 ls: No match.
 ls: No match.
 ls: No match.
-Wed Sep 30 13:00:24 CEST 2015
-0.110u 0.021s 0:03.75 3.4%	0+0k 8+176io 0pf+0w
+Mon Oct  5 16:35:33 CEST 2015
+0.095u 0.021s 0:03.68 2.9%	0+0k 8+176io 0pf+0w
