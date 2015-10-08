@@ -30,7 +30,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-10-05"
+__updated__ = "2015-10-08"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -448,9 +448,10 @@ if __name__ == '__main__':
     print('..Done\n')
 
     print('Checking prms_saved property')
-    assert prm_man_1.check_saved == False
+    assert prm_man_1.check_saved() == False
     assert prm_man_1.prms != prm_man_1.prms_saved
     prm_man_1.save()
+    assert prm_man_1.check_saved() == True
     assert prm_man_1.prms == prm_man_1.prms_saved
     prm_man_2 = ParamsManager()
     assert prm_man_2.prms == prm_man_1.prms_saved
