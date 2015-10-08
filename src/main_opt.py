@@ -17,7 +17,7 @@ from params import ParamsManager, Optim
 from computation import Run
 
 Presets().riccardo_lcmdlc2()
-Presets().riccardo_lcmd30()
+#Presets().riccardo_lcmd30()
 config = Config().config
 
 def main():
@@ -38,15 +38,15 @@ def main():
                      cc_aa=[1.000000, -4.33879, 18.2308, -31.7430, 17.2901],
                      cc_ab=[1.000000, 2.37031, -11.3995, 6.58405, -3.78132])
 
-    optim = Optim(['tta', 'cx_aa_0'])
+    optim = Optim(['tta', 'cc_aa_0'])
 #    print(prms.prms)
     x0 = [13.3, 0.5]
 #    print(optim)
 
     # print(trset.compute_MAE('full'))
     # print(trset.compute_MAE('func'))
-    print(compute_error(trset, optim, x0, 'full', 'MAE', prms))
-    print(compute_error(trset, optim, x0, 'func', 'MAE', prms))
+    print(compute_error(x0, trset, optim, 'full', 'MAE', prms))
+    print(compute_error(x0, trset, optim, 'func', 'MAE', prms))
 
 
 def printer(xc):
@@ -54,12 +54,10 @@ def printer(xc):
     print(xc)
 
 
-def compute_error(trset, optim, params, kind, error_type, prms):
+def compute_error(params, trset, optim, kind, error_type):
 
     optim.set_prms(params)
 
-#    print(prms.prms)
-    
     if error_type == 'MAE':
         minim = trset.compute_MAE(kind)
     return minim
