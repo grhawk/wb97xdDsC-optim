@@ -42,7 +42,7 @@ __status__ = 'development'
 class Input(object):
     def __init__(self, filep):
         uts.file_exists(filep)
-        self.config = dict(basis_set='6-31G')
+#       self.config = dict(basis_set='6-31G')
 
         self.atoms = []
         self.x = []
@@ -52,26 +52,26 @@ class Input(object):
         self.multiplicity = ''
         self.title = 'Should be setted!'
 
-        self._template()
+#        self._template()
 
-        self._basis_set_conversion(self.config['basis_set'])
+#        self._basis_set_conversion(self.config['basis_set'])
         self._read_xyz(filep)
-
-    def _basis_set_conversion(self, name):
-        pople_reg = re.compile(r'([36])\-([23]1\d?)G(\*?\*?)')
-        matching_pople = pople_reg.match(name)
-        if matching_pople:
-            self.gamess['BASIS']['GBASIS'] = 'N' + str(matching_pople.group(2))
-            self.gamess['BASIS']['NGAUSS'] = str(matching_pople.group(1))
-            if matching_pople.group(3):
-                lg_msg = 'Polarized pople basis function not defined'
-                lg.critical(lg_msg)
-                raise(NotImplementedError(lg_msg))
-        else:
-            lg_msg = 'Basis function not implemented in the script'
-            lg.critical(lg_msg)
-            raise(NotImplementedError(lg_msg))
-
+        self._template()
+#   def _basis_set_conversion(self, name):
+#       pople_reg = re.compile(r'([36])\-([23]1\d?)G(\*?\*?)')
+#       matching_pople = pople_reg.match(name)
+#       if matching_pople:
+#           self.gamess['BASIS']['GBASIS'] = 'N' + str(matching_pople.group(2))
+#           self.gamess['BASIS']['NGAUSS'] = str(matching_pople.group(1))
+#           if matching_pople.group(3):
+#               lg_msg = 'Polarized pople basis function not defined'
+#               lg.critical(lg_msg)
+#               raise(NotImplementedError(lg_msg))
+#       else:
+#           lg_msg = 'Basis function not implemented in the script'
+#           lg.critical(lg_msg)
+#           raise(NotImplementedError(lg_msg))
+#
     def _read_xyz(self, filep):
         with open(filep, 'r') as xyzf:
             xyzf.readline()
@@ -134,19 +134,19 @@ class Input(object):
         
 
     def _template(self):
-        self.gamess = {'BASIS': dict(GBASIS='',
-                                     NGAUSS=''),
+        strAt_=','.join(self.atoms)
+        self.gamess = {'BASIS': {"BASNAM(1)": strAt_},
                        'CONTRL': dict(EXETYP='RUN',
                                       SCFTYP='UHF',
                                       RUNTYP='ENERGY',
                                       DFTTYP='wB97X',
                                       MAXIT='200',
+                                      ISPHER='1',
                                       ICHARG='',
                                       MULT=''),
                        'DATA': [],
                        'DFT': dict(DDSC='.t.',
-                                   NLEB='110',
-                                   NRAD='24'),
+                                   SG1='.TRUE.'),
                        'SYSTEM': dict(MWORDS='8'),
                        'SCF': dict(DIRSCF='.t.')}
 
@@ -157,6 +157,8 @@ def atnum(atom_label):
                   C=6,
                   S=16,
                   N=7,
+                  He=2,
+                  Mg=12,
                   Al=13,
                   Cl=17,
                   F=9,
