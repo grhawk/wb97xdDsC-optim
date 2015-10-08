@@ -448,6 +448,7 @@ if __name__ == '__main__':
     print('..Done\n')
 
     print('Checking prms_saved property')
+    assert prm_man_1.check_saved == False
     assert prm_man_1.prms != prm_man_1.prms_saved
     prm_man_1.save()
     assert prm_man_1.prms == prm_man_1.prms_saved
@@ -455,7 +456,7 @@ if __name__ == '__main__':
     assert prm_man_2.prms == prm_man_1.prms_saved
     print('...Done\n')
 
-    print('Checking prms_saved property')
+    print('Checking prms_old property')
     tpar = copy.deepcopy(prm_man_1.prms)
     prm_man_1.prms['tta'] = 1000
     assert prm_man_1.prms_old == tpar
