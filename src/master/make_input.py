@@ -117,6 +117,10 @@ class Input(object):
                     txt_line = ''
             txt_line += '$END'
             txt.append(txt_line)
+        with open('/dev/shm/afabrizi/basis','r') as basis:
+            line=(" "+"\n".join(map(str,[line.strip() for line in basis])))
+            line2=' '.join(line.splitlines(True))
+            txt.append(line2)
 
         with open(filep, 'w') as outfp:
             outfp.write('\n'.join(txt))
