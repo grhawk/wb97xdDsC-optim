@@ -60,7 +60,7 @@ except subprocess.CalledProcessError:
 
 __author__ = 'Riccardo Petraglia'
 __credits__ = ['Riccardo Petraglia']
-__updated__ = "2015-10-05"
+__updated__ = "2015-10-09"
 __license__ = 'GPLv2'
 __version__ = git_v
 __maintainer__ = 'Riccardo Petraglia'
@@ -89,20 +89,13 @@ class Run(object):
                     ' useful class!'
                 lg.critical(msg)
                 raise RuntimeError(msg)
-            self._inout_path = os.path.join(__class__._run_name, dset,
-                                            'inout', __class__._inout_id)
-            self._inout_path = os.path.abspath(self._inout_path)
 
-            create_dir(self._inout_path)
-
-            self._xyzp = os.path.join(__class__._tset_path, dset,
-                                      'geometry', molID.split('.')[1] + '.xyz')
-
-            self._inout_inp_path = os.path.join(self._inout_path,
-                                                molID + '.inp')
-            self._inout_out_path = os.path.join(self._inout_path,
-                                                molID + '.log')
             self.molID = molID
+            self._xyzp = os.path.join(__class__._tset_path, self._dset,
+                                      'geometry',
+                                      self.molID.split('.')[1] + '.xyz')
+            self._dset = dset
+            self._generate_instance_path(molID, dset)
 
             create_dir(config['densities_repo'])
 
@@ -122,6 +115,22 @@ class Run(object):
             lg.critical(msg)
             raise AttributeError(msg)
 
+    def _generate_instance_path(self):
+        self._inout_path = os.path.join(__class__._run_name, self._dset,
+                                        'inout', __class__._inout_id)
+        self._inout_path = os.path.abspath(self._inout_path)
+        create_dir(self._inout_path)
+        self._inout_inp_path = os.path.join(self._inout_path,
+                                            self.molID + '.inp')
+        self._inout_out_path = os.path.join(self._inout_path,
+                                            self.molID + '.log')
+        msg = 'New paths generated:\n'
+        msg += '{} -> {}\n'.format('inout_path', self._inout_path)
+        msg += '{} -> {}\n'.format('', self._inout_path)
+        msg += '{} -> {}\n'.format('inout_inp_path', self._inout_inp_path)
+        msg += '{} -> {}\n'.format('inout_out_path', self._inout_out_path)
+        lg.debug(msg)
+
     @property
     def index(self):
         return __class__._inout_id
@@ -129,6 +138,7 @@ class Run(object):
     @index.setter
     def index(self, index):
         lg.debug('Index set to {}'.format(index))
+        self._generate_instance_path()
         __class__._inout_id = index
 
     def _write_input(self):

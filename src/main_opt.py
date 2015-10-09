@@ -47,6 +47,11 @@ def main():
     # print(trset.compute_MAE('func'))
     print(compute_error(x0, trset, optim, 'full', 'MAE', prms))
     print(compute_error(x0, trset, optim, 'func', 'MAE', prms))
+    run.index = 'DENS-0001'
+    print(compute_error(x0, trset, optim, 'full', 'MAE', prms))
+    print(compute_error(x0, trset, optim, 'func', 'MAE', prms))
+
+
 
 
 def printer(xc):
