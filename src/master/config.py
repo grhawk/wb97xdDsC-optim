@@ -147,7 +147,7 @@ class Presets(object):
 
     def alberto_lcmd30(self):
         home = Config.get('home')
-        root = join(home, 'wb97xddsc/cleanedVersion')  # shortening lines below
+        root = join(home, 'wb97xddsc/wb97xdDsC-optim')  # shortening lines below
         tmp_data = join(home, 'wb97xddsc/TMP_DATA')  # shortening lines below
         ram = '/dev/shm'
         prst = dict(root=root,
@@ -156,13 +156,14 @@ class Presets(object):
                     run_name=join('test1'),
                     logfile=join(root, 'src/logging.log'),
                     loglevel='DEBUG',
-                    processes=16,
+                    processes=50,
+                    mini_processes=32,
                     precision=1E-8,
                     wb97x_params_file=join('FUNC_PAR.dat'),
                     ddsc_params_file=join('a0b0'),
-                    wait_for_gamess_output=5,
-                    wait_to_recheck=10,
-                    maximum_times_to_recheck=10,
+                    wait_for_gamess_output=60,
+                    wait_to_recheck=60,
+                    maximum_times_to_recheck=10000,
                     temporary_densities_repo=tmp_data,
                     densities_repo=join('/dev/shm/afabrizi/tmp_density_dir'),
                     gamess_bin=join('/home/afabrizi/wb97xddsc/GAMESS/gamess'),

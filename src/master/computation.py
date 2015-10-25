@@ -194,9 +194,9 @@ class Run(object):
                                             self.molID + '.stdout') + '\n'
         txt += '#SBATCH -e ' + os.path.join(self._inout_path,
                                             self.molID + '.stderr') + '\n'
-        txt += '#SBATCH --mem=8000\n'
+        txt += '#SBATCH --mem=64000\n'
         txt += '#SBATCH --nodes=1\n'
-        txt += '#SBATCH --ntasks-per-node=1\n'
+        txt += '#SBATCH --ntasks-per-node=8\n'
 #        txt += '#SBATCH --partition=debug\n'
         txt += '\n'
 #        txt += 'module load intel/14.0.2\n'
@@ -210,11 +210,12 @@ class Run(object):
             .format(PARAMS_DIR=config['full_params_prefix'])
         txt += 'cp {PARAMS_DIR:s}/FUNC_PAR.dat $SLURM_TMPDIR\n'.\
             format(PARAMS_DIR=config['full_params_prefix'])
-        txt += '{BIN:s}/rungms {INPUT:s} 00 1 &> {OUTPUT:s}\n'.\
+        txt += '{BIN:s}/rungms {INPUT:s} 00 8 &> {OUTPUT:s}\n'.\
             format(INPUT=input_file,
                    OUTPUT=self._inout_out_path,
                    BIN=str(config['gamess_bin']))
         txt += 'joberror=$?\n'
+        txt += 'cat $SLURM_TMPDIR/*.data > $SLURM_TMPDIR/PARAM_UNF.dat\n'
         txt += 'cp -r $SLURM_TMPDIR/PARAM_UNF.dat {DENSITY_DEST}\n'.\
             format(DENSITY_DEST=os.path.join(config['temporary_densities_repo'],
                                              self.molID + '.wb97x'))
@@ -228,11 +229,12 @@ class Run(object):
             f.write(txt)
 
     def full(self):
+
         command = shlex.split('{COMMAND:s} {SBATCH_FILE:s}'
                               .format(COMMAND=config['command_full'],
                                       SBATCH_FILE=self._sbatch_file))
-        time.sleep(randint(0, 5))
         self._write_input()
+        time.sleep(randint(1,10))
         self._write_sbatch()
         if os.path.dirname(config['ddsc_params_writing']) != config['full_params_prefix']:
             shutil.copy(config['ddsc_params_writing'], config['full_params_prefix'])
@@ -244,17 +246,23 @@ class Run(object):
         return energies
 
     def func(self):
+        multiplicity=Input(self._xyzp).mult()
+        if int(multiplicity) > 1:
+           unrestricted='U'
+        else:
+           unrestricted='R'
+
         wb97x_param = os.path.join(config['func_params_prefix'],
                                    config['wb97x_params_file'])
         ddsc_param = os.path.join(config['func_params_prefix'],
                                   config['ddsc_params_file'])
         command = '{COMMAND:s} {WB97X_DATA:s} {DDSC_DATA:s} '\
-            ' {WB97X_PARAM:s} {DDSC_PARAM:s}'\
+            ' {WB97X_PARAM:s} {DDSC_PARAM:s} {UNRESTRICTED:s}'\
             .format(COMMAND=config['command_func'],
                     WB97X_DATA=self._wb97x_saves,
                     DDSC_DATA=self._ddsc_saves,
                     WB97X_PARAM=wb97x_param,
-                    DDSC_PARAM=ddsc_param)
+                    DDSC_PARAM=ddsc_param,
+                    UNRESTRICTED=unrestricted)
         command = shlex.split(command)
-
         return (float(self._run(command).split()[1]))

@@ -91,6 +91,9 @@ class Input(object):
                 else:
                     break
 
+    def mult(self):
+        return self.multiplicity
+
     def _building_data(self):
         self.gamess['DATA'] = [' ' + self.title, ' C1']
         for i, atom in enumerate(self.atoms):
@@ -117,10 +120,18 @@ class Input(object):
                     txt_line = ''
             txt_line += '$END'
             txt.append(txt_line)
-        with open('/dev/shm/afabrizi/basis','r') as basis:
-            line=(" "+"\n".join(map(str,[line.strip() for line in basis])))
-            line2=' '.join(line.splitlines(True))
-            txt.append(line2)
+
+        m = re.search('S-022', str(filep))
+        if m is not None:
+           with open('/dev/shm/afabrizi/basisS22','r') as basis:
+               line=(" "+"\n".join(map(str,[line.strip() for line in basis])))
+               line2=' '.join(line.splitlines(True))
+               txt.append(line2)
+        else:
+           with open('/dev/shm/afabrizi/basis','r') as basis:
+               line=(" "+"\n".join(map(str,[line.strip() for line in basis])))
+               line2=' '.join(line.splitlines(True))
+               txt.append(line2)
 
         with open(filep, 'w') as outfp:
             outfp.write('\n'.join(txt))
@@ -129,17 +140,29 @@ class Input(object):
     def _set_keyword_based_on_structures(self):
         self.gamess['CONTRL']['ICHARG'] = self.charge
         self.gamess['CONTRL']['MULT'] = self.multiplicity
-        if len(self.atoms) < 2:
-            self.gamess['CONTRL']['SCFTYP'] = 'UHF'
-            if self.atoms[0].upper() == 'H':
-               self.gamess['CONTRL']['DFTTYP'] = 'B97'
+
+        if int(self.multiplicity) < 2:
+           self.gamess['CONTRL']['SCFTYP'] = 'RHF'
         else:
-            self.gamess['CONTRL']['SCFTYP'] = 'ROHF'
-        
+           if self.atoms[0].upper() == 'AL' or self.atoms[0].upper() == 'C' or self.atoms[0].upper() == 'SI' or self.atoms[0].upper() == 'S' or self.atoms[0].upper() == 'MG':
+              if len(self.atoms) < 2:
+                 self.gamess['CONTRL']['SCFTYP'] = 'ROHF'
+              else:
+                 self.gamess['CONTRL']['SCFTYP'] = 'UHF'
+#          elif len(self.atoms) >= 2 :
+#             self.gamess['CONTRL']['SCFTYP'] = 'ROHF'
+       
+           else:
+              self.gamess['CONTRL']['SCFTYP'] = 'UHF' 
 
     def _template(self):
-        strAt_=','.join(self.atoms)
-        self.gamess = {'BASIS': {"BASNAM(1)": strAt_},
+        #strAt_=','.join(self.atoms)
+        self.gamess = {#'BASIS': {"BASNAM(1)": strAt_},
+                       'BASIS' : dict(GBASIS='N31',
+                                      NGAUSS='6',
+                                      NDFUNC='1',
+                                      DIFFSP='.TRUE.',
+                                      POLAR='POPN31'),
                        'CONTRL': dict(EXETYP='RUN',
                                       SCFTYP='UHF',
                                       RUNTYP='ENERGY',
@@ -150,6 +173,9 @@ class Input(object):
                                       MULT=''),
                        'DATA': [],
                        'DFT': dict(DDSC='.t.',
+                                   SWOFF='1.0E-3',
+                                   #NRAD='99',
+                                   #NLEB='590'),
                                    SG1='.TRUE.'),
                        'SYSTEM': dict(MWORDS='8'),
                        'SCF': dict(DIRSCF='.t.')}

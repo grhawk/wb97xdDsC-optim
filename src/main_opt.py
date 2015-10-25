@@ -46,9 +46,9 @@ def main():
                         cc_ab=[1.000000, 2.37031, -11.3995, 6.58405, -3.78132])
 
 #       optim = Optim(['tta', 'ttb'])
-       optim = Optim(['tta', 'ttb', 'cx_aa_0','cx_aa_1','cx_aa_2','cx_aa_3','cc_aa_1','cc_aa_2','c_aa_3','cc_ab_1','cc_ab_2','cc_ab_3'])
+       optim = Optim(['tta', 'ttb', 'cx_aa_0','cx_aa_1','cx_aa_2','cx_aa_3','cc_aa_1','cc_aa_2','cc_aa_3','cc_ab_1','cc_ab_2','cc_ab_3'])
        
-#       x0_ = [13.3, 1.53]
+       #x0_ = [13.3, 1.53]
        with open('/home/afabrizi/wb97xddsc/TMP_DATA/FUNC_PAR.dat','r') as f2:
           OldParams = [line.rstrip('\n') for line in f2]
        print("Old Parameters", OldParams)

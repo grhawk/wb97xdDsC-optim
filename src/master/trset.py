@@ -165,13 +165,14 @@ class MolSet(object):
             tmp = [0] * len(__class__.container)
             for i in __class__.to_compute:
                 tmp[i] = 1
-            my_pool = mproc.Pool(processes=config['processes'])
+            my_pool_big = mproc.Pool(processes=config['processes'])
+            my_pool_mini = mproc.Pool(processes=config['mini_processes'])
             if kind == 'full':
-                output = [my_pool.apply_async(mol.full_energy_calc)
+                output = [my_pool_big.apply_async(mol.full_energy_calc)
                           for mol in itertools.compress(__class__.container,
                                                         tmp)]
             elif kind == 'func':
-                output = [my_pool.apply_async(mol.func_energy_calc)
+                output = [my_pool_mini.apply_async(mol.func_energy_calc)
                           for mol in itertools.compress(__class__.container,
                                                         tmp)]
             else:
@@ -181,7 +182,8 @@ class MolSet(object):
             for p in output:
                 new_mols = [p.get() for p in output]
             __class__.refresh_container(new_mols)
-            my_pool.terminate()
+            my_pool_mini.terminate()
+            my_pool_big.terminate()
             __class__._lock = False
 
     @staticmethod
@@ -622,6 +624,7 @@ class System(object):
         enr = 0.0
         for i, coef in enumerate(self.rule):
             enr += coef * enrgs[i]
+            #print('RULE:', i, coef, enrgs[i], enr)
         return enr * 627.5096080305927
 
     def full_energy(self):
